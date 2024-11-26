@@ -4,7 +4,7 @@ type FooterProps = {};
 
 export const Footer: React.FC<FooterProps> = ({}) => {
 	return (
-		<footer className="bg-gray-800 py-8 text-white">
+		<footer className=" py-8 ">
 			<div className="container mx-auto px-4">
 				<div className="grid grid-cols-1 gap-8 md:grid-cols-4">
 					<div>

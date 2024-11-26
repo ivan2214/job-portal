@@ -1,4 +1,4 @@
-import Benefits from "@/components/Benefits";
+import Benefits from "@/components/benefits";
 import { Cta } from "@/components/cta";
 import { FeaturedJobs } from "@/components/featured-jobs";
 import { Footer } from "@/components/footer";
