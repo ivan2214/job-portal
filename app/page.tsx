@@ -1,46 +1,44 @@
-
-import { JobCategories } from '@/components/job-categories'
-import { WhyChooseUs } from '@/components/why-choose-us'
-import { Header } from '@/components/header'
-import { HeroBanner } from '@/components/hero-banner'
-import { JobSearch } from '@/components/job-search'
-import { FeaturedJobs } from '@/components/featured-jobs'
-import { Testimonials } from '@/components/testimonials'
-import { Cta } from '@/components/cta'
-import { Footer } from '@/components/footer'
-
+import { Cta } from "@/components/cta";
+import { FeaturedJobs } from "@/components/featured-jobs";
+import { Footer } from "@/components/footer";
+import { Header } from "@/components/header";
+import { HeroBanner } from "@/components/hero-banner";
+import { JobCategories } from "@/components/job-categories";
+import { JobSearch } from "@/components/job-search";
+import { Testimonials } from "@/components/testimonials";
+import { WhyChooseUs } from "@/components/why-choose-us";
 
 export default function Home() {
-  return (
-    <div className="flex flex-col min-h-screen">
-      {/* Header */}
-  <Header/>
+	return (
+		<div className="flex min-h-screen flex-col">
+			{/* Header */}
+			<Header />
 
-      <main className="flex-grow">
-        {/* Hero Banner */}
-       <HeroBanner/>
+			<main className="flex-grow">
+				{/* Hero Banner */}
+				<HeroBanner />
 
-        {/* Job Search */}
-      <JobSearch/>
+				{/* Job Search */}
+				<JobSearch />
 
-        {/* Featured Jobs */}
-       <FeaturedJobs/>
+				{/* Featured Jobs */}
+				<FeaturedJobs />
 
-        {/* Job Categories */}
-     <JobCategories />
+				{/* Job Categories */}
+				<JobCategories />
 
-        {/* Why Choose Us */}
-       <WhyChooseUs />
+				{/* Why Choose Us */}
+				<WhyChooseUs />
 
-        {/* Testimonials */}
-      <Testimonials />      
+				{/* Testimonials */}
+				<Testimonials />
 
-        {/* CTA */}
-        <Cta />        
-      </main>
+				{/* CTA */}
+				<Cta />
+			</main>
 
-      {/* Footer */}
-   <Footer/>
-    </div>
-  );
+			{/* Footer */}
+			<Footer />
+		</div>
+	);
 }

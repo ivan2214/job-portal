@@ -1,18 +1,21 @@
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
-interface JobSearchProps {
-  
-}
+type JobSearchProps = {};
 
-export const JobSearch: React.FC <JobSearchProps> = ({  }) => {
-  return (
-    <section className="py-12 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <h2 className="text-2xl font-semibold mb-6 text-center">Buscar Empleos</h2>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Input className="w-full md:w-64" placeholder="Título o palabras clave" />
-             {/*  <Select>
+export const JobSearch: React.FC<JobSearchProps> = ({}) => {
+	return (
+		<section className="bg-gray-50 py-12">
+			<div className="container mx-auto px-4">
+				<h2 className="mb-6 text-center font-semibold text-2xl">
+					Buscar Empleos
+				</h2>
+				<div className="flex flex-wrap justify-center gap-4">
+					<Input
+						className="w-full md:w-64"
+						placeholder="Título o palabras clave"
+					/>
+					{/*  <Select>
                 <SelectTrigger className="w-full md:w-48">
                   <SelectValue placeholder="Categoría" />
                 </SelectTrigger>
@@ -35,9 +38,9 @@ export const JobSearch: React.FC <JobSearchProps> = ({  }) => {
                   <SelectItem value="tafi-viejo">Tafí Viejo</SelectItem>
                 </SelectContent>
               </Select> */}
-              <Button className="w-full md:w-auto">Buscar</Button>
-            </div>
-          </div>
-        </section>
-  );
+					<Button className="w-full md:w-auto">Buscar</Button>
+				</div>
+			</div>
+		</section>
+	);
 };
