@@ -1,3 +1,4 @@
+import Benefits from "@/components/Benefits";
 import { Cta } from "@/components/cta";
 import { FeaturedJobs } from "@/components/featured-jobs";
 import { Footer } from "@/components/footer";
@@ -32,6 +33,9 @@ export default function Home() {
 
 				{/* Testimonials */}
 				<Testimonials />
+
+				{/* Benefits */}
+				<Benefits />
 
 				{/* CTA */}
 				<Cta />
