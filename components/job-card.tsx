@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -7,37 +6,56 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Briefcase, MapPin } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
-type Job = {
+import { Briefcase, DollarSign, MapPin } from "lucide-react";
+
+export interface JobCardProps {
 	title: string;
 	company: string;
 	location: string;
-	type: string;
+	salary: string;
 	description: string;
-};
+	type: string;
+}
 
-export default function JobCard({ job }: { job: Job }) {
+export function JobCard({
+	title,
+	company,
+	location,
+	salary,
+	description,
+	type,
+}: JobCardProps) {
 	return (
-		<Card>
+		<Card key={title}>
 			<CardHeader>
-				<CardTitle>{job.title}</CardTitle>
-				<p className="text-muted-foreground text-sm">{job.company}</p>
+				<CardTitle>{title}</CardTitle>
+				<p className="text-muted-foreground text-sm">{company}</p>
 			</CardHeader>
 			<CardContent>
-				<p>{job.description}</p>
+				<p className=" text-balance text-muted-foreground text-sm">
+					{description}
+				</p>
 				<div className="mt-4 flex items-center space-x-4 text-muted-foreground text-sm">
 					<span className="flex items-center">
-						<MapPin size={16} className="mr-1" /> {job.location}
+						<MapPin size={16} className="mr-1" /> {location}
 					</span>
 					<span className="flex items-center">
-						<Briefcase size={16} className="mr-1" /> {job.type}
+						<Briefcase size={16} className="mr-1" /> {type}
+					</span>
+				</div>
+				<div className="mt-4 flex items-center space-x-4 text-muted-foreground text-sm">
+					<span className="flex items-center">
+						<DollarSign size={16} className="mr-1" /> {salary}
 					</span>
 				</div>
 			</CardContent>
 			<CardFooter className="flex justify-between">
-				<Badge variant="secondary">{job.type}</Badge>
-				<Button variant="outline">Ver Detalles</Button>
+				<Badge variant="secondary">{type}</Badge>
+				<Button size="sm" variant="outline">
+					Ver Detalles
+				</Button>
 			</CardFooter>
 		</Card>
 	);

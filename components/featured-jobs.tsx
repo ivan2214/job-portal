@@ -1,16 +1,9 @@
-import {
-	Card,
-	CardContent,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
+import {} from "@/components/ui/card";
 
 import { Button } from "@/components/ui/button";
 
-import { Badge } from "@/components/ui/badge";
-
-import { ArrowRight, Briefcase, MapPin } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { JobCard } from "./job-card";
 
 type FeaturedJobsProps = {};
 
@@ -30,6 +23,7 @@ export const FeaturedJobs: React.FC<FeaturedJobsProps> = ({}) => {
 							type: "Tiempo completo",
 							description:
 								"Empresa de tecnología busca desarrollador web con experiencia en React y Node.js.",
+							salary: "$80,000 - $120,000 al año",
 						},
 						{
 							title: "Asistente Administrativo",
@@ -38,6 +32,7 @@ export const FeaturedJobs: React.FC<FeaturedJobsProps> = ({}) => {
 							type: "Medio tiempo",
 							description:
 								"Se busca asistente administrativo para importante empresa de la zona.",
+							salary: "$40,000 - $60,000 al año",
 						},
 						{
 							title: "Profesor de Inglés",
@@ -46,29 +41,18 @@ export const FeaturedJobs: React.FC<FeaturedJobsProps> = ({}) => {
 							type: "Por horas",
 							description:
 								"Instituto de idiomas busca profesor de inglés con experiencia para clases grupales.",
+							salary: "$20,000 - $30,000 al año",
 						},
 					].map((job) => (
-						<Card key={job.title}>
-							<CardHeader>
-								<CardTitle>{job.title}</CardTitle>
-								<p className="text-muted-foreground text-sm">{job.company}</p>
-							</CardHeader>
-							<CardContent>
-								<p>{job.description}</p>
-								<div className="mt-4 flex items-center space-x-4 text-muted-foreground text-sm">
-									<span className="flex items-center">
-										<MapPin size={16} className="mr-1" /> {job.location}
-									</span>
-									<span className="flex items-center">
-										<Briefcase size={16} className="mr-1" /> {job.type}
-									</span>
-								</div>
-							</CardContent>
-							<CardFooter className="flex justify-between">
-								<Badge variant="secondary">{job.type}</Badge>
-								<Button variant="outline">Ver Detalles</Button>
-							</CardFooter>
-						</Card>
+						<JobCard
+							key={job.title}
+							company={job.company}
+							description={job.description}
+							location={job.location}
+							title={job.title}
+							type={job.type}
+							salary={job.salary}
+						/>
 					))}
 				</div>
 				<div className="mt-8 text-center">

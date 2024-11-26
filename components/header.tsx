@@ -10,7 +10,9 @@ export const Header: React.FC<HeaderProps> = ({}) => {
         <Image src="/logo.svg" alt="Lules Jobs Logo" width={40} height={40} />
         <span className="text-xl font-bold text-primary">Lules Jobs</span>
       </Link> */}
-				<span className="font-bold text-primary text-xl">Lules Jobs</span>
+				<Link href="/" className="flex items-center space-x-2">
+					<span className="font-bold text-primary text-xl">Lules Jobs</span>
+				</Link>
 				<nav>
 					<ul className="flex space-x-4">
 						<li>
