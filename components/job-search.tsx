@@ -1,5 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import { SearchJobInput } from "./search-job-input";
 
 type JobSearchProps = {};
 
@@ -11,33 +18,32 @@ export const JobSearch: React.FC<JobSearchProps> = ({}) => {
 					Buscar Empleos
 				</h2>
 				<div className="flex flex-wrap justify-center gap-4">
-					<Input
-						className="w-full md:w-64"
-						placeholder="Título o palabras clave"
-					/>
-					{/*  <Select>
-                <SelectTrigger className="w-full md:w-48">
-                  <SelectValue placeholder="Categoría" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="tecnologia">Tecnología</SelectItem>
-                  <SelectItem value="ventas">Ventas</SelectItem>
-                  <SelectItem value="administracion">Administración</SelectItem>
-                  <SelectItem value="educacion">Educación</SelectItem>
-                  <SelectItem value="salud">Salud</SelectItem>
-                </SelectContent>
-              </Select>
-              <Select>
-                <SelectTrigger className="w-full md:w-48">
-                  <SelectValue placeholder="Ubicación" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="lules">Lules</SelectItem>
-                  <SelectItem value="tucuman">San Miguel de Tucumán</SelectItem>
-                  <SelectItem value="yerba-buena">Yerba Buena</SelectItem>
-                  <SelectItem value="tafi-viejo">Tafí Viejo</SelectItem>
-                </SelectContent>
-              </Select> */}
+					<SearchJobInput />
+					<Select>
+						<SelectTrigger className="w-full md:w-48">
+							<SelectValue placeholder="Todos" />
+						</SelectTrigger>
+						<SelectContent defaultValue="todos">
+							<SelectItem value="todos">Todos</SelectItem>
+							<SelectItem value="tecnologia">Tecnología</SelectItem>
+							<SelectItem value="ventas">Ventas</SelectItem>
+							<SelectItem value="administracion">Administración</SelectItem>
+							<SelectItem value="educacion">Educación</SelectItem>
+							<SelectItem value="salud">Salud</SelectItem>
+						</SelectContent>
+					</Select>
+					<Select>
+						<SelectTrigger className="w-full md:w-48">
+							<SelectValue placeholder="Ubicación" />
+						</SelectTrigger>
+						<SelectContent defaultValue="ubicacion">
+							<SelectItem value="ubicacion">Ubicación</SelectItem>
+							<SelectItem value="lules">Lules</SelectItem>
+							<SelectItem value="tucuman">San Miguel de Tucumán</SelectItem>
+							<SelectItem value="yerba-buena">Yerba Buena</SelectItem>
+							<SelectItem value="tafi-viejo">Tafí Viejo</SelectItem>
+						</SelectContent>
+					</Select>
 					<Button className="w-full md:w-auto">Buscar</Button>
 				</div>
 			</div>
