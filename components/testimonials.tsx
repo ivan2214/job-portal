@@ -30,7 +30,10 @@ export const Testimonials: React.FC<TestimonialsProps> = ({}) => {
 								"La variedad de ofertas en el sector educativo me sorprendió gratamente. Recomiendo Lules Jobs a todos mis colegas.",
 						},
 					].map((testimonial) => (
-						<Card key={testimonial.name}>
+						<Card
+							className="transition-shadow hover:shadow-lg"
+							key={testimonial.name}
+						>
 							<CardHeader>
 								<CardTitle>{testimonial.name}</CardTitle>
 								<p className="text-muted-foreground text-sm">

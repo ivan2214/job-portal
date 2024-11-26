@@ -13,10 +13,8 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({}) => {
 					Conectamos talento local con las mejores oportunidades laborales
 				</p>
 				<div className="flex justify-center space-x-4">
+					<Button size="lg">Explorar Empleos</Button>
 					<Button size="lg" variant="secondary">
-						Explorar Empleos
-					</Button>
-					<Button size="lg" variant="outline">
 						Para Empresas
 					</Button>
 				</div>
