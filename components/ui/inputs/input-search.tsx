@@ -1,9 +1,9 @@
 "use client";
-import type React from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { ArrowRight, Search } from "lucide-react";
+import type React from "react";
 import type { HTMLAttributes } from "react";
 
 interface InputSearchProps {
