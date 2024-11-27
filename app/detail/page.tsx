@@ -1,7 +1,7 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { MapPin, DollarSign, Building, Mail, Phone } from "lucide-react";
+import { Building, DollarSign, Mail, MapPin, Phone } from "lucide-react";
 
 export default function JobDetailPage() {
 	// En una aplicación real, obtendríamos estos datos de una API o base de datos

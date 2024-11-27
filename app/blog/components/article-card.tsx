@@ -1,6 +1,6 @@
+import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import type { Article } from "../data/blog-data";
-import { Badge } from "@/components/ui/badge";
 
 interface ArticleCardProps {
 	article: Article;
