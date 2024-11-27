@@ -17,6 +17,13 @@ export default async function CompanyList({
 			name: "asc",
 		},
 		skip: (page - 1) * 3,
+		include: {
+			_count: {
+				select: {
+					jobPostings: true,
+				},
+			},
+		},
 	});
 
 	const totalPages = Math.ceil(

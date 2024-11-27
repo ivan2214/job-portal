@@ -2,7 +2,10 @@ import Link from "next/link";
 import { MapPin, Briefcase } from "lucide-react";
 import type { Company } from "@prisma/client";
 
-export default function CompanyCard({ company }: { company: Company }) {
+export default function CompanyCard({
+	company,
+}: { company: Company & { _count: { jobPostings: number } } }) {
+	const openPositions = company._count.jobPostings;
 	return (
 		<div className="rounded-lg bg-white p-6 shadow-md transition-shadow hover:shadow-lg">
 			<div className="mb-4 flex items-center">
@@ -35,8 +38,8 @@ export default function CompanyCard({ company }: { company: Company }) {
 			</div>
 			<div className="flex items-center text-gray-500 text-sm">
 				<Briefcase className="mr-1 h-4 w-4" />
-				{company.openPositions} Open Position
-				{company.openPositions !== 1 && "s"}
+				{openPositions} Open Position
+				{openPositions !== 1 && "s"}
 			</div>
 		</div>
 	);
