@@ -10,6 +10,7 @@ import {
 import type { CategoryJob, Company, Job } from "@prisma/client";
 
 import { Briefcase, DollarSign, MapPin } from "lucide-react";
+import Link from "next/link";
 
 export interface JobCardProps {
 	job: Job & {
@@ -53,8 +54,8 @@ export function JobCard({ job }: JobCardProps) {
 			</CardContent>
 			<CardFooter className="flex justify-between">
 				<Badge variant="secondary">{type}</Badge>
-				<Button size="sm" variant="outline">
-					Ver Detalles
+				<Button size="sm" variant="outline" asChild>
+					<Link href={`/empleos/${job.id}`}>Ver Detalles</Link>
 				</Button>
 			</CardFooter>
 		</Card>

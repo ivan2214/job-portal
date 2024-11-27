@@ -1,15 +1,28 @@
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, MapPin, Phone, Mail } from "lucide-react";
-import { getCompanyById } from "@/lib/fakeApi";
 import { JobPosting } from "./components/job-posting";
 import { Container } from "@/components/container";
+import { prisma } from "@/db";
+import type { Job } from "@prisma/client";
 
 export default async function CompanyProfile({
 	params,
 }: { params: { id: string } }) {
-	const company = await getCompanyById(params.id);
+	const { id } = await params;
+	const company = await prisma.company.findUnique({
+		where: {
+			id: id,
+		},
+		include: {
+			jobPostings: {
+				include: {
+					categoryJob: true,
+					company: true,
+				},
+			},
+		},
+	});
 
 	if (!company) {
 		notFound();
@@ -29,12 +42,12 @@ export default async function CompanyProfile({
 				<div className="md:col-span-2">
 					<div className="mb-6 flex items-center">
 						{company?.logo ? (
-							<Image
+							<img
 								src={company?.logo}
 								alt={`${company?.name} logo`}
 								width={100}
 								height={100}
-								className="mr-4 rounded-full"
+								className="mr-4 h-16 w-16 rounded-full object-cover"
 							/>
 						) : (
 							<div className="mr-4 flex h-24 w-24 items-center justify-center rounded-full bg-gray-200 font-bold text-2xl text-gray-500">
@@ -76,9 +89,10 @@ export default async function CompanyProfile({
 				<div>
 					<h2 className="mb-4 font-semibold text-2xl">Job Postings</h2>
 					<div className="space-y-4">
-						{company?.jobPostings?.map((job) => (
-							<JobPosting key={job.id} job={job} />
-						))}
+						{company?.jobPostings.length > 0 &&
+							company?.jobPostings?.map((job: Job) => (
+								<JobPosting key={job.id} job={job} />
+							))}
 					</div>
 				</div>
 			</div>

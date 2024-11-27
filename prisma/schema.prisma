@@ -19,6 +19,9 @@ model User {
   // Relaciones
   postedJobs   Job[]         @relation("EmployerJobs") // Relación: un usuario puede publicar muchos empleos
   applications Application[] // Relación: un usuario puede postularse a muchos empleos
+
+  company   Company? @relation(fields: [companyId], references: [id]) // Relación con la empresa si es que el usuario es EMPLOYER
+  companyId String?
 }
 
 model Job {
@@ -87,6 +90,7 @@ model Company {
 
   // Relaciones
   jobPostings Job[] // Relación: una empresa puede tener muchas ofertas de empleo
+  User        User[]
 }
 
 enum RoleUser {

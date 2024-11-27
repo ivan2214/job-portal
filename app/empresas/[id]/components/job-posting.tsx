@@ -2,9 +2,13 @@ import Link from "next/link";
 import { MapPin, DollarSign } from "lucide-react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import type { Job } from "@/app/user/jobs/[id]/types/job";
+import type { CategoryJob, Company } from "@prisma/client";
 
 interface JobPostingProps {
-	job: Job;
+	job: Job & {
+		company: Company;
+		categoryJob: CategoryJob;
+	};
 }
 
 export function JobPosting({ job }: JobPostingProps) {
@@ -12,7 +16,7 @@ export function JobPosting({ job }: JobPostingProps) {
 		<Card>
 			<CardContent className="pt-6">
 				<Link
-					href={`/user/jobs/${job.id}`}
+					href={`/empleos/${job.id}`}
 					className="font-semibold text-blue-600 text-xl hover:underline"
 				>
 					{job.title}

@@ -1,12 +1,34 @@
+import { prisma } from "@/db";
 import CompanyCard from "./company-card";
 import Pagination from "./pagination";
-import { fetchCompanies } from "@/lib/fakeApi";
 
 export default async function CompanyList({
 	query,
 	page,
 }: { query: string; page: number }) {
-	const { companies, totalPages } = await fetchCompanies(query, page);
+	const companies = await prisma.company.findMany({
+		where: {
+			name: {
+				contains: query,
+				mode: "insensitive",
+			},
+		},
+		orderBy: {
+			name: "asc",
+		},
+		skip: (page - 1) * 3,
+	});
+
+	const totalPages = Math.ceil(
+		(await prisma.company.count({
+			where: {
+				name: {
+					contains: query,
+					mode: "insensitive",
+				},
+			},
+		})) / 3,
+	);
 
 	if (companies.length === 0) {
 		return (

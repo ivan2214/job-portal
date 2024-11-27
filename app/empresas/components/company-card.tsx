@@ -1,15 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import { MapPin, Briefcase } from "lucide-react";
-
-interface Company {
-	id: string;
-	name: string;
-	description: string;
-	location: string;
-	openPositions: number;
-	logo?: string;
-}
+import type { Company } from "@prisma/client";
 
 export default function CompanyCard({ company }: { company: Company }) {
 	return (
@@ -17,11 +8,10 @@ export default function CompanyCard({ company }: { company: Company }) {
 			<div className="mb-4 flex items-center">
 				<div className="relative mr-4 h-16 w-16">
 					{company.logo ? (
-						<Image
+						<img
 							src={company.logo}
 							alt={`${company.name} logo`}
-							fill
-							className="rounded-full object-cover"
+							className="mr-4 h-16 w-16 rounded-full object-cover"
 						/>
 					) : (
 						<div className="flex h-16 w-16 items-center justify-center rounded-full bg-gray-200 font-bold text-2xl text-gray-500">
