@@ -7,10 +7,11 @@ import {
 } from "@/components/ui/breadcrumb";
 import { ChevronRight } from "lucide-react";
 import { Employers } from "./components/employers";
+import { Container } from "@/components/container";
 
 export default function EmployersPage() {
 	return (
-		<div className="container mx-auto p-6">
+		<Container>
 			<h1 className="mb-6 font-bold text-3xl text-gray-800">Employers</h1>
 			<Breadcrumb>
 				<BreadcrumbList>
@@ -26,6 +27,6 @@ export default function EmployersPage() {
 				</BreadcrumbList>
 			</Breadcrumb>
 			<Employers />
-		</div>
+		</Container>
 	);
 }

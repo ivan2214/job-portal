@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button";
+import { Container } from "./container";
 
 type HeroBannerProps = {};
 
 export const HeroBanner: React.FC<HeroBannerProps> = ({}) => {
 	return (
 		<section className="bg-gradient-to-r from-primary to-primary-foreground py-16 text-white">
-			<div className="container mx-auto px-4 text-center">
+			<Container>
 				<h1 className="mb-4 font-bold text-4xl">
 					Encuentra tu próximo empleo en Lules, Tucumán
 				</h1>
@@ -18,7 +19,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({}) => {
 						Para Empresas
 					</Button>
 				</div>
-			</div>
+			</Container>
 		</section>
 	);
 };

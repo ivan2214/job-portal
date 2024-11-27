@@ -9,10 +9,11 @@ import { CategoriasDemandasChart } from "./components/categorias-demandadas-char
 import { EmpleosPorTipoChart } from "./components/empleos-por-tipo-chart";
 import { SalariosPromedioChart } from "./components/salarios-promedio-chart";
 import { TablaResumen } from "./components/tabla-resumen";
+import { Container } from "@/components/container";
 
 export default function MercadoLaboral() {
 	return (
-		<div className="container mx-auto py-10">
+		<Container>
 			<h1 className="mb-4 font-bold text-4xl">Mercado Laboral en Lules</h1>
 			<p className="mb-8 text-xl">
 				Análisis de tendencias y estadísticas del mercado laboral en Lules,
@@ -68,6 +69,6 @@ export default function MercadoLaboral() {
 					</CardContent>
 				</Card>
 			</div>
-		</div>
+		</Container>
 	);
 }

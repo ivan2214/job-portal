@@ -1,3 +1,4 @@
+import { Container } from "@/components/container";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -31,7 +32,7 @@ export default function JobDetailPage() {
 	};
 
 	return (
-		<div className="container mx-auto px-4 py-8">
+		<Container>
 			<header className="mb-8 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
 				<div>
 					<h1 className="mb-2 font-bold text-3xl">{job.title}</h1>
@@ -129,6 +130,6 @@ export default function JobDetailPage() {
 					</Card>
 				</div>
 			</div>
-		</div>
+		</Container>
 	);
 }

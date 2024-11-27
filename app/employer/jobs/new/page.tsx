@@ -1,5 +1,6 @@
 "use client";
 
+import { Container } from "@/components/container";
 import { Button } from "@/components/ui/button";
 import {
 	Form,
@@ -72,7 +73,7 @@ export default function CrearOfertaPage() {
 	}
 
 	return (
-		<div className="container mx-auto py-10">
+		<Container>
 			<h1 className="mb-6 font-bold text-3xl">Crear Nueva Oferta de Empleo</h1>
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -204,6 +205,6 @@ export default function CrearOfertaPage() {
 					</Button>
 				</form>
 			</Form>
-		</div>
+		</Container>
 	);
 }

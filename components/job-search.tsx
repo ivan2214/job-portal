@@ -7,13 +7,14 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { SearchJobInput } from "./search-job-input";
+import { Container } from "./container";
 
 type JobSearchProps = {};
 
 export const JobSearch: React.FC<JobSearchProps> = ({}) => {
 	return (
 		<section className="bg-gray-50 py-12">
-			<div className="container mx-auto px-4">
+			<Container className="px-4 py-0">
 				<h2 className="mb-6 text-center font-semibold text-2xl">
 					Buscar Empleos
 				</h2>
@@ -46,7 +47,7 @@ export const JobSearch: React.FC<JobSearchProps> = ({}) => {
 					</Select>
 					<Button className="w-full md:w-auto">Buscar</Button>
 				</div>
-			</div>
+			</Container>
 		</section>
 	);
 };

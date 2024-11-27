@@ -25,6 +25,7 @@ import { ChevronRight } from "lucide-react";
 
 import { BriefcaseIcon, FileTextIcon } from "lucide-react";
 import { ActivitySummary } from "./components/activity-summary";
+import { Container } from "@/components/container";
 
 export default function UserProfile() {
 	// This would typically come from your data fetching logic
@@ -46,7 +47,7 @@ export default function UserProfile() {
 	];
 
 	return (
-		<div className="container mx-auto p-6">
+		<Container>
 			<h1 className="mb-6 font-bold text-3xl">User Profile</h1>
 			<Breadcrumb>
 				<BreadcrumbList>
@@ -140,6 +141,6 @@ export default function UserProfile() {
 					</CardContent>
 				</Card>
 			</div>
-		</div>
+		</Container>
 	);
 }

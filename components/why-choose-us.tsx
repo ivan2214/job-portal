@@ -1,11 +1,12 @@
 import { Briefcase, Star, Users } from "lucide-react";
+import { Container } from "./container";
 
 type WhyChooseUsProps = {};
 
 export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({}) => {
 	return (
 		<section className="py-12">
-			<div className="container mx-auto px-4">
+			<Container>
 				<h2 className="mb-6 text-center font-semibold text-2xl">
 					¿Por qué elegir Lules Jobs?
 				</h2>
@@ -40,7 +41,7 @@ export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({}) => {
 						</p>
 					</div>
 				</div>
-			</div>
+			</Container>
 		</section>
 	);
 };

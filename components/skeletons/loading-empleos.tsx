@@ -1,8 +1,9 @@
 import { Skeleton } from "@/components/skeleton";
+import { Container } from "../container";
 
 export default function LoadingEmpleos() {
 	return (
-		<div className="container mx-auto px-4 py-8">
+		<Container className="container mx-auto px-4 py-8">
 			<h1 className="mb-8 font-bold text-3xl text-gray-800">
 				Empleos en Lules, Tucumán
 			</h1>
@@ -30,6 +31,6 @@ export default function LoadingEmpleos() {
 					<Skeleton className="mb-2 h-8" />
 				</div>
 			</div>
-		</div>
+		</Container>
 	);
 }

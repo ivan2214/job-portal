@@ -1,11 +1,12 @@
 import Link from "next/link";
+import { Container } from "./container";
 
 type FooterProps = {};
 
 export const Footer: React.FC<FooterProps> = ({}) => {
 	return (
 		<footer className=" py-8 ">
-			<div className="container mx-auto px-4">
+			<Container>
 				<div className="grid grid-cols-1 gap-8 md:grid-cols-4">
 					<div>
 						<h3 className="mb-4 font-semibold text-lg">Acerca de Lules Jobs</h3>
@@ -89,7 +90,7 @@ export const Footer: React.FC<FooterProps> = ({}) => {
 						</Link>
 					</div>
 				</div>
-			</div>
+			</Container>
 		</footer>
 	);
 };

@@ -1,6 +1,7 @@
 import { SummaryCard } from "./components/summary-card";
 import { RecentActivity } from "./components/recent-activity";
 import { CallToAction } from "./components/call-to-action";
+import { Container } from "@/components/container";
 
 async function getUserData() {
 	// This is a mock function. In a real application, you would fetch this data from your API
@@ -36,7 +37,7 @@ export default async function UserDashboard() {
 	const userData = await getUserData();
 
 	return (
-		<div className="container mx-auto space-y-6 p-6">
+		<Container className="space-y-6">
 			<h1 className="font-bold text-3xl">Welcome back, {userData.name}!</h1>
 			<div className="grid gap-6 md:grid-cols-3">
 				<SummaryCard
@@ -54,6 +55,6 @@ export default async function UserDashboard() {
 			</div>
 			<RecentActivity applications={userData.recentApplications} />
 			<CallToAction />
-		</div>
+		</Container>
 	);
 }

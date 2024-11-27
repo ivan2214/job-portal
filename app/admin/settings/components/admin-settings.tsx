@@ -9,6 +9,7 @@ import GeneralSettings from "./general-settings";
 import NotificationSettings from "./notification-settings";
 import SecuritySettings from "./security-settings";
 import SystemLogs from "./system-logs";
+import { Container } from "@/components/container";
 
 export default function AdminSettings() {
 	const [activeTab, setActiveTab] = useState("general");
@@ -28,7 +29,7 @@ export default function AdminSettings() {
 	};
 
 	return (
-		<div className="container mx-auto p-6">
+		<Container>
 			<h1 className="mb-6 font-bold text-3xl">Admin Settings</h1>
 			<div className="flex flex-col gap-6 md:flex-row">
 				<Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1">
@@ -65,6 +66,6 @@ export default function AdminSettings() {
 					</div>
 				</Tabs>
 			</div>
-		</div>
+		</Container>
 	);
 }

@@ -12,6 +12,7 @@ import {
 	BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { ChevronRight } from "lucide-react";
+import { Container } from "@/components/container";
 
 export default async function UserManagement({
 	searchParams,
@@ -26,7 +27,7 @@ export default async function UserManagement({
 	const totalPages = Math.ceil(total / pageSize);
 
 	return (
-		<div className="container mx-auto p-6">
+		<Container>
 			<h1 className="mb-5 font-bold text-2xl">User Management</h1>
 			<Breadcrumb>
 				<BreadcrumbList>
@@ -50,6 +51,6 @@ export default async function UserManagement({
 			<div className="mt-4">
 				<Pagination totalPages={totalPages} />
 			</div>
-		</div>
+		</Container>
 	);
 }

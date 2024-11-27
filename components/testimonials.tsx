@@ -1,11 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Container } from "./container";
 
 type TestimonialsProps = {};
 
 export const Testimonials: React.FC<TestimonialsProps> = ({}) => {
 	return (
 		<section className="bg-gray-50 py-12">
-			<div className="container mx-auto px-4">
+			<Container>
 				<h2 className="mb-6 text-center font-semibold text-2xl">
 					Lo que dicen nuestros usuarios
 				</h2>
@@ -46,7 +47,7 @@ export const Testimonials: React.FC<TestimonialsProps> = ({}) => {
 						</Card>
 					))}
 				</div>
-			</div>
+			</Container>
 		</section>
 	);
 };

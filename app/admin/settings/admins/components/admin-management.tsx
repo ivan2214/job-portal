@@ -8,6 +8,7 @@ import { AdminSummary } from "./admin-summary";
 import { AdminTable } from "./admin-table";
 import { EditAdminModal } from "./edit-admin-modal";
 import { SearchBar } from "./search-bar";
+import { Container } from "@/components/container";
 
 // Mock data for admins
 const initialAdmins = [
@@ -86,7 +87,7 @@ export function AdminManagement() {
 	};
 
 	return (
-		<div className="container mx-auto p-6">
+		<Container>
 			<h1 className="mb-8 font-bold text-3xl">Admin Management</h1>
 			<div className="mb-6 flex items-center justify-between">
 				<SearchBar onSearch={handleSearch} />
@@ -115,6 +116,6 @@ export function AdminManagement() {
 				onEdit={handleEditAdmin}
 				admin={selectedAdmin}
 			/>
-		</div>
+		</Container>
 	);
 }

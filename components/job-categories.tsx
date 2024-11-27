@@ -1,11 +1,12 @@
 import Link from "next/link";
+import { Container } from "./container";
 
 type JobCategoriesProps = {};
 
 export const JobCategories: React.FC<JobCategoriesProps> = ({}) => {
 	return (
 		<section className="bg-gray-50 py-12">
-			<div className="container mx-auto px-4">
+			<Container>
 				<h2 className="mb-6 text-center font-semibold text-2xl">
 					Categorías de Empleo
 				</h2>
@@ -30,7 +31,7 @@ export const JobCategories: React.FC<JobCategoriesProps> = ({}) => {
 						</Link>
 					))}
 				</div>
-			</div>
+			</Container>
 		</section>
 	);
 };

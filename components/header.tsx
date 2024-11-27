@@ -1,11 +1,12 @@
 import Link from "next/link";
+import { Container } from "./container";
 
 type HeaderProps = {};
 
 export const Header: React.FC<HeaderProps> = ({}) => {
 	return (
 		<header className="sticky top-0 z-50 bg-white shadow-sm">
-			<div className="container mx-auto flex items-center justify-between px-4 py-4">
+			<Container className="flex items-center justify-between px-4 py-4">
 				{/*  <Link href="/" className="flex items-center space-x-2">
         <Image src="/logo.svg" alt="Lules Jobs Logo" width={40} height={40} />
         <span className="text-xl font-bold text-primary">Lules Jobs</span>
@@ -80,7 +81,7 @@ export const Header: React.FC<HeaderProps> = ({}) => {
 						</li>
 					</ul>
 				</nav>
-			</div>
+			</Container>
 		</header>
 	);
 };

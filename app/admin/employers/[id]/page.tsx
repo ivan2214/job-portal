@@ -20,6 +20,7 @@ import { ChevronRight } from "lucide-react";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { JobList } from "./components/job-list";
+import { Container } from "@/components/container";
 
 export default function EmployerDetailsPage({
 	params,
@@ -36,7 +37,7 @@ export default function EmployerDetailsPage({
 	}
 
 	return (
-		<div className="container mx-auto p-6">
+		<Container>
 			<Breadcrumb>
 				<BreadcrumbList>
 					<BreadcrumbItem>
@@ -113,6 +114,6 @@ export default function EmployerDetailsPage({
 					</Suspense>
 				</CardContent>
 			</Card>
-		</div>
+		</Container>
 	);
 }

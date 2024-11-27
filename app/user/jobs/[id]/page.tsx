@@ -17,6 +17,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, MapPin, Calendar, DollarSign } from "lucide-react";
 import { jobData, relatedJobs } from "./data/job-data";
+import { Container } from "@/components/container";
 
 export default function JobApplicationDetails({
 	job = jobData,
@@ -35,7 +36,7 @@ export default function JobApplicationDetails({
 	};
 
 	return (
-		<div className="container mx-auto px-4 py-8">
+		<Container>
 			<Button variant="ghost" onClick={onBack} className="mb-4">
 				<ArrowLeft className="mr-2 h-4 w-4" /> Back to Applied Jobs
 			</Button>
@@ -94,6 +95,6 @@ export default function JobApplicationDetails({
 				onClose={() => setIsModalOpen(false)}
 				onConfirm={confirmWithdraw}
 			/>
-		</div>
+		</Container>
 	);
 }

@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { JobCardApplied } from "./components/job-card-applied";
+import { Container } from "@/components/container";
 
 export default function AppliedJobs() {
 	const [jobs, setJobs] = useState<Job[]>([]);
@@ -55,7 +56,7 @@ export default function AppliedJobs() {
 	const locations = ["All", ...new Set(jobs.map((job) => job.location))];
 
 	return (
-		<div className="container mx-auto px-4 py-8">
+		<Container>
 			<h1 className="mb-8 font-bold text-3xl">Applied Jobs</h1>
 
 			<div className="mb-6 flex flex-col gap-4 md:flex-row">
@@ -129,6 +130,6 @@ export default function AppliedJobs() {
 					</div>
 				</div>
 			)}
-		</div>
+		</Container>
 	);
 }

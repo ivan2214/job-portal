@@ -3,6 +3,7 @@ import JobDetails from "./components/job-details";
 import JobStatistics from "./components/job-statistics";
 import ApplicationList from "./components/application-list";
 import ActionButtons from "./components/action-buttons";
+import { Container } from "@/components/container";
 
 async function getJobData(id: string) {
 	// This is a placeholder function. In a real application, you would fetch the job data from your database or API.
@@ -50,7 +51,7 @@ export default async function JobManagementPage({
 	}
 
 	return (
-		<div className="container mx-auto px-4 py-8">
+		<Container>
 			<h1 className="mb-8 font-bold text-3xl">{job.title}</h1>
 			<div className="grid gap-8 md:grid-cols-2">
 				<div>
@@ -62,6 +63,6 @@ export default async function JobManagementPage({
 					<ApplicationList applications={applications} />
 				</div>
 			</div>
-		</div>
+		</Container>
 	);
 }

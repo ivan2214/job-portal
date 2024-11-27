@@ -9,10 +9,11 @@ import {
 	Search,
 	Users,
 } from "lucide-react";
+import { Container } from "./container";
 
 export default function Benefits() {
 	return (
-		<div className="container mx-auto px-4 py-12">
+		<Container>
 			<h1 className="mb-12 text-center font-bold text-4xl">
 				Ventajas de Nuestra Plataforma
 			</h1>
@@ -71,7 +72,7 @@ export default function Benefits() {
 					</CardContent>
 				</Card>
 			</div>
-		</div>
+		</Container>
 	);
 }
 

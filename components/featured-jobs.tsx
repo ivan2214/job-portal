@@ -4,13 +4,14 @@ import { Button } from "@/components/ui/button";
 
 import { ArrowRight } from "lucide-react";
 import { JobCard } from "./job-card";
+import { Container } from "./container";
 
 type FeaturedJobsProps = {};
 
 export const FeaturedJobs: React.FC<FeaturedJobsProps> = ({}) => {
 	return (
 		<section className="py-12">
-			<div className="container mx-auto px-4">
+			<Container>
 				<h2 className="mb-6 text-center font-semibold text-2xl">
 					Empleos Destacados
 				</h2>
@@ -60,7 +61,7 @@ export const FeaturedJobs: React.FC<FeaturedJobsProps> = ({}) => {
 						Ver Todos los Empleos <ArrowRight className="ml-2 h-4 w-4" />
 					</Button>
 				</div>
-			</div>
+			</Container>
 		</section>
 	);
 };

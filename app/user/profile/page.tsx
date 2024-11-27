@@ -3,10 +3,11 @@ import { ApplicationManagement } from "./components/application-management";
 import { PasswordChange } from "./components/password-change";
 import { PersonalInfo } from "./components/personal-info";
 import { ResumeUpload } from "./components/resume-upload";
+import { Container } from "@/components/container";
 
 export default function ProfilePage() {
 	return (
-		<div className="container mx-auto py-10">
+		<Container>
 			<h1 className="mb-6 font-bold text-3xl">Perfil de Usuario</h1>
 			<Tabs defaultValue="personal-info">
 				<TabsList className="grid w-full grid-cols-4">
@@ -28,6 +29,6 @@ export default function ProfilePage() {
 					<ApplicationManagement />
 				</TabsContent>
 			</Tabs>
-		</div>
+		</Container>
 	);
 }

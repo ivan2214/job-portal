@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ApplicantCard } from "./components/applicant-card";
 import { JobCard } from "./components/job-card";
 import { ActionsCard } from "./components/actions-card";
+import { Container } from "@/components/container";
 
 export const metadata: Metadata = {
 	title: "Job Application Details",
@@ -40,7 +41,7 @@ export default async function ApplicationPage({
 	}
 
 	return (
-		<div className="container mx-auto py-10">
+		<Container>
 			<h1 className="mb-6 font-bold text-3xl">Job Application Details</h1>
 			<div className="grid gap-6 md:grid-cols-2">
 				<ApplicantCard applicant={application.applicant} />
@@ -51,6 +52,6 @@ export default async function ApplicationPage({
 					comments={application.comments}
 				/>
 			</div>
-		</div>
+		</Container>
 	);
 }

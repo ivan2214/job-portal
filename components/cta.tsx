@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button";
+import { Container } from "./container";
 
 type CtaProps = {};
 
 export const Cta: React.FC<CtaProps> = ({}) => {
 	return (
 		<section className="bg-primary py-12 text-white">
-			<div className="container mx-auto px-4 text-center">
+			<Container className="text-center">
 				<h2 className="mb-4 font-semibold text-2xl">
 					¿Listo para encontrar tu próximo empleo?
 				</h2>
@@ -16,7 +17,7 @@ export const Cta: React.FC<CtaProps> = ({}) => {
 				<Button size="lg" variant="secondary">
 					Crear mi perfil gratis
 				</Button>
-			</div>
+			</Container>
 		</section>
 	);
 };

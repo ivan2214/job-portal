@@ -25,6 +25,7 @@ import {
 	type ApplicationStatus,
 } from "./data/mockApplications";
 import Link from "next/link";
+import { Container } from "@/components/container";
 
 export default function Dashboard() {
 	const [applications, setApplications] =
@@ -46,7 +47,7 @@ export default function Dashboard() {
 	};
 
 	return (
-		<div className="container mx-auto p-4">
+		<Container>
 			<h1 className="mb-6 font-bold text-2xl">Job Application Dashboard</h1>
 
 			<div className="mb-6 grid gap-4 md:grid-cols-2">
@@ -113,6 +114,6 @@ export default function Dashboard() {
 					</Card>
 				))}
 			</div>
-		</div>
+		</Container>
 	);
 }
