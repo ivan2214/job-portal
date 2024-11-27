@@ -6,10 +6,16 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"check": "biome check --write"
+		"check": "biome check --write",
+		"prisma:migrate": "pnpm dlx prisma migrate dev",
+		"prisma:reset": "pnpm dlx prisma migrate reset --force",
+		"prisma:generate": "pnpm dlx prisma generate",
+		"prisma:seed": "pnpm dlx prisma db seed",
+		"prisma:studio": "pnpm dlx prisma studio"
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^3.9.1",
+		"@prisma/client": "5.22.0",
 		"@radix-ui/react-avatar": "^1.1.1",
 		"@radix-ui/react-dialog": "^1.1.2",
 		"@radix-ui/react-label": "^2.1.0",
@@ -22,6 +28,7 @@
 		"@radix-ui/react-tabs": "^1.1.1",
 		"@radix-ui/react-toast": "^1.2.2",
 		"@radix-ui/react-tooltip": "^1.1.4",
+		"bcrypt": "^5.1.1",
 		"class-variance-authority": "^0.7.0",
 		"clsx": "^2.1.1",
 		"lucide-react": "^0.461.0",
@@ -38,11 +45,17 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
+		"@faker-js/faker": "^9.2.0",
+		"@types/bcrypt": "^5.0.2",
 		"@types/node": "^20",
 		"@types/react": "^18",
 		"@types/react-dom": "^18",
 		"postcss": "^8",
+		"prisma": "^5.22.0",
 		"tailwindcss": "^3.4.1",
 		"typescript": "^5"
+	},
+	"prisma": {
+		"seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
 	}
 }

@@ -1,0 +1,86 @@
+datasource db {
+  provider = "postgresql" // Cambia el proveedor según tu base de datos
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id             String   @id @default(cuid()) // ID único del usuario
+  name           String // Nombre del usuario
+  email          String   @unique // Email único
+  hashedPassword String // Contraseña del usuario
+  role           RoleUser // Enum para diferenciar entre EMPLOYER, EMPLOYEE y ADMIN
+  createdAt      DateTime @default(now()) // Fecha de creación
+  updatedAt      DateTime @updatedAt // Fecha de última actualización
+
+  // Relaciones
+  postedJobs   Job[]         @relation("EmployerJobs") // Relación: un usuario puede publicar muchos empleos
+  applications Application[] // Relación: un usuario puede postularse a muchos empleos
+}
+
+model Job {
+  id                String            @id @default(cuid()) // ID único del usuario
+  title             String // Título del empleo
+  description       String // Descripción del empleo
+  salary            Float? // Salario (opcional)
+  location          String // Ubicación del empleo
+  applicationStatus ApplicationStatus @default(PENDING) // Enum para representar el estado de la postulación
+  dateApplied       DateTime // Fecha de postulación
+  createdAt         DateTime          @default(now()) // Fecha de creación
+  updatedAt         DateTime          @updatedAt // Fecha de última actualización
+
+  // Relaciones
+  userId       String // Relación con el usuario
+  user         User          @relation("EmployerJobs", fields: [userId], references: [id]) // El empleo pertenece a un usuario
+  applications Application[] // Relación: un empleo puede tener muchas postulaciones
+  company      Company?      @relation(fields: [companyId], references: [id])
+  companyId    String?
+}
+
+model Application {
+  id        String   @id @default(cuid()) // ID único del usuario
+  createdAt DateTime @default(now()) // Fecha de creación
+  updatedAt DateTime @updatedAt // Fecha de última actualización
+
+  // Relaciones
+  userId String // Relación con el usuario
+  user   User   @relation(fields: [userId], references: [id]) // Una postulación pertenece a un usuario
+
+  jobId String // Relación con el empleo
+  job   Job    @relation(fields: [jobId], references: [id]) // Una postulación pertenece a un empleo
+
+  status ApplicationStatus @default(PENDING) // Enum para representar el estado de la postulación
+}
+
+model Company {
+  id            String   @id @default(cuid()) // ID único del usuario
+  name          String // Nombre de la empresa
+  description   String // Descripción de la empresa
+  location      String // Ubicación de la empresa
+  openPositions Int // Número de posiciones disponibles
+  logo          String?
+  phone         String?
+  email         String?
+  bio           String? // Breve descripción de la empresa
+  createdAt     DateTime @default(now()) // Fecha de creación
+  updatedAt     DateTime @updatedAt // Fecha de última actualización
+
+  // Relaciones
+  jobPostings Job[] // Relación: una empresa puede tener muchas ofertas de empleo
+}
+
+enum RoleUser {
+  EMPLOYER // Rol de usuario
+  EMPLOYEE // Rol de usuario
+  ADMIN // Rol de administrador
+}
+
+enum ApplicationStatus {
+  PENDING // Postulación pendiente
+  REVIEWED // Postulación revisada
+  REJECTED // Postulación rechazada
+  ACCEPTED // Postulación aceptada
+}
