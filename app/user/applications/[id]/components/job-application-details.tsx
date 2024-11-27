@@ -1,54 +1,58 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import WithdrawApplicationButton from "./withdraw-application-button";
-import { mockJobApplication } from "../data/mock-data";
+import type { Application, Company, Job } from "@prisma/client";
 
-export default async function JobApplicationDetails({ id }: { id: string }) {
-	const jobApplication = mockJobApplication;
-
-	console.log("Job Application ID:", id);
-
+export default async function JobApplicationDetails({
+	application,
+}: {
+	application: Application & {
+		job: Job & {
+			company: Company;
+		};
+	};
+}) {
 	return (
 		<Card className="mx-auto max-w-3xl">
 			<CardHeader>
 				<CardTitle className="font-bold text-2xl">
-					{jobApplication.jobTitle}
+					{application.job.title}
 				</CardTitle>
-				<p className="text-muted-foreground">{jobApplication.companyName}</p>
+				<p className="text-muted-foreground">{application.job.company.name}</p>
 			</CardHeader>
 			<CardContent className="space-y-6">
 				<div>
 					<h2 className="mb-2 font-semibold text-xl">Application Status</h2>
 					<Badge
-						variant={jobApplication.isPending ? "default" : "secondary"}
+						variant={application.status === "PENDING" ? "default" : "secondary"}
 						className="text-lg"
 					>
-						{jobApplication.status}
+						{application.status}
 					</Badge>
 				</div>
 
 				<div>
 					<h3 className="mb-2 font-semibold text-lg">Status History</h3>
-					<ul className="space-y-2">
-						{jobApplication.statusHistory.map((item) => (
+					{/* 	<ul className="space-y-2">
+						{application.statusHistory.map((item) => (
 							<li key={item.date} className="flex items-center justify-between">
 								<span>{item.status}</span>
 								<span className="text-muted-foreground">{item.date}</span>
 							</li>
 						))}
-					</ul>
+					</ul> */}
 				</div>
 
-				{jobApplication.employerFeedback && (
+				{/* 	{application.employerFeedback && (
 					<div>
 						<h3 className="mb-2 font-semibold text-lg">Employer Feedback</h3>
 						<p className="rounded-md bg-muted p-4">
-							{jobApplication.employerFeedback}
+							{application.employerFeedback}
 						</p>
 					</div>
-				)}
+				)} */}
 
-				{jobApplication.isPending && (
+				{application.status === "PENDING" && (
 					<WithdrawApplicationButton /* id={id} */ />
 				)}
 			</CardContent>

@@ -2,39 +2,71 @@ import { SummaryCard } from "./components/summary-card";
 import { RecentActivity } from "./components/recent-activity";
 import { CallToAction } from "./components/call-to-action";
 import { Container } from "@/components/container";
+import { prisma } from "@/db";
 
-async function getUserData() {
-	// This is a mock function. In a real application, you would fetch this data from your API
+async function getUserData(id: string) {
+	const user = await prisma.user.findUnique({
+		where: {
+			id,
+		},
+		include: {
+			applications: {
+				include: {
+					job: true,
+				},
+			},
+		},
+	});
+
+	if (!user) {
+		throw new Error("User not found");
+	}
+
+	const totalJobsApplied = user.applications.length;
+
+	const acceptedApplications = user.applications.filter(
+		(application) => application.status === "ACCEPTED",
+	).length;
+
+	const activeApplications = user.applications.filter(
+		(application) => application.status === "PENDING",
+	).length;
+
+	const pendingApplications = user.applications.filter(
+		(application) => application.status === "PENDING",
+	).length;
+
+	const rejectedApplications = user.applications.filter(
+		(application) => application.status === "REJECTED",
+	).length;
+
+	const reviewedApplications = user.applications.filter(
+		(application) => application.status === "REVIEWED",
+	).length;
+
+	const recentApplications = user.applications
+		.slice(0, 5)
+		.map((application) => ({
+			id: application.id,
+			jobTitle: application.job.title,
+			status: application.status,
+			dateApplied: application.createdAt.toDateString(),
+		}));
+
 	return {
-		name: "John Doe",
-		totalJobsApplied: 15,
-		activeApplications: 7,
-		acceptedApplications: 3,
-		recentApplications: [
-			{
-				id: 1,
-				jobTitle: "Software Engineer",
-				status: "Pending",
-				dateApplied: "2023-06-01",
-			},
-			{
-				id: 2,
-				jobTitle: "Product Manager",
-				status: "Accepted",
-				dateApplied: "2023-05-28",
-			},
-			{
-				id: 3,
-				jobTitle: "UX Designer",
-				status: "Rejected",
-				dateApplied: "2023-05-25",
-			},
-		],
+		name: user.name,
+		totalJobsApplied,
+		activeApplications,
+		acceptedApplications,
+		recentApplications,
+		rejectedApplications,
+		reviewedApplications,
+		pendingApplications,
 	};
 }
 
 export default async function UserDashboard() {
-	const userData = await getUserData();
+	const userData = await getUserData("cm403g4mo002913hkwhfdey7e");
 
 	return (
 		<Container className="space-y-6">
@@ -51,6 +83,18 @@ export default async function UserDashboard() {
 				<SummaryCard
 					title="Accepted Applications"
 					value={userData.acceptedApplications}
+				/>
+				<SummaryCard
+					title="Rejected Applications"
+					value={userData.rejectedApplications}
+				/>
+				<SummaryCard
+					title="Reviewed Applications"
+					value={userData.reviewedApplications}
+				/>
+				<SummaryCard
+					title="Pending Applications"
+					value={userData.pendingApplications}
 				/>
 			</div>
 			<RecentActivity applications={userData.recentApplications} />
