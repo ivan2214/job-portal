@@ -1,13 +1,17 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-	/* webpack: (config) => {
-		config.resolve.alias["@radix-ui/react-select"] = path.resolve(
-			__dirname,
-			"node_modules/@radix-ui/react-select",
-		);
-		return config;
-	}, */
+	images: {
+		domains: ["picsum.photos"],
+		remotePatterns: [
+			{
+				protocol: "https",
+				hostname: "picsum.photos",
+				port: "",
+				pathname: "/**",
+			},
+		],
+	},
 };
 
 export default nextConfig;
