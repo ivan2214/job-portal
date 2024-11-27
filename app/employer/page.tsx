@@ -1,10 +1,6 @@
-interface EmployerPageFormProps {
-	searchParams: {
-		propName: propType;
-	};
-}
+type EmployerPageFormProps = {};
 
-const EmployerPage: React.FC<EmployerPageFormProps> = ({ searchParams }) => {
+const EmployerPage: React.FC<EmployerPageFormProps> = () => {
 	return <div>EmployerPage</div>;
 };
 
