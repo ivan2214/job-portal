@@ -1,67 +1,48 @@
 import { Container } from "@/components/container";
-import { JobCard, type JobCardProps } from "@/components/job-card";
+import { JobCard } from "@/components/job-card";
 import { Pagination } from "@/components/pagination";
 import { Sidebar } from "@/components/sidebar";
+import { prisma } from "@/db";
 
-const jobListings: JobCardProps[] = [
-	{
-		title: "Desarrollador Frontend",
-		company: "TechCorp",
-		location: "Madrid, España",
-		salary: "€40,000 - €60,000",
-		description:
-			"Empresa de tecnología busca desarrollador frontend con experiencia en React y Node.js.",
-		type: "Tiempo completo",
-	},
-	{
-		title: "Diseñador UX/UI",
-		company: "DesignHub",
-		location: "Barcelona, España",
-		salary: "€35,000 - €55,000",
-		description:
-			"Empresa de diseño busca diseñador UX/UI con experiencia en Figma y Adobe XD.",
+interface SearchParamsProps {
+	searchParams: {
+		page?: string;
+		category?: string;
+		query?: string;
+		location?: string;
+		sort?: string;
+	};
+}
 
-		type: "Tiempo completo",
-	},
-	{
-		title: "Ingeniero de Software Backend",
-		company: "DataSystems",
-		location: "Valencia, España",
-		salary: "€45,000 - €70,000",
-		type: "Tiempo completo",
-		description:
-			"Empresa de tecnología busca ingeniero de software backend con experiencia en Python y Node.js.",
-	},
-	{
-		title: "Especialista en Marketing Digital",
-		company: "GrowthMedia",
-		location: "Sevilla, España",
-		salary: "€30,000 - €50,000",
-		type: "Tiempo completo",
-		description:
-			"Empresa de marketing busca especialista en marketing digital con experiencia en Google Analytics y Facebook Ads.",
-	},
-	{
-		title: "Analista de Datos",
-		company: "InsightAnalytics",
-		location: "Bilbao, España",
-		salary: "€40,000 - €65,000",
-		type: "Tiempo completo",
-		description:
-			"Empresa de tecnología busca analista de datos con experiencia en SQL y Python.",
-	},
-	{
-		title: "Gerente de Proyecto",
-		company: "ProjectPro",
-		location: "Málaga, España",
-		salary: "€50,000 - €80,000",
-		type: "Tiempo Parcial",
-		description:
-			"Empresa de desarrollo de software busca gerente de proyecto con experiencia en Python y Django.",
-	},
-];
+export default async function JobListings({ searchParams }: SearchParamsProps) {
+	const jobListings = await prisma.job.findMany({
+		where: {
+			title: {
+				contains: searchParams.query || "",
+				mode: "insensitive",
+			},
+			categoryJob: {
+				name: {
+					contains: searchParams.category || "",
+					mode: "insensitive",
+				},
+			},
+			location: {
+				contains: searchParams.location || "",
+				mode: "insensitive",
+			},
+		},
+		orderBy: {
+			createdAt: "desc",
+		},
+		skip: (Number(searchParams.page || 1) - 1) * 10,
+		take: 10,
+		include: {
+			categoryJob: true,
+			company: true,
+		},
+	});
 
-export default function JobListings() {
 	return (
 		<Container className="px-4 py-8 sm:px-6 lg:px-8">
 			<h1 className="mb-6 font-bold text-3xl">Ofertas de Empleo</h1>
@@ -70,7 +51,7 @@ export default function JobListings() {
 				<div className="flex-1">
 					<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 						{jobListings.map((job) => (
-							<JobCard key={job.title} {...job} />
+							<JobCard key={job.title} job={job} />
 						))}
 					</div>
 					<Pagination />

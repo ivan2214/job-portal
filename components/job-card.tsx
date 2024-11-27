@@ -7,42 +7,42 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import type { CategoryJob, Company, Job } from "@prisma/client";
 
 import { Briefcase, DollarSign, MapPin } from "lucide-react";
 
 export interface JobCardProps {
-	title: string;
-	company: string;
-	location: string;
-	salary: string;
-	description: string;
-	type: string;
+	job: Job & {
+		company: Company | null;
+		categoryJob: CategoryJob | null;
+	};
 }
 
-export function JobCard({
-	title,
-	company,
-	location,
-	salary,
-	description,
-	type,
-}: JobCardProps) {
+export function JobCard({ job }: JobCardProps) {
+	const { title, company, location, type, salary, description, categoryJob } =
+		job;
+
+	console.log("Category Job:", categoryJob);
+
 	return (
 		<Card key={title}>
 			<CardHeader>
 				<CardTitle>{title}</CardTitle>
-				<p className="text-muted-foreground text-sm">{company}</p>
+				<p className="text-muted-foreground text-sm">{company?.name}</p>
 			</CardHeader>
 			<CardContent>
 				<p className=" text-balance text-muted-foreground text-sm">
 					{description}
 				</p>
-				<div className="mt-4 flex items-center space-x-4 text-muted-foreground text-sm">
+				<div className="mt-4 flex flex-wrap items-center gap-2 text-muted-foreground text-sm">
 					<span className="flex items-center">
 						<MapPin size={16} className="mr-1" /> {location}
 					</span>
 					<span className="flex items-center">
 						<Briefcase size={16} className="mr-1" /> {type}
+					</span>
+					<span className="flex items-center">
+						<Briefcase size={16} className="mr-1" /> {categoryJob?.name}
 					</span>
 				</div>
 				<div className="mt-4 flex items-center space-x-4 text-muted-foreground text-sm">

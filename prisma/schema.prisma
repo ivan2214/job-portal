@@ -25,19 +25,36 @@ model Job {
   id                String            @id @default(cuid()) // ID único del usuario
   title             String // Título del empleo
   description       String // Descripción del empleo
-  salary            Float? // Salario (opcional)
+  salary            String? // Salario (opcional)
   location          String // Ubicación del empleo
   applicationStatus ApplicationStatus @default(PENDING) // Enum para representar el estado de la postulación
   dateApplied       DateTime // Fecha de postulación
   createdAt         DateTime          @default(now()) // Fecha de creación
   updatedAt         DateTime          @updatedAt // Fecha de última actualización
+  type              TypeJob           @default(OTHER)
+
+  isFeatured Boolean @default(false)
+  isActive   Boolean @default(true)
+  isArchived Boolean @default(false)
+  isDeleted  Boolean @default(false)
 
   // Relaciones
-  userId       String // Relación con el usuario
-  user         User          @relation("EmployerJobs", fields: [userId], references: [id]) // El empleo pertenece a un usuario
-  applications Application[] // Relación: un empleo puede tener muchas postulaciones
-  company      Company?      @relation(fields: [companyId], references: [id])
-  companyId    String?
+
+  userId        String // Relación con el usuario
+  user          User          @relation("EmployerJobs", fields: [userId], references: [id]) // El empleo pertenece a un usuario
+  applications  Application[] // Relación: un empleo puede tener muchas postulaciones
+  company       Company?      @relation(fields: [companyId], references: [id])
+  companyId     String?
+  categoryJob   CategoryJob?  @relation(fields: [categoryJobId], references: [id])
+  categoryJobId String?
+}
+
+model CategoryJob {
+  id   String @id @default(cuid())
+  name String
+
+  // Relaciones
+  jobs Job[]
 }
 
 model Application {
@@ -83,4 +100,15 @@ enum ApplicationStatus {
   REVIEWED // Postulación revisada
   REJECTED // Postulación rechazada
   ACCEPTED // Postulación aceptada
+}
+
+enum TypeJob {
+  FULL_TIME // Empleo de tiempo completo
+  PART_TIME // Empleo de tiempo parcial
+  INTERN // Empleo de interno
+  CONTRACT // Empleo de contrato
+  TEMPORARY // Empleo temporal
+  VOLUNTARY // Empleo voluntario
+  PERMANENT // Empleo permanente
+  OTHER // Otro tipo de empleo
 }

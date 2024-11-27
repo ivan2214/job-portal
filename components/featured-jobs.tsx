@@ -5,10 +5,20 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { JobCard } from "./job-card";
 import { Container } from "./container";
+import { prisma } from "@/db";
 
 type FeaturedJobsProps = {};
 
-export const FeaturedJobs: React.FC<FeaturedJobsProps> = ({}) => {
+export const FeaturedJobs: React.FC<FeaturedJobsProps> = async ({}) => {
+	const jobsFeatured = await prisma.job.findMany({
+		where: {
+			isFeatured: true,
+		},
+		include: {
+			company: true,
+			categoryJob: true,
+		},
+	});
 	return (
 		<section className="py-12">
 			<Container>
@@ -16,45 +26,8 @@ export const FeaturedJobs: React.FC<FeaturedJobsProps> = ({}) => {
 					Empleos Destacados
 				</h2>
 				<div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-					{[
-						{
-							title: "Desarrollador Web",
-							company: "TechLules",
-							location: "Lules, Tucumán",
-							type: "Tiempo completo",
-							description:
-								"Empresa de tecnología busca desarrollador web con experiencia en React y Node.js.",
-							salary: "$80,000 - $120,000 al año",
-						},
-						{
-							title: "Asistente Administrativo",
-							company: "Oficina Central",
-							location: "San Miguel de Tucumán",
-							type: "Medio tiempo",
-							description:
-								"Se busca asistente administrativo para importante empresa de la zona.",
-							salary: "$40,000 - $60,000 al año",
-						},
-						{
-							title: "Profesor de Inglés",
-							company: "Instituto de Idiomas",
-							location: "Lules, Tucumán",
-							type: "Por horas",
-							description:
-								"Instituto de idiomas busca profesor de inglés con experiencia para clases grupales.",
-							salary: "$20,000 - $30,000 al año",
-						},
-					].map((job) => (
-						<JobCard
-							key={job.title}
-							company={job.company}
-							description={job.description}
-							location={job.location}
-							title={job.title}
-							type={job.type}
-							salary={job.salary}
-						/>
-					))}
+					{jobsFeatured.length > 0 &&
+						jobsFeatured?.map((job) => <JobCard key={job.title} job={job} />)}
 				</div>
 				<div className="mt-8 text-center">
 					<Button variant="outline">
