@@ -6,10 +6,16 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"check": "biome check --write"
+		"check": "biome check --write",
+		"prisma:migrate": "pnpm dlx prisma migrate dev",
+		"prisma:reset": "pnpm dlx prisma migrate reset --force",
+		"prisma:generate": "pnpm dlx prisma generate",
+		"prisma:seed": "ts-node prisma/seed.ts",
+		"prisma:studio": "pnpm dlx prisma studio"
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^3.9.1",
+		"@prisma/client": "5.22.0",
 		"@radix-ui/react-avatar": "^1.1.1",
 		"@radix-ui/react-dialog": "^1.1.2",
 		"@radix-ui/react-label": "^2.1.0",
@@ -42,6 +48,7 @@
 		"@types/react": "^18",
 		"@types/react-dom": "^18",
 		"postcss": "^8",
+		"prisma": "^5.22.0",
 		"tailwindcss": "^3.4.1",
 		"typescript": "^5"
 	}
