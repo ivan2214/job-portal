@@ -1,8 +1,8 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ApplicationManagement } from "./application-management";
-import { PasswordChange } from "./password-change";
-import { PersonalInfo } from "./personal-info";
-import { ResumeUpload } from "./resume-upload";
+import { ApplicationManagement } from "./components/application-management";
+import { PasswordChange } from "./components/password-change";
+import { PersonalInfo } from "./components/personal-info";
+import { ResumeUpload } from "./components/resume-upload";
 
 export default function ProfilePage() {
 	return (

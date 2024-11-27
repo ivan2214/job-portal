@@ -1,5 +1,5 @@
-import { notFound } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
+import { notFound } from "next/navigation";
 import { articles } from "../data/blog-data";
 
 export default function ArticlePage({ params }: { params: { id: string } }) {

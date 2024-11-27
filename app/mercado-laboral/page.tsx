@@ -6,8 +6,8 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { CategoriasDemandasChart } from "./components/categorias-demandadas-chart";
-import { SalariosPromedioChart } from "./components/salarios-promedio-chart";
 import { EmpleosPorTipoChart } from "./components/empleos-por-tipo-chart";
+import { SalariosPromedioChart } from "./components/salarios-promedio-chart";
 import { TablaResumen } from "./components/tabla-resumen";
 
 export default function MercadoLaboral() {

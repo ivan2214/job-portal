@@ -1,5 +1,5 @@
-import { articles } from "./data/blog-data";
 import ArticleList from "./components/article-list";
+import { articles } from "./data/blog-data";
 
 export default function BlogPage() {
 	return (
