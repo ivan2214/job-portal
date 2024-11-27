@@ -44,9 +44,27 @@ export const Header: React.FC<HeaderProps> = ({}) => {
 								Blog
 							</Link>
 						</li>
+
 						<li>
 							<Link
-								href="/login"
+								href="/user"
+								className="font-medium text-sm hover:text-primary"
+							>
+								usuario
+							</Link>
+						</li>
+						<li>
+							<Link
+								href="/employer"
+								className="font-medium text-sm hover:text-primary"
+							>
+								Empresa
+							</Link>
+						</li>
+
+						<li>
+							<Link
+								href="/auth?type=login"
 								className="font-medium text-sm hover:text-primary"
 							>
 								Iniciar Sesión
@@ -54,7 +72,7 @@ export const Header: React.FC<HeaderProps> = ({}) => {
 						</li>
 						<li>
 							<Link
-								href="/registro"
+								href="/auth?type=register"
 								className="rounded-md bg-primary px-3 py-2 font-medium text-sm text-white hover:bg-primary/90"
 							>
 								Registrarse

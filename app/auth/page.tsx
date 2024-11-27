@@ -16,7 +16,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -30,8 +30,14 @@ const formSchema = z.object({
 	}),
 });
 
-export default function AuthPage() {
-	const [activeTab, setActiveTab] = useState("register");
+export default function AuthPage({
+	searchParams,
+}: {
+	searchParams?: { type?: "register" | "login" };
+}) {
+	const [activeTab, setActiveTab] = useState<string>(
+		searchParams?.type || "register",
+	);
 
 	const {
 		register,
@@ -45,6 +51,10 @@ export default function AuthPage() {
 		console.log(data);
 		// Aquí iría la lógica de autenticación
 	};
+
+	useEffect(() => {
+		setActiveTab(searchParams?.type || "register");
+	}, [searchParams]);
 
 	return (
 		<div className="flex min-h-screen items-center justify-center bg-gray-100">
