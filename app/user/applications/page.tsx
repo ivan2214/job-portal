@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import {
 	Card,
 	CardContent,
@@ -5,12 +6,11 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 
-import Link from "next/link";
 import { Container } from "@/components/container";
-import { prisma } from "@/db";
 import { Badge } from "@/components/ui/badge";
+import { prisma } from "@/db";
+import Link from "next/link";
 import { FiltersApplications } from "./components/filters-applications";
 
 export default async function Dashboard() {

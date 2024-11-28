@@ -1,10 +1,10 @@
-import { notFound } from "next/navigation";
-import Link from "next/link";
-import { ArrowLeft, MapPin, Phone, Mail } from "lucide-react";
-import { JobPosting } from "./components/job-posting";
 import { Container } from "@/components/container";
 import { prisma } from "@/db";
 import type { Job } from "@prisma/client";
+import { ArrowLeft, Mail, MapPin, Phone } from "lucide-react";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { JobPosting } from "./components/job-posting";
 
 export default async function CompanyProfile({
 	params,

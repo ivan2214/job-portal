@@ -1,7 +1,7 @@
+import { Container } from "@/components/container";
+import { CallToAction } from "./components/call-to-action";
 import { DashboardSummary } from "./components/dashboard-summary";
 import { RecentActivity } from "./components/recent-activity";
-import { CallToAction } from "./components/call-to-action";
-import { Container } from "@/components/container";
 
 // Dummy data for demonstration
 const companyName = "Acme Inc.";

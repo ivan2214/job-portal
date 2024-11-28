@@ -1,8 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { type Job, mockJobs } from "./data/mock-jobs";
 
+import { Container } from "@/components/container";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
 	Select,
@@ -11,9 +13,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
 import { JobCardApplied } from "./components/job-card-applied";
-import { Container } from "@/components/container";
 
 export default function AppliedJobs() {
 	const [jobs, setJobs] = useState<Job[]>([]);

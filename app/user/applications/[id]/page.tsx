@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
-import JobApplicationDetails from "./components/job-application-details";
 import { Container } from "@/components/container";
 import { prisma } from "@/db";
+import type { Metadata } from "next";
+import JobApplicationDetails from "./components/job-application-details";
 
 export const metadata: Metadata = {
 	title: "Job Application Details",

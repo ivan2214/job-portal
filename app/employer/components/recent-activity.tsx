@@ -1,6 +1,7 @@
-import Link from "next/link";
 import { Edit } from "lucide-react";
+import Link from "next/link";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
 	Table,
@@ -10,7 +11,6 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 
 interface Job {
 	id: number;

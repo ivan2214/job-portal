@@ -1,4 +1,4 @@
-import type { Job } from "../types/job";
+import { Badge } from "@/components/ui/badge";
 import {
 	Card,
 	CardContent,
@@ -6,7 +6,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import type { Job } from "../types/job";
 
 interface RelatedJobsProps {
 	jobs: Job[];

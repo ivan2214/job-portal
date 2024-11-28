@@ -1,12 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-interface Job {
-	title: string;
-	description: string;
-	location: string;
-	salary: string;
-	datePosted: string;
-}
+import type { Job } from "@prisma/client";
 
 export default function JobDetails({ job }: { job: Job }) {
 	return (
@@ -26,7 +19,7 @@ export default function JobDetails({ job }: { job: Job }) {
 					</div>
 					<div>
 						<dt className="font-medium text-gray-500">Date Posted</dt>
-						<dd>{job.datePosted}</dd>
+						<dd>{job.createdAt.toLocaleDateString()}</dd>
 					</div>
 				</dl>
 				<div className="mt-4">

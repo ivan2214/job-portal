@@ -2,10 +2,10 @@ import {} from "@/components/ui/card";
 
 import { Button } from "@/components/ui/button";
 
-import { ArrowRight } from "lucide-react";
-import { JobCard } from "./job-card";
-import { Container } from "./container";
 import { prisma } from "@/db";
+import { ArrowRight } from "lucide-react";
+import { Container } from "./container";
+import { JobCard } from "./job-card";
 
 type FeaturedJobsProps = {};
 

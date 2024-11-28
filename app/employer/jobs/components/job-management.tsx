@@ -1,44 +1,21 @@
 "use client";
 
-import { useState } from "react";
-import JobTable from "./job-table";
-import Filter from "./filter";
-import Pagination from "./pagination";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
+import { useState } from "react";
+import Filter from "./filter";
+import JobTable from "./job-table";
+import Pagination from "./pagination";
+import type { Application, Job } from "@prisma/client";
 
-// Mock data for jobs
-const initialJobs = [
-	{
-		id: 1,
-		title: "Software Engineer",
-		location: "New York, NY",
-		applications: 15,
-	},
-	{
-		id: 2,
-		title: "Product Manager",
-		location: "San Francisco, CA",
-		applications: 8,
-	},
-	{
-		id: 3,
-		title: "UX Designer",
-		location: "Los Angeles, CA",
-		applications: 12,
-	},
-	{ id: 4, title: "Data Analyst", location: "Chicago, IL", applications: 6 },
-	{
-		id: 5,
-		title: "Marketing Specialist",
-		location: "Boston, MA",
-		applications: 10,
-	},
-];
-
-export default function JobManagement() {
-	const [jobs, setJobs] = useState(initialJobs);
-	const [filteredJobs, setFilteredJobs] = useState(initialJobs);
+export default function JobManagement({
+	jobs,
+}: {
+	jobs: (Job & {
+		applications: Application[] | null;
+	})[];
+}) {
+	const [filteredJobs, setFilteredJobs] = useState(jobs);
 	const [currentPage, setCurrentPage] = useState(1);
 	const jobsPerPage = 5;
 
@@ -52,10 +29,9 @@ export default function JobManagement() {
 		setCurrentPage(1);
 	};
 
-	const handleDelete = (id: number) => {
-		const updatedJobs = jobs.filter((job) => job.id !== id);
-		setJobs(updatedJobs);
-		setFilteredJobs(updatedJobs);
+	const handleDelete = (id: string) => {
+		// Lógica para eliminar el trabajo
+		console.log("Eliminar trabajo", id);
 	};
 
 	const indexOfLastJob = currentPage * jobsPerPage;

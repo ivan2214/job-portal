@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
 	Table,
@@ -8,17 +7,16 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-
-interface Application {
-	id: string;
-	name: string;
-	email: string;
-	dateApplied: string;
-}
+import type { Application, User } from "@prisma/client";
+import Link from "next/link";
 
 export default function ApplicationList({
 	applications,
-}: { applications: Application[] }) {
+}: {
+	applications: (Application & {
+		user: User | null;
+	})[];
+}) {
 	return (
 		<Card>
 			<CardHeader>
@@ -37,12 +35,14 @@ export default function ApplicationList({
 					<TableBody>
 						{applications.map((application) => (
 							<TableRow key={application.id}>
-								<TableCell>{application.name}</TableCell>
-								<TableCell>{application.email}</TableCell>
-								<TableCell>{application.dateApplied}</TableCell>
+								<TableCell>{application.user?.name}</TableCell>
+								<TableCell>{application.user?.email}</TableCell>
+								<TableCell>
+									{application.dateApplied.toLocaleDateString()}
+								</TableCell>
 								<TableCell>
 									<Link
-										href={`/applications/${application.id}`}
+										href={`/employer/applications/${application.id}`}
 										className="text-blue-600 hover:underline"
 									>
 										View Details

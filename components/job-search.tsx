@@ -6,8 +6,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { SearchJobInput } from "./search-job-input";
 import { Container } from "./container";
+import { SearchJobInput } from "./search-job-input";
 
 type JobSearchProps = {};
 

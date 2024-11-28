@@ -1,3 +1,4 @@
+import { Container } from "@/components/container";
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -7,7 +8,6 @@ import {
 } from "@/components/ui/breadcrumb";
 import { ChevronRight } from "lucide-react";
 import { Employers } from "./components/employers";
-import { Container } from "@/components/container";
 
 export default function EmployersPage() {
 	return (

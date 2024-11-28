@@ -1,6 +1,6 @@
+import { prisma } from "@/db";
 import Link from "next/link";
 import { Container } from "./container";
-import { prisma } from "@/db";
 
 type JobCategoriesProps = {};
 

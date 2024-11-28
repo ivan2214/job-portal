@@ -1,16 +1,16 @@
 "use client";
 
-import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
 import { CheckCircle2, XCircle } from "lucide-react";
+import { useState } from "react";
 
 interface ActionsCardProps {
 	applicationId: string;
 	status: string;
-	comments: string[];
+	comments?: string[];
 }
 
 export function ActionsCard({
@@ -18,6 +18,8 @@ export function ActionsCard({
 	status,
 	comments: initialComments,
 }: ActionsCardProps) {
+	console.log("Application ID:", applicationId);
+
 	const [currentStatus, setCurrentStatus] = useState(status);
 	const [comments, setComments] = useState(initialComments);
 	const [newComment, setNewComment] = useState("");
@@ -33,11 +35,7 @@ export function ActionsCard({
 	};
 
 	const handleAddComment = async () => {
-		if (newComment.trim()) {
-			// In a real application, you would call an API to add the comment
-			setComments([...comments, newComment]);
-			setNewComment("");
-		}
+		// In a real application, you would call an API to add a comment
 	};
 
 	return (
@@ -80,11 +78,11 @@ export function ActionsCard({
 					</div>
 					<div className="space-y-2">
 						<h3 className="font-semibold">Comments</h3>
-						{comments.map((comment, index) => (
-							<div key={index} className="rounded bg-muted p-2">
+						{/* {comments.map((comment) => (
+							<div key={comment} className="rounded bg-muted p-2">
 								{comment}
 							</div>
-						))}
+						))} */}
 						<Textarea
 							placeholder="Add a comment..."
 							value={newComment}

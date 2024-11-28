@@ -1,8 +1,8 @@
-import { SummaryCard } from "./components/summary-card";
-import { RecentActivity } from "./components/recent-activity";
-import { CallToAction } from "./components/call-to-action";
 import { Container } from "@/components/container";
 import { prisma } from "@/db";
+import { CallToAction } from "./components/call-to-action";
+import { RecentActivity } from "./components/recent-activity";
+import { SummaryCard } from "./components/summary-card";
 
 async function getUserData(id: string) {
 	const user = await prisma.user.findUnique({

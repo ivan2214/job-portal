@@ -1,9 +1,9 @@
+import { Container } from "@/components/container";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ApplicationManagement } from "./components/application-management";
 import { PasswordChange } from "./components/password-change";
 import { PersonalInfo } from "./components/personal-info";
 import { ResumeUpload } from "./components/resume-upload";
-import { Container } from "@/components/container";
 
 export default function ProfilePage() {
 	return (

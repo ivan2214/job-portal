@@ -1,7 +1,7 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import WithdrawApplicationButton from "./withdraw-application-button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Application, Company, Job } from "@prisma/client";
+import WithdrawApplicationButton from "./withdraw-application-button";
 
 export default async function JobApplicationDetails({
 	application,

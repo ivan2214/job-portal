@@ -4,12 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
 
+import { Container } from "@/components/container";
 import { toast } from "sonner";
 import GeneralSettings from "./general-settings";
 import NotificationSettings from "./notification-settings";
 import SecuritySettings from "./security-settings";
 import SystemLogs from "./system-logs";
-import { Container } from "@/components/container";
 
 export default function AdminSettings() {
 	const [activeTab, setActiveTab] = useState("general");

@@ -1,8 +1,8 @@
-import Link from "next/link";
-import { MapPin, DollarSign } from "lucide-react";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import type { Job } from "@/app/user/jobs/[id]/types/job";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import type { CategoryJob, Company } from "@prisma/client";
+import { DollarSign, MapPin } from "lucide-react";
+import Link from "next/link";
 
 interface JobPostingProps {
 	job: Job & {

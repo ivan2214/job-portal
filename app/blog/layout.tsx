@@ -1,7 +1,7 @@
+import { Container } from "@/components/container";
 import type { ReactNode } from "react";
 import Sidebar from "./components/sidebar";
 import { categories, recentArticles } from "./data/blog-data";
-import { Container } from "@/components/container";
 interface BlogLayoutFormProps {
 	children: ReactNode;
 }

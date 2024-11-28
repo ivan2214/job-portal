@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { JobApplicationsTable } from "./job-applications-table";
 import { FilterBar } from "./filter-bar";
+import { JobApplicationsTable } from "./job-applications-table";
 import { SearchBar } from "./search-bar";
 
 // Mock data for job applications

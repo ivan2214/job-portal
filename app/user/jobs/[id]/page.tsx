@@ -1,10 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
-import type { JobApplicationProps } from "./types/job";
-import { WithdrawConfirmationModal } from "./components/withdraw-confirmation-modal";
-import { RelatedJobs } from "./components/related-jobs";
+import { Container } from "@/components/container";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -14,10 +11,13 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, MapPin, Calendar, DollarSign } from "lucide-react";
+import { ArrowLeft, Calendar, DollarSign, MapPin } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+import { RelatedJobs } from "./components/related-jobs";
+import { WithdrawConfirmationModal } from "./components/withdraw-confirmation-modal";
 import { jobData, relatedJobs } from "./data/job-data";
-import { Container } from "@/components/container";
+import type { JobApplicationProps } from "./types/job";
 
 export default function JobApplicationDetails({
 	job = jobData,

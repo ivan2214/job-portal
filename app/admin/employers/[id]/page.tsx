@@ -1,3 +1,4 @@
+import { Container } from "@/components/container";
 import EditEmployerButton from "@/components/edit-employer-button";
 import SuspendEmployerButton from "@/components/suspend-employer-button";
 import {
@@ -20,7 +21,6 @@ import { ChevronRight } from "lucide-react";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { JobList } from "./components/job-list";
-import { Container } from "@/components/container";
 
 export default function EmployerDetailsPage({
 	params,

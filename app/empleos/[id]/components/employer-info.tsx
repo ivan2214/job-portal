@@ -1,5 +1,5 @@
-import { BuildingIcon, MailIcon, PhoneIcon } from "lucide-react";
 import type { Company } from "@prisma/client";
+import { BuildingIcon, MailIcon, PhoneIcon } from "lucide-react";
 
 export default function EmployerInfo({
 	company,

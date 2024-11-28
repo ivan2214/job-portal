@@ -4,6 +4,7 @@ import { SearchBar } from "./components/search-bar";
 import { UserTable } from "./components/user-table";
 import { getUsers } from "./data";
 
+import { Container } from "@/components/container";
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -12,7 +13,6 @@ import {
 	BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { ChevronRight } from "lucide-react";
-import { Container } from "@/components/container";
 
 export default async function UserManagement({
 	searchParams,

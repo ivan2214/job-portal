@@ -1,5 +1,5 @@
-import { PrismaClient, TypeJob } from "@prisma/client";
 import { faker } from "@faker-js/faker";
+import { PrismaClient, TypeJob } from "@prisma/client";
 import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
@@ -98,7 +98,6 @@ async function main() {
 					companyId: company.id,
 					categoryJobId: category.id,
 					applicationStatus: "PENDING",
-					dateApplied: faker.date.recent(),
 					isActive,
 					isArchived,
 					isFeatured,
@@ -162,7 +161,7 @@ async function main() {
 				companyId: company.id,
 				categoryJobId: category.id,
 				applicationStatus: "PENDING",
-				dateApplied: faker.date.recent(),
+
 				type: typeJob,
 				isActive,
 				isArchived,
@@ -195,6 +194,7 @@ async function main() {
 
 			return prisma.application.create({
 				data: {
+					dateApplied: faker.date.anytime(),
 					userId: employee.id,
 					jobId: job.id,
 					status: faker.helpers.arrayElement([

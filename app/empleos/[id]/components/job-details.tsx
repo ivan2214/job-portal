@@ -1,5 +1,5 @@
 import type { Job } from "@prisma/client";
-import { CalendarIcon, MapPinIcon, DollarSign } from "lucide-react";
+import { CalendarIcon, DollarSign, MapPinIcon } from "lucide-react";
 
 export default function JobDetails({ job }: { job: Job }) {
 	return (

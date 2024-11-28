@@ -23,9 +23,9 @@ import {
 
 import { ChevronRight } from "lucide-react";
 
+import { Container } from "@/components/container";
 import { BriefcaseIcon, FileTextIcon } from "lucide-react";
 import { ActivitySummary } from "./components/activity-summary";
-import { Container } from "@/components/container";
 
 export default function UserProfile() {
 	// This would typically come from your data fetching logic

@@ -1,7 +1,7 @@
 import { Container } from "@/components/container";
+import type { Metadata } from "next";
 import CompanyList from "./components/company-list";
 import SearchBar from "./components/search-bar";
-import type { Metadata } from "next";
 
 export const metadata: Metadata = {
 	title: "Explore Companies | YourPlatform",

@@ -1,15 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { User, Mail, FileText } from "lucide-react";
+import type { User as PrismaUser } from "@prisma/client";
+import { FileText, Mail, User } from "lucide-react";
 
-interface ApplicantCardProps {
-	applicant: {
-		name: string;
-		email: string;
-		resumeLink: string;
-	};
-}
-
-export function ApplicantCard({ applicant }: ApplicantCardProps) {
+export function ApplicantCard({
+	applicant,
+}: {
+	applicant: PrismaUser;
+}) {
 	return (
 		<Card>
 			<CardHeader>
@@ -33,7 +30,7 @@ export function ApplicantCard({ applicant }: ApplicantCardProps) {
 					<div className="flex items-center space-x-2">
 						<FileText className="h-5 w-5 text-muted-foreground" />
 						<a
-							href={applicant.resumeLink}
+							href={`resumens/${applicant.name}.pdf`}
 							target="_blank"
 							rel="noopener noreferrer"
 							className="text-blue-600 hover:underline"

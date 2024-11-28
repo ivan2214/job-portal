@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 interface FilterProps {
 	onFilter: (titleFilter: string, locationFilter: string) => void;

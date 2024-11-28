@@ -1,9 +1,9 @@
-import { notFound } from "next/navigation";
-import JobDetails from "./components/job-details";
-import EmployerInfo from "./components/employer-info";
-import ActionButtons from "./components/action-button";
-import { prisma } from "@/db";
 import { Container } from "@/components/container";
+import { prisma } from "@/db";
+import { notFound } from "next/navigation";
+import ActionButtons from "./components/action-button";
+import EmployerInfo from "./components/employer-info";
+import JobDetails from "./components/job-details";
 
 export default async function JobPostingPage({
 	params,

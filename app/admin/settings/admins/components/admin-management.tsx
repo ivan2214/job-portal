@@ -1,5 +1,6 @@
 "use client";
 
+import { Container } from "@/components/container";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import { useState } from "react";
@@ -8,7 +9,6 @@ import { AdminSummary } from "./admin-summary";
 import { AdminTable } from "./admin-table";
 import { EditAdminModal } from "./edit-admin-modal";
 import { SearchBar } from "./search-bar";
-import { Container } from "@/components/container";
 
 // Mock data for admins
 const initialAdmins = [

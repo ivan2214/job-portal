@@ -3,6 +3,7 @@ export default function loading() {
 		<div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 			{[...Array(6)].map((_, i) => (
 				<div
+					// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 					key={i}
 					className="animate-pulse rounded-lg bg-white p-6 shadow-md"
 				>

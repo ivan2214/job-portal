@@ -1,12 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import type { Job } from "@prisma/client";
 import { Briefcase, Building2, MapPin } from "lucide-react";
 
 interface JobCardProps {
-	job: {
-		title: string;
-		department: string;
-		location: string;
-	};
+	job: Job;
 }
 
 export function JobCard({ job }: JobCardProps) {
@@ -23,7 +20,7 @@ export function JobCard({ job }: JobCardProps) {
 					</div>
 					<div className="flex items-center space-x-2">
 						<Building2 className="h-5 w-5 text-muted-foreground" />
-						<span>{job.department}</span>
+						<span>{job.salary}</span>
 					</div>
 					<div className="flex items-center space-x-2">
 						<MapPin className="h-5 w-5 text-muted-foreground" />

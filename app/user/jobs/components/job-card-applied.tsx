@@ -1,4 +1,4 @@
-import type { Job } from "../data/mock-jobs";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -7,8 +7,8 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
+import type { Job } from "../data/mock-jobs";
 
 interface JobCardProps {
 	job: Job;
