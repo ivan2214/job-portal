@@ -1,10 +1,10 @@
 import { Container } from "@/components/container";
+import { prisma } from "@/db";
 import { notFound } from "next/navigation";
 import ActionButtons from "./components/action-buttons";
 import ApplicationList from "./components/application-list";
 import JobDetails from "./components/job-details";
 import JobStatistics from "./components/job-statistics";
-import { prisma } from "@/db";
 
 export default async function JobManagementPage({
 	params,

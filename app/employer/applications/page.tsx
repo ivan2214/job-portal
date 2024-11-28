@@ -1,6 +1,6 @@
 import { Container } from "@/components/container";
-import { JobApplicationsDashboard } from "./components/job-applications-dashboard";
 import { prisma } from "@/db";
+import { JobApplicationsDashboard } from "./components/job-applications-dashboard";
 
 export default async function DashboardPage() {
 	const applications = await prisma.application.findMany({

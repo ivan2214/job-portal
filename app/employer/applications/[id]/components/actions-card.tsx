@@ -4,10 +4,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import type { ApplicationStatus } from "@prisma/client";
 import { CheckCircle2, XCircle } from "lucide-react";
 import { useState } from "react";
 import { getStatusColor } from "../../components/job-applications-table";
-import type { ApplicationStatus } from "@prisma/client";
 
 interface ActionsCardProps {
 	applicationId: string;

@@ -1,10 +1,10 @@
 import { Container } from "@/components/container";
+import { prisma } from "@/db";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ActionsCard } from "./components/actions-card";
 import { ApplicantCard } from "./components/applicant-card";
 import { JobCard } from "./components/job-card";
-import { prisma } from "@/db";
 
 export const metadata: Metadata = {
 	title: "Job Application Details",

@@ -1,6 +1,6 @@
 import { Container } from "@/components/container";
-import JobManagement from "./components/job-management";
 import { prisma } from "@/db";
+import JobManagement from "./components/job-management";
 
 export default async function EmployerJobsPage() {
 	const employerId = "cm41iz9ba000afo2e29s3eg6v";

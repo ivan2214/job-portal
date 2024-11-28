@@ -1,15 +1,36 @@
 import { Container } from "@/components/container";
+import { prisma } from "@/db";
+import { notFound } from "next/navigation";
 import CompanyProfile from "./components/company-profile";
 import JobList from "./components/job-list";
 import NewJobForm from "./components/new-job-form";
 
-export default function EmployerProfilePage() {
+export default async function EmployerProfilePage() {
+	const companyId = "cm41kcjis000ay3rrl03zgejd";
+
+	if (!companyId) {
+		return notFound();
+	}
+
+	const company = await prisma.company.findUnique({
+		where: {
+			userId: companyId,
+		},
+		include: {
+			jobPostings: true,
+		},
+	});
+
+	if (!company) {
+		return notFound();
+	}
+
 	return (
 		<Container>
 			<h1 className="mb-8 font-bold text-3xl">Perfil de Empleador</h1>
 			<div className="grid gap-8">
-				<CompanyProfile />
-				<JobList />
+				<CompanyProfile company={company} />
+				<JobList jobs={company.jobPostings} />
 				<NewJobForm />
 			</div>
 		</Container>

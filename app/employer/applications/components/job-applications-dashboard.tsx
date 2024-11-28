@@ -1,10 +1,10 @@
 "use client";
 
+import type { Application, Job, User } from "@prisma/client";
 import { useState } from "react";
 import { FilterBar } from "./filter-bar";
 import { JobApplicationsTable } from "./job-applications-table";
 import { SearchBar } from "./search-bar";
-import type { Application, Job, User } from "@prisma/client";
 
 export function JobApplicationsDashboard({
 	applications,

@@ -19,9 +19,7 @@ model User {
   // Relaciones
   postedJobs   Job[]         @relation("EmployerJobs") // Relación: un usuario puede publicar muchos empleos
   applications Application[] // Relación: un usuario puede postularse a muchos empleos
-
-  company   Company? @relation(fields: [companyId], references: [id]) // Relación con la empresa si es que el usuario es EMPLOYER
-  companyId String?
+  Company      Company?
 }
 
 model Job {
@@ -46,10 +44,10 @@ model Job {
   userId        String // Relación con el usuario
   user          User          @relation("EmployerJobs", fields: [userId], references: [id]) // El empleo pertenece a un usuario
   applications  Application[] // Relación: un empleo puede tener muchas postulaciones
-  company       Company?      @relation(fields: [companyId], references: [id])
-  companyId     String?
   categoryJob   CategoryJob?  @relation(fields: [categoryJobId], references: [id])
   categoryJobId String?
+  Company       Company?      @relation(fields: [companyUserId], references: [userId])
+  companyUserId String?
 }
 
 model CategoryJob {
@@ -77,7 +75,7 @@ model Application {
 }
 
 model Company {
-  id            String   @id @default(cuid()) // ID único del usuario
+  userId        String   @id @unique // Usar el ID del usuario como ID único para la compañía
   name          String // Nombre de la empresa
   description   String // Descripción de la empresa
   location      String // Ubicación de la empresa
@@ -91,7 +89,7 @@ model Company {
 
   // Relaciones
   jobPostings Job[] // Relación: una empresa puede tener muchas ofertas de empleo
-  User        User[]
+  user        User  @relation(fields: [userId], references: [id]) // Relación con el usuario
 }
 
 enum RoleUser {

@@ -2,31 +2,19 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import type { Job } from "@prisma/client";
 
-export default function JobList() {
-	const jobs = [
-		{
-			id: 1,
-			title: "Desarrollador Frontend",
-			description: "Experiencia en React...",
-			salary: "40,000 - 60,000",
-			location: "Remoto",
-		},
-		{
-			id: 2,
-			title: "Diseñador UX/UI",
-			description: "Crear experiencias de usuario...",
-			salary: "35,000 - 55,000",
-			location: "Madrid",
-		},
-	];
-
-	const handleEdit = (id: number) => {
+export default function JobList({
+	jobs,
+}: {
+	jobs: Job[] | null;
+}) {
+	const handleEdit = (id: string) => {
 		// Lógica para editar el trabajo
 		console.log("Editar trabajo", id);
 	};
 
-	const handleDelete = (id: number) => {
+	const handleDelete = (id: string) => {
 		// Lógica para eliminar el trabajo
 		console.log("Eliminar trabajo", id);
 	};
@@ -38,7 +26,7 @@ export default function JobList() {
 			</CardHeader>
 			<CardContent>
 				<ul className="space-y-4">
-					{jobs.map((job) => (
+					{jobs?.map((job) => (
 						<li key={job.id} className="border-b pb-4 last:border-b-0">
 							<h3 className="font-semibold text-lg">{job.title}</h3>
 							<p className="mb-2 text-gray-600 text-sm">{job.description}</p>

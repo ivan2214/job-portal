@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { PrismaClient, TypeJob } from "@prisma/client";
+import { ApplicationStatus, PrismaClient, RoleUser } from "@prisma/client";
 import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
@@ -11,50 +11,48 @@ async function main() {
 
 	// Crear Administradores
 	const adminPassword = await bcrypt.hash("admin123", saltRounds);
-	const admins = await prisma.user.createMany({
+	await prisma.user.createMany({
 		data: Array.from({ length: 3 }).map(() => ({
 			name: faker.person.fullName(),
 			email: faker.internet.email(),
 			hashedPassword: adminPassword,
-			role: "ADMIN",
+			role: RoleUser.ADMIN,
 		})),
 	});
 
-	// Crear Empresas
-	const companies = await Promise.all(
-		Array.from({ length: 5 }).map(() =>
-			prisma.company.create({
-				data: {
-					name: faker.company.name(),
-					description: faker.company.catchPhrase(),
-					location: faker.location.city(),
-					openPositions: faker.number.int({ min: 1, max: 10 }),
-					logo: faker.image.urlPicsumPhotos(),
-					phone: faker.phone.number(),
-					email: faker.internet.email(),
-					bio: faker.lorem.paragraph(),
-				},
-			}),
-		),
-	);
-
-	// Crear Empleadores
+	// Crear Empleadores con Compañías asociadas
 	const employerPassword = await bcrypt.hash("employer123", saltRounds);
 	const employers = await Promise.all(
-		Array.from({ length: 10 }).map(() =>
-			prisma.user.create({
+		Array.from({ length: 10 }).map(async () => {
+			const user = await prisma.user.create({
 				data: {
 					name: faker.person.fullName(),
 					email: faker.internet.email(),
 					hashedPassword: employerPassword,
-					role: "EMPLOYER",
+					role: RoleUser.EMPLOYER,
 				},
-			}),
-		),
+			});
+
+			// Crear compañía con el mismo ID del usuario
+			await prisma.company.create({
+				data: {
+					userId: user.id, // El ID del usuario como ID de la compañía
+					name: faker.company.name(),
+					description: faker.company.catchPhrase(),
+					location: faker.location.city(),
+					openPositions: faker.number.int({ min: 1, max: 20 }),
+					logo: faker.image.url(), // Puedes ajustar para usar un URL válido
+					phone: faker.phone.number(),
+					email: faker.internet.email(),
+					bio: faker.lorem.paragraph(),
+				},
+			});
+
+			return user;
+		}),
 	);
 
-	// crear categorias para trabajos
-
+	// Crear Categorías de Trabajos
 	const categoriesData = [
 		"Tecnología",
 		"Administración",
@@ -69,18 +67,15 @@ async function main() {
 	const categories = await Promise.all(
 		categoriesData.map((name) =>
 			prisma.categoryJob.create({
-				data: {
-					name,
-				},
+				data: { name },
 			}),
 		),
 	);
 
-	// Crear Empleos asociados a empleadores y empresas
+	// Crear Empleos asociados a empleadores y categorías
 	const jobs = await Promise.all(
 		Array.from({ length: 20 }).map(() => {
 			const employer = faker.helpers.arrayElement(employers);
-			const company = faker.helpers.arrayElement(companies);
 			const isActive = faker.datatype.boolean();
 			const isArchived = !isActive && faker.datatype.boolean();
 			const isFeatured = isActive && faker.datatype.boolean();
@@ -92,12 +87,17 @@ async function main() {
 				data: {
 					title: faker.person.jobTitle(),
 					description: faker.lorem.paragraph(),
-					salary: `$${faker.number.int({ min: 50_000, max: 150_000 })} - $${faker.number.int({ min: 150_000, max: 300_000 })} al año`,
+					salary: `$${faker.number.int({ min: 50000, max: 150000 })} - $${faker.number.int(
+						{
+							min: 150000,
+							max: 300000,
+						},
+					)} al año`,
 					location: faker.location.city(),
 					userId: employer.id,
-					companyId: company.id,
+					companyUserId: employer.id, // Relación con la compañía del mismo empleador
 					categoryJobId: category.id,
-					applicationStatus: "PENDING",
+					applicationStatus: ApplicationStatus.PENDING,
 					isActive,
 					isArchived,
 					isFeatured,
@@ -107,71 +107,7 @@ async function main() {
 		}),
 	);
 
-	// crear mas trabajos
-
-	const jobsData2 = [
-		{
-			title: "Desarrollador Web",
-			company: "TechLules",
-			location: "Lules, Tucumán",
-
-			description:
-				"Empresa de tecnología busca desarrollador web con experiencia en React y Node.js.",
-			salary: "$80,000 - $120,000 al año",
-		},
-		{
-			title: "Asistente Administrativo",
-			company: "Oficina Central",
-			location: "San Miguel de Tucumán",
-
-			description:
-				"Se busca asistente administrativo para importante empresa de la zona.",
-			salary: "$40,000 - $60,000 al año",
-		},
-		{
-			title: "Profesor de Inglés",
-			company: "Instituto de Idiomas",
-			location: "Lules, Tucumán",
-
-			description:
-				"Instituto de idiomas busca profesor de inglés con experiencia para clases grupales.",
-			salary: "$20,000 - $30,000 al año",
-		},
-	];
-
-	// crear los jobs
-
-	for (const jobData of jobsData2) {
-		const employer = faker.helpers.arrayElement(employers);
-		const company = faker.helpers.arrayElement(companies);
-		const isActive = faker.datatype.boolean();
-		const isArchived = !isActive && faker.datatype.boolean();
-		const isFeatured = isActive && faker.datatype.boolean();
-		const isDeleted =
-			isArchived && !isFeatured && !isActive && faker.datatype.boolean();
-		const typeJob = faker.helpers.arrayElement(Object.values(TypeJob));
-		const category = faker.helpers.arrayElement(categories);
-		const job = await prisma.job.create({
-			data: {
-				title: jobData.title,
-				description: jobData.description,
-				salary: jobData.salary,
-				location: jobData.location,
-				userId: employer.id,
-				companyId: company.id,
-				categoryJobId: category.id,
-				applicationStatus: "PENDING",
-
-				type: typeJob,
-				isActive,
-				isArchived,
-				isFeatured,
-				isDeleted,
-			},
-		});
-	}
-
-	// Crear usuarios
+	// Crear Empleados
 	const employeePassword = await bcrypt.hash("employee123", saltRounds);
 	const employees = await Promise.all(
 		Array.from({ length: 15 }).map(() =>
@@ -180,14 +116,14 @@ async function main() {
 					name: faker.person.fullName(),
 					email: faker.internet.email(),
 					hashedPassword: employeePassword,
-					role: "EMPLOYEE",
+					role: RoleUser.EMPLOYEE,
 				},
 			}),
 		),
 	);
 
-	// Crear Postulaciones de usuarios a Empleos
-	const applications = await Promise.all(
+	// Crear Postulaciones de empleados a trabajos
+	await Promise.all(
 		Array.from({ length: 50 }).map(() => {
 			const employee = faker.helpers.arrayElement(employees);
 			const job = faker.helpers.arrayElement(jobs);
@@ -198,10 +134,10 @@ async function main() {
 					userId: employee.id,
 					jobId: job.id,
 					status: faker.helpers.arrayElement([
-						"PENDING",
-						"REVIEWED",
-						"REJECTED",
-						"ACCEPTED",
+						ApplicationStatus.PENDING,
+						ApplicationStatus.REVIEWED,
+						ApplicationStatus.REJECTED,
+						ApplicationStatus.ACCEPTED,
 					]),
 				},
 			});
