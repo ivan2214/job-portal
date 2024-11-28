@@ -10,34 +10,33 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-
-interface Application {
-	id: number;
-	applicantName: string;
-	jobTitle: string;
-	status: string;
-}
+import type { Application, ApplicationStatus, Job, User } from "@prisma/client";
+import { Eye } from "lucide-react";
+import Link from "next/link";
 
 interface JobApplicationsTableProps {
-	applications: Application[];
+	applications: (Application & {
+		user: User | null;
+		job: Job | null;
+	})[];
 }
+
+export const getStatusColor = (status: ApplicationStatus) => {
+	switch (status) {
+		case "PENDING":
+			return "bg-yellow-500";
+		case "ACCEPTED":
+			return "bg-green-500";
+		case "REJECTED":
+			return "bg-red-500";
+		default:
+			return "bg-gray-500";
+	}
+};
 
 export function JobApplicationsTable({
 	applications,
 }: JobApplicationsTableProps) {
-	const getStatusColor = (status: string) => {
-		switch (status) {
-			case "Pending":
-				return "bg-yellow-500";
-			case "Accepted":
-				return "bg-green-500";
-			case "Rejected":
-				return "bg-red-500";
-			default:
-				return "bg-gray-500";
-		}
-	};
-
 	return (
 		<Table>
 			<TableHeader>
@@ -52,17 +51,19 @@ export function JobApplicationsTable({
 				{applications.map((application) => (
 					<TableRow key={application.id}>
 						<TableCell className="font-medium">
-							{application.applicantName}
+							{application.user?.name}
 						</TableCell>
-						<TableCell>{application.jobTitle}</TableCell>
+						<TableCell>{application.job?.title}</TableCell>
 						<TableCell>
 							<Badge className={getStatusColor(application.status)}>
 								{application.status}
 							</Badge>
 						</TableCell>
 						<TableCell>
-							<Button variant="outline" size="sm">
-								View Details
+							<Button asChild variant="outline" size="sm">
+								<Link href={`/employer/applications/${application.id}`}>
+									<Eye className="mr-2 h-4 w-4" /> View Details
+								</Link>
 							</Button>
 						</TableCell>
 					</TableRow>

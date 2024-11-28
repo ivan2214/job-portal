@@ -6,10 +6,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { CheckCircle2, XCircle } from "lucide-react";
 import { useState } from "react";
+import { getStatusColor } from "../../components/job-applications-table";
+import type { ApplicationStatus } from "@prisma/client";
 
 interface ActionsCardProps {
 	applicationId: string;
-	status: string;
+	status: ApplicationStatus;
 	comments?: string[];
 }
 
@@ -26,12 +28,12 @@ export function ActionsCard({
 
 	const handleAccept = async () => {
 		// In a real application, you would call an API to update the status
-		setCurrentStatus("Accepted");
+		setCurrentStatus("ACCEPTED");
 	};
 
 	const handleReject = async () => {
 		// In a real application, you would call an API to update the status
-		setCurrentStatus("Rejected");
+		setCurrentStatus("REJECTED");
 	};
 
 	const handleAddComment = async () => {
@@ -47,22 +49,14 @@ export function ActionsCard({
 				<div className="space-y-6">
 					<div className="flex items-center space-x-2">
 						<span className="font-semibold">Current Status:</span>
-						<Badge
-							variant={
-								currentStatus === "Pending"
-									? "default"
-									: currentStatus === "Accepted"
-										? "success"
-										: "destructive"
-							}
-						>
+						<Badge className={getStatusColor(currentStatus)}>
 							{currentStatus}
 						</Badge>
 					</div>
 					<div className="flex space-x-2">
 						<Button
 							onClick={handleAccept}
-							disabled={currentStatus !== "Pending"}
+							disabled={currentStatus !== "PENDING"}
 						>
 							<CheckCircle2 className="mr-2 h-4 w-4" />
 							Accept
@@ -70,7 +64,7 @@ export function ActionsCard({
 						<Button
 							onClick={handleReject}
 							variant="destructive"
-							disabled={currentStatus !== "Pending"}
+							disabled={currentStatus !== "PENDING"}
 						>
 							<XCircle className="mr-2 h-4 w-4" />
 							Reject

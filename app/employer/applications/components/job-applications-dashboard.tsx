@@ -4,33 +4,18 @@ import { useState } from "react";
 import { FilterBar } from "./filter-bar";
 import { JobApplicationsTable } from "./job-applications-table";
 import { SearchBar } from "./search-bar";
+import type { Application, Job, User } from "@prisma/client";
 
-// Mock data for job applications
-const mockApplications = [
-	{
-		id: 1,
-		applicantName: "John Doe",
-		jobTitle: "Software Engineer",
-		status: "Pending",
-	},
-	{
-		id: 2,
-		applicantName: "Jane Smith",
-		jobTitle: "Product Manager",
-		status: "Accepted",
-	},
-	{
-		id: 3,
-		applicantName: "Bob Johnson",
-		jobTitle: "UX Designer",
-		status: "Rejected",
-	},
-	// Add more mock data as needed
-];
-
-export function JobApplicationsDashboard() {
+export function JobApplicationsDashboard({
+	applications,
+}: {
+	applications: (Application & {
+		user: User | null;
+		job: Job | null;
+	})[];
+}) {
 	const [filteredApplications, setFilteredApplications] =
-		useState(mockApplications);
+		useState(applications);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [statusFilter, setStatusFilter] = useState("All");
 	const [jobTitleFilter, setJobTitleFilter] = useState("All");
@@ -55,8 +40,8 @@ export function JobApplicationsDashboard() {
 		status: string,
 		title: string,
 	) => {
-		let filtered = mockApplications.filter((app) =>
-			app.applicantName.toLowerCase().includes(search.toLowerCase()),
+		let filtered = applications.filter((app) =>
+			app.user?.name.toLowerCase().includes(search.toLowerCase()),
 		);
 
 		if (status !== "All") {
@@ -64,7 +49,7 @@ export function JobApplicationsDashboard() {
 		}
 
 		if (title !== "All") {
-			filtered = filtered.filter((app) => app.jobTitle === title);
+			filtered = filtered.filter((app) => app.job?.title === title);
 		}
 
 		setFilteredApplications(filtered);
