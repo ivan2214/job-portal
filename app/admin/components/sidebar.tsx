@@ -1,4 +1,4 @@
-import { Building2, Home, Settings, Users } from "lucide-react";
+import { Briefcase, Building2, Home, Settings, Users } from "lucide-react";
 import Link from "next/link";
 
 export function Sidebar() {
@@ -28,6 +28,13 @@ export function Sidebar() {
 				>
 					<Users className="mr-2" size={20} />
 					Users
+				</Link>
+				<Link
+					href="/admin/jobs"
+					className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
+				>
+					<Briefcase className="mr-2" size={20} />
+					Jobs
 				</Link>
 				<Link
 					href="/admin/settings"

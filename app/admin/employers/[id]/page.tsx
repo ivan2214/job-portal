@@ -16,12 +16,12 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { prisma } from "@/db";
 import { formatDate } from "@/utils/helpers";
 import { ChevronRight } from "lucide-react";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { JobList } from "./components/job-list";
-import { prisma } from "@/db";
 
 export default async function EmployerDetailsPage({
 	params,

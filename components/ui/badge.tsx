@@ -17,6 +17,8 @@ const badgeVariants = cva(
 				outline: "text-foreground",
 				success:
 					"border-transparent bg-green-500 text-white shadow hover:bg-green-600", // Define los estilos para success
+				pending:
+					"border-transparent bg-yellow-500 text-white shadow hover:bg-yellow-600", // Define los estilos para pending
 			},
 		},
 		defaultVariants: {

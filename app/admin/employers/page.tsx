@@ -6,9 +6,9 @@ import {
 	BreadcrumbList,
 	BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { prisma } from "@/db";
 import { ChevronRight } from "lucide-react";
 import { Employers } from "./components/employers";
-import { prisma } from "@/db";
 
 export default async function EmployersPage() {
 	const employers = await prisma.user.findMany({
