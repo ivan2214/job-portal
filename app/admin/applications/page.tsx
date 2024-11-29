@@ -14,6 +14,8 @@ export default async function ApplicationsPage({
 		typeof searchParams.search === "string" ? searchParams.search : "";
 	const sort =
 		typeof searchParams.sort === "string" ? searchParams.sort : "createdAt";
+	const sortType =
+		typeof searchParams.sortType === "string" ? searchParams.sortType : "desc";
 	const page =
 		typeof searchParams.page === "string"
 			? Number.parseInt(searchParams.page)
@@ -53,10 +55,38 @@ export default async function ApplicationsPage({
 			],
 		},
 		orderBy: {
-			[sort]: "desc",
+			[sort]: sortType,
 		},
 		take: 10,
 		skip: (page - 1) * 10,
+	});
+
+	// Obtén el total de aplicaciones para la paginación
+	const totalApplications = await prisma.application.count({
+		where: {
+			OR: [
+				{
+					job: {
+						title: {
+							contains: search,
+							mode: "insensitive",
+						},
+						Company: {
+							name: {
+								contains: search,
+								mode: "insensitive",
+							},
+						},
+					},
+					user: {
+						name: {
+							contains: search,
+							mode: "insensitive",
+						},
+					},
+				},
+			],
+		},
 	});
 
 	return (
@@ -66,7 +96,7 @@ export default async function ApplicationsPage({
 			<Suspense fallback={<ApplicationsTableSkeleton />}>
 				<ApplicationsTable applications={applications} />
 			</Suspense>
-			<ApplicationsPagination />
+			<ApplicationsPagination applicationsTotal={totalApplications} />
 		</div>
 	);
 }

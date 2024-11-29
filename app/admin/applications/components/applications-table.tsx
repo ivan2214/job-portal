@@ -40,7 +40,7 @@ export default function ApplicationsTable({
 					<TableHead>Applicant Name</TableHead>
 					<TableHead>Job Title</TableHead>
 					<TableHead>Status</TableHead>
-					<TableHead>Date</TableHead>
+					<TableHead>Created At</TableHead>
 					<TableHead>Actions</TableHead>
 				</TableRow>
 			</TableHeader>
@@ -64,9 +64,7 @@ export default function ApplicationsTable({
 							</Link>
 						</TableCell>
 						<TableCell>{application.status}</TableCell>
-						<TableCell>
-							{application.dateApplied.toLocaleDateString()}
-						</TableCell>
+						<TableCell>{application.createdAt.toLocaleDateString()}</TableCell>
 						<TableCell>
 							<div className="flex space-x-2">
 								<Button asChild variant="outline" size="sm">

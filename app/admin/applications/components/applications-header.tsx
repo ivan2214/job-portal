@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,19 +18,36 @@ export default function ApplicationsHeader({
 }: { initialSearch: string; initialSort: string }) {
 	const [search, setSearch] = useState(initialSearch);
 	const [sort, setSort] = useState(initialSort);
+	const [sortType, setSortType] = useState<"asc" | "desc">("desc");
 	const router = useRouter();
+	const searchParams = useSearchParams();
+	const pathname = usePathname();
 
+	// Handle the search input change
 	const handleSearch = () => {
-		router.push(
-			`/admin/applications?search=${encodeURIComponent(search)}&sort=${sort}`,
-		);
+		const params = new URLSearchParams(searchParams.toString());
+		if (search) {
+			params.set("search", search); // Add search term
+		} else {
+			params.delete("search"); // Remove search term if empty
+		}
+		router.push(`${pathname}?${params.toString()}`); // Update the URL
 	};
 
+	// Handle sorting by selected value
 	const handleSort = (value: string) => {
 		setSort(value);
-		router.push(
-			`/admin/applications?search=${encodeURIComponent(search)}&sort=${value}`,
-		);
+		const params = new URLSearchParams(searchParams.toString());
+		params.set("sort", value); // Set the selected sort option
+		router.push(`${pathname}?${params.toString()}`); // Update the URL
+	};
+
+	// Handle sorting by selected sort order (ascending or descending)
+	const handleSortType = (value: "asc" | "desc") => {
+		setSortType(value);
+		const params = new URLSearchParams(searchParams.toString());
+		params.set("sortType", value); // Set the sort type (asc or desc)
+		router.push(`${pathname}?${params.toString()}`); // Update the URL
 	};
 
 	return (
@@ -49,11 +66,18 @@ export default function ApplicationsHeader({
 				<SelectTrigger className="w-full md:w-[180px]">
 					<SelectValue placeholder="Sort by" />
 				</SelectTrigger>
-				<SelectContent>
-					<SelectItem value="date">Date</SelectItem>
-					<SelectItem value="job_title">Job Title</SelectItem>
-					<SelectItem value="applicant_name">Applicant Name</SelectItem>
+				<SelectContent defaultValue={initialSort}>
+					<SelectItem value="createdAt">Date</SelectItem>
 					<SelectItem value="status">Status</SelectItem>
+				</SelectContent>
+			</Select>
+			<Select value={sortType} onValueChange={handleSortType}>
+				<SelectTrigger className="w-full md:w-[180px]">
+					<SelectValue placeholder="Sort by" />
+				</SelectTrigger>
+				<SelectContent defaultValue="desc">
+					<SelectItem value="asc">Ascending</SelectItem>
+					<SelectItem value="desc">Descending</SelectItem>
 				</SelectContent>
 			</Select>
 		</div>
