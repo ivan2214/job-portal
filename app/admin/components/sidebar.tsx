@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export function Sidebar() {
 	return (
-		<div className="h-full w-64 bg-white shadow-md">
+		<div className="w-64 bg-white shadow-md">
 			<div className="p-4">
 				<h1 className="font-bold text-2xl text-gray-800">Admin Panel</h1>
 			</div>
