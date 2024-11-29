@@ -19,7 +19,7 @@ model User {
   // Relaciones
   postedJobs   Job[]         @relation("EmployerJobs") // Relación: un usuario puede publicar muchos empleos
   applications Application[] // Relación: un usuario puede postularse a muchos empleos
-  Company      Company?
+  company      Company?
 
   status UserStatus @default(ACTIVE)
 }
@@ -48,7 +48,7 @@ model Job {
   applications  Application[] // Relación: un empleo puede tener muchas postulaciones
   categoryJob   CategoryJob?  @relation(fields: [categoryJobId], references: [id])
   categoryJobId String?
-  Company       Company?      @relation(fields: [companyUserId], references: [userId])
+  company       Company?      @relation(fields: [companyUserId], references: [userId])
   companyUserId String?
 }
 

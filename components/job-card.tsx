@@ -7,16 +7,14 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import type { CategoryJob, Company, Job } from "@prisma/client";
+import type { JobWithRelations } from "@/types";
+import type {} from "@prisma/client";
 
 import { Briefcase, DollarSign, MapPin } from "lucide-react";
 import Link from "next/link";
 
 export interface JobCardProps {
-	job: Job & {
-		company: Company | null;
-		categoryJob: CategoryJob | null;
-	};
+	job: JobWithRelations;
 }
 
 export function JobCard({ job }: JobCardProps) {

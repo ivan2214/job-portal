@@ -31,7 +31,7 @@ export default async function EmployerDetailsPage({
 			id: params.id,
 		},
 		include: {
-			Company: true,
+			company: true,
 			postedJobs: true,
 		},
 	});
@@ -59,7 +59,7 @@ export default async function EmployerDetailsPage({
 						<ChevronRight className="h-4 w-4" />
 					</BreadcrumbSeparator>
 					<BreadcrumbItem>
-						<BreadcrumbPage>{employer.Company?.name}</BreadcrumbPage>
+						<BreadcrumbPage>{employer.company?.name}</BreadcrumbPage>
 					</BreadcrumbItem>
 				</BreadcrumbList>
 			</Breadcrumb>
@@ -73,7 +73,7 @@ export default async function EmployerDetailsPage({
 						<dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
 							<div>
 								<dt className="font-medium text-gray-500">Company Name</dt>
-								<dd className="mt-1">{employer.Company?.name}</dd>
+								<dd className="mt-1">{employer.company?.name}</dd>
 							</div>
 							<div>
 								<dt className="font-medium text-gray-500">Email</dt>

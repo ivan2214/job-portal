@@ -25,7 +25,7 @@ export default async function AppliedJobs({
 					},
 				},
 				{
-					Company: {
+					company: {
 						name: {
 							contains: searchParams.search as string,
 						},
@@ -34,7 +34,7 @@ export default async function AppliedJobs({
 			],
 		},
 		include: {
-			Company: true,
+			company: true,
 			applications: true,
 		},
 	});

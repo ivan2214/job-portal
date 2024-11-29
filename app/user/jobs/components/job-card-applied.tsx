@@ -37,7 +37,7 @@ export function JobCardApplied({ job, onWithdraw }: JobCardProps) {
 				</CardTitle>
 			</CardHeader>
 			<CardContent>
-				<p className="text-gray-600 text-sm">{job.Company?.name}</p>
+				<p className="text-gray-600 text-sm">{job.company?.name}</p>
 				<p className="text-gray-600 text-sm">{job.location}</p>
 			</CardContent>
 			<CardFooter className="flex justify-between">

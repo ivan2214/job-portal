@@ -1,24 +1,23 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { Application, Company, Job } from "@prisma/client";
+import type {} from "@prisma/client";
 import WithdrawApplicationButton from "./withdraw-application-button";
+import type { ApplicationWithRelations } from "@/types";
 
 export default async function JobApplicationDetails({
 	application,
 }: {
-	application: Application & {
-		job: Job & {
-			company: Company;
-		};
-	};
+	application: ApplicationWithRelations;
 }) {
 	return (
 		<Card className="mx-auto max-w-3xl">
 			<CardHeader>
 				<CardTitle className="font-bold text-2xl">
-					{application.job.title}
+					{application.job?.title}
 				</CardTitle>
-				<p className="text-muted-foreground">{application.job.company.name}</p>
+				<p className="text-muted-foreground">
+					{application?.job?.company?.name}
+				</p>
 			</CardHeader>
 			<CardContent className="space-y-6">
 				<div>

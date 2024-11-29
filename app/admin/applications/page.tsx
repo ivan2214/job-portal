@@ -25,7 +25,7 @@ export default async function ApplicationsPage({
 		include: {
 			job: {
 				include: {
-					Company: true,
+					company: true,
 				},
 			},
 			user: true,
@@ -38,7 +38,7 @@ export default async function ApplicationsPage({
 							contains: search,
 							mode: "insensitive",
 						},
-						Company: {
+						company: {
 							name: {
 								contains: search,
 								mode: "insensitive",
@@ -71,7 +71,7 @@ export default async function ApplicationsPage({
 							contains: search,
 							mode: "insensitive",
 						},
-						Company: {
+						company: {
 							name: {
 								contains: search,
 								mode: "insensitive",

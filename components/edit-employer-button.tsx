@@ -19,13 +19,13 @@ export default function EditEmployerButton({
 	employer,
 }: {
 	employer: User & {
-		Company: Company | null;
+		company: Company | null;
 	};
 }) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [formData, setFormData] = useState({
-		companyName: employer.Company?.name,
+		companyName: employer.company?.name,
 		email: employer.email,
 	});
 

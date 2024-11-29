@@ -52,7 +52,7 @@ export default async function CompanyList({
 		<>
 			<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 				{companies.map((company) => (
-					<CompanyCard key={company.id} company={company} />
+					<CompanyCard key={company.userId} company={company} />
 				))}
 			</div>
 			<Pagination currentPage={page} totalPages={totalPages} />

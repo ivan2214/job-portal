@@ -16,7 +16,7 @@ export default async function EmployersPage() {
 			role: "EMPLOYER",
 		},
 		include: {
-			Company: true,
+			company: true,
 			postedJobs: true,
 		},
 	});

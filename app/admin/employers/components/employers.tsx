@@ -21,7 +21,7 @@ export function Employers({
 	employers,
 }: {
 	employers: (User & {
-		Company: Company | null;
+		company: Company | null;
 		postedJobs: Job[];
 	})[];
 }) {
@@ -66,7 +66,7 @@ export function Employers({
 					<TableBody>
 						{employers.map((employer) => (
 							<TableRow key={employer.id}>
-								<TableCell>{employer.Company?.name}</TableCell>
+								<TableCell>{employer.company?.name}</TableCell>
 								<TableCell>{employer.email}</TableCell>
 								<TableCell>{employer.postedJobs.length}</TableCell>
 								<TableCell>

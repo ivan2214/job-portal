@@ -24,7 +24,7 @@ export default function CompanyCard({
 				</div>
 				<div>
 					<Link
-						href={`/empresas/${company.id}`}
+						href={`/empresas/${company.userId}`}
 						className="font-semibold text-xl hover:underline"
 					>
 						{company.name}

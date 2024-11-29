@@ -1,8 +1,15 @@
-import type { Application, Company, Job, User } from "@prisma/client";
+import type {
+	Application,
+	CategoryJob,
+	Company,
+	Job,
+	User,
+} from "@prisma/client";
 
 export type JobWithRelations = Job & {
-	Company: Company | null;
-	applications: Application[] | null;
+	company?: Company | null;
+	applications?: Application[] | null;
+	categoryJob?: CategoryJob | null;
 };
 
 export type ApplicationWithRelations = Application & {

@@ -12,7 +12,7 @@ export default async function CompanyProfile({
 	const { id } = await params;
 	const company = await prisma.company.findUnique({
 		where: {
-			id: id,
+			userId: id,
 		},
 		include: {
 			jobPostings: {

@@ -48,7 +48,7 @@ export default async function AdminDashboard({
 		take: 10,
 		include: {
 			categoryJob: true,
-			Company: true,
+			company: true,
 			_count: true,
 		},
 	});
@@ -343,7 +343,7 @@ export default async function AdminDashboard({
 									return (
 										<TableRow key={job.id}>
 											<TableCell>{job.title}</TableCell>
-											<TableCell>{job.Company?.name}</TableCell>
+											<TableCell>{job.company?.name}</TableCell>
 											<TableCell>{job.applicationStatus}</TableCell>
 											<TableCell>
 												<Button

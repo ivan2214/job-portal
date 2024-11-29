@@ -6,7 +6,7 @@ import { prisma } from "@/db";
 export default async function JobsPage() {
 	const jobs = await prisma.job.findMany({
 		include: {
-			Company: true,
+			company: true,
 			applications: true,
 		},
 	});

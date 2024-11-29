@@ -21,7 +21,7 @@ export default async function JobPostingPage({
 			id: id,
 		},
 		include: {
-			Company: true,
+			company: true,
 			applications: {
 				include: {
 					user: true,

@@ -12,18 +12,18 @@ export function JobDetails({ job }: JobDetailsProps) {
 		<div className="space-y-6">
 			<div className="flex items-center space-x-4">
 				<Image
-					src={job.Company?.logo || "http://picsum.photos/200/200?random"}
-					alt={`${job.Company?.name} logo`}
+					src={job.company?.logo || "http://picsum.photos/200/200?random"}
+					alt={`${job.company?.name} logo`}
 					width={50}
 					height={50}
 					className="rounded-lg"
 				/>
 				<div>
 					<Link
-						href={`/admin/companies/${job.Company?.userId}`}
+						href={`/admin/companies/${job.company?.userId}`}
 						className="font-medium hover:underline"
 					>
-						{job.Company?.name}
+						{job.company?.name}
 					</Link>
 					<p className="text-muted-foreground text-sm">Company Profile</p>
 				</div>

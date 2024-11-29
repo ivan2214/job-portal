@@ -92,7 +92,7 @@ export function JobsDataTable({
 			},
 			cell: ({ row }) => (
 				<Link
-					href={`/admin/companies/${row.original.Company?.userId}`}
+					href={`/admin/companies/${row.original.company?.userId}`}
 					className="text-muted-foreground hover:underline"
 				>
 					{row.getValue("companyUserId")}
