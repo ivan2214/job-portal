@@ -20,6 +20,8 @@ model User {
   postedJobs   Job[]         @relation("EmployerJobs") // Relación: un usuario puede publicar muchos empleos
   applications Application[] // Relación: un usuario puede postularse a muchos empleos
   Company      Company?
+
+  status UserStatus @default(ACTIVE)
 }
 
 model Job {
@@ -114,4 +116,17 @@ enum TypeJob {
   VOLUNTARY // Empleo voluntario
   PERMANENT // Empleo permanente
   OTHER // Otro tipo de empleo
+}
+
+enum UserStatus {
+  ACTIVE // Usuario activo
+  INACTIVE // Usuario inactivo
+  DELETED // Usuario eliminado
+  BLOCKED // Usuario bloqueado
+  SUSPENDED // Usuario suspendido
+  BANNED // Usuario baneado
+  DEACTIVATED // Usuario desactivado
+  DEACTIVATED_PERMANENTLY // Usuario desactivado permanentemente
+  DEACTIVATED_TEMPORARILY // Usuario desactivado temporalmente
+  DEACTIVATED_BY_ADMIN // Usuario desactivado por el administrador
 }

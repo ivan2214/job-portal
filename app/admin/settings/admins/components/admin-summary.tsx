@@ -1,24 +1,17 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import type { User } from "@prisma/client";
 import { UserCheck, UserX } from "lucide-react";
 
-interface Admin {
-	id: number;
-	name: string;
-	email: string;
-	role: string;
-	status: string;
-}
-
 interface AdminSummaryProps {
-	admins: Admin[];
+	admins: User[];
 }
 
 export function AdminSummary({ admins }: AdminSummaryProps) {
 	const activeAdmins = admins.filter(
-		(admin) => admin.status === "Active",
+		(admin) => admin.status === "ACTIVE",
 	).length;
 	const suspendedAdmins = admins.filter(
-		(admin) => admin.status === "Suspended",
+		(admin) => admin.status === "SUSPENDED",
 	).length;
 
 	return (

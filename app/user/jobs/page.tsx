@@ -1,8 +1,3 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { type Job, mockJobs } from "./data/mock-jobs";
-
 import { Container } from "@/components/container";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,44 +9,35 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { JobCardApplied } from "./components/job-card-applied";
+import { prisma } from "@/db";
 
-export default function AppliedJobs() {
-	const [jobs, setJobs] = useState<Job[]>([]);
-	const [filteredJobs, setFilteredJobs] = useState<Job[]>([]);
-	const [search, setSearch] = useState("");
-	const [statusFilter, setStatusFilter] = useState<string>("All");
-	const [locationFilter, setLocationFilter] = useState<string>("All");
-
-	useEffect(() => {
-		// In a real application, you would fetch the jobs from an API here
-		setJobs(mockJobs);
-	}, []);
-
-	useEffect(() => {
-		let result = jobs;
-
-		if (search) {
-			result = result.filter(
-				(job) =>
-					job.title.toLowerCase().includes(search.toLowerCase()) ||
-					job.company.toLowerCase().includes(search.toLowerCase()),
-			);
-		}
-
-		if (statusFilter !== "All") {
-			result = result.filter((job) => job.status === statusFilter);
-		}
-
-		if (locationFilter !== "All") {
-			result = result.filter((job) => job.location === locationFilter);
-		}
-
-		setFilteredJobs(result);
-	}, [jobs, search, statusFilter, locationFilter]);
-
-	const handleWithdraw = (id: string) => {
-		setJobs(jobs.filter((job) => job.id !== id));
-	};
+export default async function AppliedJobs({
+	searchParams,
+}: {
+	searchParams: { [key: string]: string | string[] | undefined };
+}) {
+	const jobs = await prisma.job.findMany({
+		where: {
+			OR: [
+				{
+					title: {
+						contains: searchParams.search as string,
+					},
+				},
+				{
+					Company: {
+						name: {
+							contains: searchParams.search as string,
+						},
+					},
+				},
+			],
+		},
+		include: {
+			Company: true,
+			applications: true,
+		},
+	});
 
 	const locations = ["All", ...new Set(jobs.map((job) => job.location))];
 
@@ -60,14 +46,8 @@ export default function AppliedJobs() {
 			<h1 className="mb-8 font-bold text-3xl">Applied Jobs</h1>
 
 			<div className="mb-6 flex flex-col gap-4 md:flex-row">
-				<Input
-					type="text"
-					placeholder="Search jobs..."
-					value={search}
-					onChange={(e) => setSearch(e.target.value)}
-					className="flex-grow"
-				/>
-				<Select value={statusFilter} onValueChange={setStatusFilter}>
+				<Input type="text" placeholder="Search jobs..." className="flex-grow" />
+				<Select>
 					<SelectTrigger className="w-full md:w-[180px]">
 						<SelectValue placeholder="Filter by status" />
 					</SelectTrigger>
@@ -78,7 +58,7 @@ export default function AppliedJobs() {
 						<SelectItem value="Rejected">Rejected</SelectItem>
 					</SelectContent>
 				</Select>
-				<Select value={locationFilter} onValueChange={setLocationFilter}>
+				<Select>
 					<SelectTrigger className="w-full md:w-[180px]">
 						<SelectValue placeholder="Filter by location" />
 					</SelectTrigger>
@@ -92,14 +72,10 @@ export default function AppliedJobs() {
 				</Select>
 			</div>
 
-			{filteredJobs.length > 0 ? (
+			{jobs.length > 0 ? (
 				<div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-					{filteredJobs.map((job) => (
-						<JobCardApplied
-							key={job.id}
-							job={job}
-							onWithdraw={handleWithdraw}
-						/>
+					{jobs.map((job) => (
+						<JobCardApplied key={job.id} job={job} />
 					))}
 				</div>
 			) : (

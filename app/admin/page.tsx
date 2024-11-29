@@ -19,6 +19,8 @@ import {
 import { prisma } from "@/db";
 
 import { AdminChart } from "./components/admin-chart";
+import { Eye, Pencil, Trash } from "lucide-react";
+import Link from "next/link";
 
 interface AdminDashboardProps {
 	searchParams?: {
@@ -214,10 +216,23 @@ export default async function AdminDashboard({
 											<TableCell>{user.email}</TableCell>
 											<TableCell>{user.role}</TableCell>
 											<TableCell>
-												<Button variant="outline" size="sm" className="mr-2">
+												<Button
+													variant="outline"
+													size="sm"
+													className="mr-2"
+													asChild
+												>
+													<Link href={`/admin/users/${user.id}`}>
+														<Eye className="mr-2 h-4 w-4" size={20} />
+														Ver
+													</Link>
+												</Button>
+												<Button variant="outline" size="sm" className="">
+													<Pencil className="mr-2 h-4 w-4" size={20} />
 													Editar
 												</Button>
 												<Button variant="destructive" size="sm">
+													<Trash className="mr-2 h-4 w-4" size={20} />
 													Eliminar
 												</Button>
 											</TableCell>
@@ -268,10 +283,23 @@ export default async function AdminDashboard({
 											<TableCell>{company.phone}</TableCell>
 											<TableCell>{company.openPositions}</TableCell>
 											<TableCell>
-												<Button variant="outline" size="sm" className="mr-2">
+												<Button
+													variant="outline"
+													size="sm"
+													className="mr-2"
+													asChild
+												>
+													<Link href={`/admin/employers/${company.userId}`}>
+														<Eye className="mr-2 h-4 w-4" size={20} />
+														Ver
+													</Link>
+												</Button>
+												<Button variant="outline" size="sm" className="">
+													<Pencil className="mr-2 h-4 w-4" size={20} />
 													Editar
 												</Button>
 												<Button variant="destructive" size="sm">
+													<Trash className="mr-2 h-4 w-4" size={20} />
 													Eliminar
 												</Button>
 											</TableCell>
@@ -318,10 +346,23 @@ export default async function AdminDashboard({
 											<TableCell>{job.Company?.name}</TableCell>
 											<TableCell>{job.applicationStatus}</TableCell>
 											<TableCell>
-												<Button variant="outline" size="sm" className="mr-2">
+												<Button
+													variant="outline"
+													size="sm"
+													className="mr-2"
+													asChild
+												>
+													<Link href={`/admin/jobs/${job.id}`}>
+														<Eye className="mr-2 h-4 w-4" size={20} />
+														Ver
+													</Link>
+												</Button>
+												<Button variant="outline" size="sm" className="">
+													<Pencil className="mr-2 h-4 w-4" size={20} />
 													Editar
 												</Button>
 												<Button variant="destructive" size="sm">
+													<Trash className="mr-2 h-4 w-4" size={20} />
 													Eliminar
 												</Button>
 											</TableCell>

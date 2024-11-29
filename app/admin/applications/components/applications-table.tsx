@@ -49,7 +49,7 @@ export default function ApplicationsTable({
 					<TableRow key={application.id}>
 						<TableCell>
 							<Link
-								href={`/admin/user/${application.id}`}
+								href={`/admin/users/${application.user?.id}`}
 								className="text-blue-600 hover:underline"
 							>
 								{application.user?.name}

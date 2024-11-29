@@ -2,7 +2,6 @@ import { Suspense } from "react";
 import { Pagination } from "./components/pagination";
 import { SearchBar } from "./components/search-bar";
 import { UserTable } from "./components/user-table";
-import { getUsers } from "./data";
 
 import { Container } from "@/components/container";
 import {
@@ -13,6 +12,7 @@ import {
 	BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { ChevronRight } from "lucide-react";
+import { prisma } from "@/db";
 
 export default async function UserManagement({
 	searchParams,
@@ -23,7 +23,46 @@ export default async function UserManagement({
 	const currentPage = Number(searchParams?.page) || 1;
 	const pageSize = 10;
 
-	const { users, total } = await getUsers(query, currentPage, pageSize);
+	const users = await prisma.user.findMany({
+		where: {
+			OR: [
+				{
+					name: {
+						contains: query,
+						mode: "insensitive",
+					},
+				},
+				{
+					email: {
+						contains: query,
+						mode: "insensitive",
+					},
+				},
+			],
+		},
+		take: pageSize,
+		skip: (currentPage - 1) * pageSize,
+	});
+
+	const total = await prisma.user.count({
+		where: {
+			OR: [
+				{
+					name: {
+						contains: query,
+						mode: "insensitive",
+					},
+				},
+				{
+					email: {
+						contains: query,
+						mode: "insensitive",
+					},
+				},
+			],
+		},
+	});
+
 	const totalPages = Math.ceil(total / pageSize);
 
 	return (

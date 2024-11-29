@@ -17,6 +17,12 @@ import {
 } from "@/components/ui/select";
 import { useState } from "react";
 
+export type newAdmin = {
+	name: string;
+	email: string;
+	role: string;
+};
+
 interface AddAdminModalProps {
 	isOpen: boolean;
 	onClose: () => void;

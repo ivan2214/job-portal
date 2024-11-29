@@ -7,29 +7,17 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import type { User } from "@prisma/client";
 import { Edit, UserMinus, UserX } from "lucide-react";
 
-interface Admin {
-	id: number;
-	name: string;
-	email: string;
-	role: string;
-	status: string;
-}
-
 interface AdminTableProps {
-	admins: Admin[];
-	onEdit: (admin: Admin) => void;
-	onSuspend: (adminId: number) => void;
-	onRemove: (adminId: number) => void;
+	admins: User[];
+	onEdit?: (admin: User) => void;
+	onSuspend: (adminId: string) => void;
+	onRemove: (adminId: string) => void;
 }
 
-export function AdminTable({
-	admins,
-	onEdit,
-	onSuspend,
-	onRemove,
-}: AdminTableProps) {
+export function AdminTable({ admins, onSuspend, onRemove }: AdminTableProps) {
 	return (
 		<Table>
 			<TableHeader>
@@ -53,7 +41,7 @@ export function AdminTable({
 								<Button
 									variant="outline"
 									size="sm"
-									onClick={() => onEdit(admin)}
+									/* onClick={() => onEdit(admin)} */
 								>
 									<Edit className="h-4 w-4" />
 								</Button>
@@ -62,7 +50,7 @@ export function AdminTable({
 									size="sm"
 									onClick={() => onSuspend(admin.id)}
 									className={
-										admin.status === "Active" ? "bg-yellow-100" : "bg-green-100"
+										admin.status === "ACTIVE" ? "bg-yellow-100" : "bg-green-100"
 									}
 								>
 									<UserX className="h-4 w-4" />

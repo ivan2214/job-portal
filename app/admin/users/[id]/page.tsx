@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {} from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,33 +12,36 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 
-import {
-	Breadcrumb,
-	BreadcrumbItem,
-	BreadcrumbLink,
-	BreadcrumbList,
-	BreadcrumbPage,
-	BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-
-import { ChevronRight } from "lucide-react";
+import {} from "@/components/ui/breadcrumb";
 
 import { Container } from "@/components/container";
 import { BriefcaseIcon, FileTextIcon } from "lucide-react";
 import { ActivitySummary } from "./components/activity-summary";
+import { prisma } from "@/db";
+import { notFound } from "next/navigation";
+import { BreadcrumbDynamic } from "@/components/breadcrumbs-dynamic";
 
-export default function UserProfile() {
-	// This would typically come from your data fetching logic
-	const user = {
-		id: "1",
-		name: "Alice Johnson",
-		email: "alice@example.com",
-		role: "Employer",
-		dateRegistered: "2023-01-15",
-		avatar: "/placeholder.svg?height=100&width=100",
-		jobsPosted: 12,
-		applicationsSubmitted: 0,
-	};
+export default async function UserProfile({
+	params,
+}: { params: { id: string } }) {
+	const { id } = await params;
+	const user = await prisma.user.findUnique({
+		where: {
+			id: id,
+		},
+		include: {
+			applications: {
+				include: {
+					job: true,
+				},
+			},
+			postedJobs: true,
+		},
+	});
+
+	if (!user) {
+		return notFound();
+	}
 
 	const recentLogs = [
 		{ id: 1, action: "Posted a new job", date: "2023-05-01" },
@@ -49,33 +52,22 @@ export default function UserProfile() {
 	return (
 		<Container>
 			<h1 className="mb-6 font-bold text-3xl">User Profile</h1>
-			<Breadcrumb>
-				<BreadcrumbList>
-					<BreadcrumbItem>
-						<BreadcrumbLink href="/admin">Dashboard</BreadcrumbLink>
-					</BreadcrumbItem>
-					<BreadcrumbSeparator>
-						<ChevronRight className="h-4 w-4" />
-					</BreadcrumbSeparator>
-					<BreadcrumbItem>
-						<BreadcrumbLink href="/admin/users">Users</BreadcrumbLink>
-					</BreadcrumbItem>
-					<BreadcrumbSeparator>
-						<ChevronRight className="h-4 w-4" />
-					</BreadcrumbSeparator>
-					<BreadcrumbItem>
-						<BreadcrumbPage>{user.name}</BreadcrumbPage>
-					</BreadcrumbItem>
-				</BreadcrumbList>
-			</Breadcrumb>
+			<BreadcrumbDynamic
+				items={[
+					{ label: "Admin", href: "/admin" },
+					{ label: "Users", href: "/admin/users" },
+					{ label: user.name, href: `/admin/users/${user.id}` },
+				]}
+			/>
+
 			<div className="grid gap-6 md:grid-cols-2">
 				<Card>
 					<CardHeader>
 						<div className="flex items-center space-x-4">
-							<Avatar className="h-20 w-20">
+							{/* <Avatar className="h-20 w-20">
 								<AvatarImage src={user.avatar} alt={user.name} />
 								<AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
-							</Avatar>
+							</Avatar> */}
 							<div>
 								<h2 className="font-bold text-2xl">{user.name}</h2>
 								<p className="text-muted-foreground">{user.email}</p>
@@ -90,7 +82,7 @@ export default function UserProfile() {
 							</div>
 							<div className="flex justify-between">
 								<span className="font-medium">Date Registered:</span>
-								<span>{user.dateRegistered}</span>
+								<span>{user.createdAt.toLocaleDateString()}</span>
 							</div>
 						</div>
 						<Separator className="my-4" />
@@ -106,12 +98,12 @@ export default function UserProfile() {
 					<div className="grid gap-4 md:grid-cols-2">
 						<ActivitySummary
 							title="Jobs Posted"
-							count={user.jobsPosted}
+							count={user.postedJobs.length}
 							icon={<BriefcaseIcon className="h-4 w-4 text-muted-foreground" />}
 						/>
 						<ActivitySummary
 							title="Applications Submitted"
-							count={user.applicationsSubmitted}
+							count={user.applications.length}
 							icon={<FileTextIcon className="h-4 w-4 text-muted-foreground" />}
 						/>
 					</div>
