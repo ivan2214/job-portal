@@ -12,21 +12,20 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import type { Company, User } from "@prisma/client";
 import { useState } from "react";
-
-interface Employer {
-	id: string;
-	companyName: string;
-	email: string;
-}
 
 export default function EditEmployerButton({
 	employer,
-}: { employer: Employer }) {
+}: {
+	employer: User & {
+		Company: Company | null;
+	};
+}) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [formData, setFormData] = useState({
-		companyName: employer.companyName,
+		companyName: employer.Company?.name,
 		email: employer.email,
 	});
 

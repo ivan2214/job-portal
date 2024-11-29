@@ -8,14 +8,8 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { formatDate } from "@/utils/helpers";
+import type { Job } from "@prisma/client";
 import Link from "next/link";
-
-interface Job {
-	id: string;
-	title: string;
-	datePosted: Date;
-	status: "Active" | "Closed";
-}
 
 interface JobListProps {
 	jobs: Job[];
@@ -36,12 +30,14 @@ export function JobList({ jobs }: JobListProps) {
 				{jobs.map((job) => (
 					<TableRow key={job.id}>
 						<TableCell>{job.title}</TableCell>
-						<TableCell>{formatDate(job.datePosted)}</TableCell>
+						<TableCell>{formatDate(job.createdAt)}</TableCell>
 						<TableCell>
 							<Badge
-								variant={job.status === "Active" ? "default" : "secondary"}
+								variant={
+									job.applicationStatus === "PENDING" ? "default" : "secondary"
+								}
 							>
-								{job.status}
+								{job.applicationStatus}
 							</Badge>
 						</TableCell>
 						<TableCell>

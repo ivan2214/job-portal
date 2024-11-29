@@ -16,19 +16,25 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { formatDate, mockEmployer, mockJobs } from "@/utils/helpers";
+import { formatDate } from "@/utils/helpers";
 import { ChevronRight } from "lucide-react";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { JobList } from "./components/job-list";
+import { prisma } from "@/db";
 
-export default function EmployerDetailsPage({
+export default async function EmployerDetailsPage({
 	params,
 }: { params: { id: string } }) {
-	// In a real application, you would fetch the employer data here
-	// For this example, we'll use mock data
-	const employer = mockEmployer;
-	const jobs = mockJobs;
+	const employer = await prisma.user.findUnique({
+		where: {
+			id: params.id,
+		},
+		include: {
+			Company: true,
+			postedJobs: true,
+		},
+	});
 
 	console.log("Employer ID:", params.id);
 
@@ -53,7 +59,7 @@ export default function EmployerDetailsPage({
 						<ChevronRight className="h-4 w-4" />
 					</BreadcrumbSeparator>
 					<BreadcrumbItem>
-						<BreadcrumbPage>{employer.companyName}</BreadcrumbPage>
+						<BreadcrumbPage>{employer.Company?.name}</BreadcrumbPage>
 					</BreadcrumbItem>
 				</BreadcrumbList>
 			</Breadcrumb>
@@ -67,7 +73,7 @@ export default function EmployerDetailsPage({
 						<dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
 							<div>
 								<dt className="font-medium text-gray-500">Company Name</dt>
-								<dd className="mt-1">{employer.companyName}</dd>
+								<dd className="mt-1">{employer.Company?.name}</dd>
 							</div>
 							<div>
 								<dt className="font-medium text-gray-500">Email</dt>
@@ -75,15 +81,11 @@ export default function EmployerDetailsPage({
 							</div>
 							<div>
 								<dt className="font-medium text-gray-500">Date Joined</dt>
-								<dd className="mt-1">{formatDate(employer.dateJoined)}</dd>
+								<dd className="mt-1">{formatDate(employer.createdAt)}</dd>
 							</div>
 							<div>
 								<dt className="font-medium text-gray-500">Total Jobs Posted</dt>
-								<dd className="mt-1">{employer.totalJobsPosted}</dd>
-							</div>
-							<div>
-								<dt className="font-medium text-gray-500">Status</dt>
-								<dd className="mt-1">{employer.status}</dd>
+								<dd className="mt-1">{employer.postedJobs.length}</dd>
 							</div>
 						</dl>
 					</CardContent>
@@ -110,7 +112,7 @@ export default function EmployerDetailsPage({
 				</CardHeader>
 				<CardContent>
 					<Suspense fallback={<div>Loading jobs...</div>}>
-						<JobList jobs={jobs} />
+						<JobList jobs={employer.postedJobs} />
 					</Suspense>
 				</CardContent>
 			</Card>

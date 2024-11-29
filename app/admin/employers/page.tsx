@@ -8,12 +8,22 @@ import {
 } from "@/components/ui/breadcrumb";
 import { ChevronRight } from "lucide-react";
 import { Employers } from "./components/employers";
+import { prisma } from "@/db";
 
-export default function EmployersPage() {
+export default async function EmployersPage() {
+	const employers = await prisma.user.findMany({
+		where: {
+			role: "EMPLOYER",
+		},
+		include: {
+			Company: true,
+			postedJobs: true,
+		},
+	});
 	return (
 		<Container>
 			<h1 className="mb-6 font-bold text-3xl text-gray-800">Employers</h1>
-			<Breadcrumb>
+			<Breadcrumb className="mb-6">
 				<BreadcrumbList>
 					<BreadcrumbItem>
 						<BreadcrumbLink href="/admin">Dashboard</BreadcrumbLink>
@@ -26,7 +36,7 @@ export default function EmployersPage() {
 					</BreadcrumbItem>
 				</BreadcrumbList>
 			</Breadcrumb>
-			<Employers />
+			<Employers employers={employers} />
 		</Container>
 	);
 }
