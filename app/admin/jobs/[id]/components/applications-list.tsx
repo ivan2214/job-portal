@@ -74,13 +74,24 @@ export function ApplicationsList({ applications }: ApplicationsListProps) {
 								{new Date(application.dateApplied).toLocaleDateString()}
 							</TableCell>
 							<TableCell>
-								<Badge variant="outline" className="capitalize">
+								<Badge
+									variant={
+										application.status === "ACCEPTED"
+											? "success"
+											: application.status === "PENDING"
+												? "pending"
+												: application.status === "REJECTED"
+													? "destructive"
+													: "default"
+									}
+									className="capitalize"
+								>
 									{application.status}
 								</Badge>
 							</TableCell>
 							<TableCell>
 								<Link
-									href={`/admin/applications/${application.id}`}
+									href={`/admin/applications/${application.user?.id}`}
 									className="text-primary text-sm hover:underline"
 								>
 									View Details
