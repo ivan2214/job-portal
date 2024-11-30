@@ -18,9 +18,9 @@ import {
 } from "@/components/ui/table";
 import { prisma } from "@/db";
 
-import { AdminChart } from "./components/admin-chart";
 import { Eye, Pencil, Trash } from "lucide-react";
 import Link from "next/link";
+import { AdminChart } from "./components/admin-chart";
 
 type SearchParams = Promise<{
 	filter?: "users" | "companies" | "jobs";
@@ -38,10 +38,16 @@ export default async function AdminDashboard({
 
 	const users = await prisma.user.findMany({
 		take: 10,
+		orderBy: {
+			createdAt: "desc",
+		},
 	});
 
 	const companies = await prisma.company.findMany({
 		take: 10,
+		orderBy: {
+			createdAt: "desc",
+		},
 	});
 
 	const jobs = await prisma.job.findMany({
@@ -50,6 +56,9 @@ export default async function AdminDashboard({
 			categoryJob: true,
 			company: true,
 			_count: true,
+		},
+		orderBy: {
+			createdAt: "desc",
 		},
 	});
 
@@ -215,7 +224,7 @@ export default async function AdminDashboard({
 											<TableCell>{user.name}</TableCell>
 											<TableCell>{user.email}</TableCell>
 											<TableCell>{user.role}</TableCell>
-											<TableCell>
+											<TableCell className="flex items-center space-x-2">
 												<Button
 													variant="outline"
 													size="sm"
@@ -282,7 +291,7 @@ export default async function AdminDashboard({
 											<TableCell>{company.email}</TableCell>
 											<TableCell>{company.phone}</TableCell>
 											<TableCell>{company.openPositions}</TableCell>
-											<TableCell>
+											<TableCell className="flex items-center space-x-2">
 												<Button
 													variant="outline"
 													size="sm"
@@ -345,7 +354,7 @@ export default async function AdminDashboard({
 											<TableCell>{job.title}</TableCell>
 											<TableCell>{job.company?.name}</TableCell>
 											<TableCell>{job.applicationStatus}</TableCell>
-											<TableCell>
+											<TableCell className="flex items-center space-x-2">
 												<Button
 													variant="outline"
 													size="sm"

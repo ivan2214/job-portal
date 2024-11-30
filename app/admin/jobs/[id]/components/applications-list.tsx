@@ -1,6 +1,12 @@
 "use client";
-import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import {
 	Table,
 	TableBody,
@@ -9,14 +15,8 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
 import type { ApplicationWithRelations } from "@/types";
+import Link from "next/link";
 
 interface ApplicationsListProps {
 	applications: ApplicationWithRelations[];

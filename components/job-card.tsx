@@ -21,8 +21,6 @@ export function JobCard({ job }: JobCardProps) {
 	const { title, company, location, type, salary, description, categoryJob } =
 		job;
 
-	console.log("Category Job:", categoryJob);
-
 	return (
 		<Card key={title}>
 			<CardHeader>

@@ -1,8 +1,8 @@
 import {
 	Breadcrumb,
-	BreadcrumbList,
 	BreadcrumbItem,
 	BreadcrumbLink,
+	BreadcrumbList,
 	BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 

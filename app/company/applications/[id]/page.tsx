@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { ActionsCard } from "./components/actions-card";
 import { ApplicantCard } from "./components/applicant-card";
 import { JobCard } from "./components/job-card";
+import { auth } from "@/auth";
 
 export const metadata: Metadata = {
 	title: "Job Application Details",
@@ -15,9 +16,16 @@ type Params = Promise<{ id: string }>;
 
 export default async function ApplicationPage({ params }: { params: Params }) {
 	const { id } = await params;
+	const session = await auth();
+	const companyId = session?.user?.id;
 	const application = await prisma.application.findUnique({
 		where: {
 			id,
+			AND: {
+				job: {
+					companyUserId: companyId,
+				},
+			},
 		},
 		include: {
 			user: true,

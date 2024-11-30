@@ -2,6 +2,7 @@
 
 import { Container } from "@/components/container";
 import { Button } from "@/components/ui/button";
+import type { User } from "@prisma/client";
 import { PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { AddAdminModal, type newAdmin } from "./add-admin-modal";
@@ -9,7 +10,6 @@ import { AdminSummary } from "./admin-summary";
 import { AdminTable } from "./admin-table";
 import { EditAdminModal } from "./edit-admin-modal";
 import { SearchBar } from "./search-bar";
-import type { User } from "@prisma/client";
 
 export function AdminManagement({
 	admins,

@@ -1,7 +1,7 @@
 import { Container } from "@/components/container";
+import { prisma } from "@/db";
 import { JobsDataTable } from "./components/jobs-data-table";
 import { JobsHeader } from "./components/jobs-header";
-import { prisma } from "@/db";
 
 export default async function JobsPage() {
 	const jobs = await prisma.job.findMany({

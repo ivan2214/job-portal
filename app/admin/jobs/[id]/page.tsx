@@ -1,15 +1,15 @@
-import { notFound } from "next/navigation";
-import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
-import { JobDetails } from "./components/job-details";
-import { JobActions } from "./components/job-actions";
-import { ApplicationsList } from "./components/applications-list";
-import { Breadcrumbs } from "./components/breadcrumbs";
+import { Container } from "@/components/container";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { prisma } from "@/db";
-import { Container } from "@/components/container";
+import { ChevronLeft } from "lucide-react";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { ApplicationsList } from "./components/applications-list";
+import { Breadcrumbs } from "./components/breadcrumbs";
+import { JobActions } from "./components/job-actions";
+import { JobDetails } from "./components/job-details";
 
 type Params = Promise<{ id: string }>;
 

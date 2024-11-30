@@ -1,7 +1,7 @@
+import type { JobWithRelations } from "@/types";
+import { Calendar, DollarSign, MapPin, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin, Calendar, Users, DollarSign } from "lucide-react";
-import type { JobWithRelations } from "@/types";
 
 interface JobDetailsProps {
 	job: JobWithRelations;

@@ -1,9 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
 	Select,
 	SelectContent,
@@ -11,6 +9,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 export default function ApplicationsHeader({
 	initialSearch,

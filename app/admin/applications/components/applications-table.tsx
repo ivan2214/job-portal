@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
 	Table,
@@ -10,6 +9,7 @@ import {
 } from "@/components/ui/table";
 import type { Application, Job, User } from "@prisma/client";
 import { Eye } from "lucide-react";
+import Link from "next/link";
 
 type ApplicationWithRelations = Application & {
 	job?: Job | null;

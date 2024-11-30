@@ -1,9 +1,9 @@
-import { Suspense } from "react";
-import ApplicationsHeader from "./components/applications-header";
-import ApplicationsTable from "./components/applications-table";
-import ApplicationsPagination from "./components/applications-pagination";
 import { Skeleton } from "@/components/skeleton";
 import { prisma } from "@/db";
+import { Suspense } from "react";
+import ApplicationsHeader from "./components/applications-header";
+import ApplicationsPagination from "./components/applications-pagination";
+import ApplicationsTable from "./components/applications-table";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 

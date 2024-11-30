@@ -8,20 +8,94 @@ generator client {
 }
 
 model User {
-  id             String   @id @default(cuid()) // ID único del usuario
-  name           String // Nombre del usuario
-  email          String   @unique // Email único
-  hashedPassword String // Contraseña del usuario
-  role           RoleUser // Enum para diferenciar entre EMPLOYER, EMPLOYEE y ADMIN
-  createdAt      DateTime @default(now()) // Fecha de creación
-  updatedAt      DateTime @updatedAt // Fecha de última actualización
+  id                      String                 @id @default(cuid()) // ID único del usuario
+  name                    String? // Nombre del usuario
+  email                   String                 @unique // Email único
+  emailVerified           DateTime?
+  image                   String?
+  hashedPassword          String? // Contraseña del usuario
+  role                    RoleUser // Enum para diferenciar entre EMPLOYER, EMPLOYEE y ADMIN
+  createdAt               DateTime               @default(now()) // Fecha de creación
+  updatedAt               DateTime               @updatedAt // Fecha de última actualización
+  isTwoFactorEnabled      Boolean                @default(false)
+  twoFactorConfirmation   TwoFactorConfirmation?
+  twoFactorConfirmationId String?
 
   // Relaciones
   postedJobs   Job[]         @relation("EmployerJobs") // Relación: un usuario puede publicar muchos empleos
   applications Application[] // Relación: un usuario puede postularse a muchos empleos
   company      Company?
+  accounts     Account[]
+  sessions     Session[]
 
   status UserStatus @default(ACTIVE)
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model PasswordResetToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model TwoFactorToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model TwoFactorConfirmation {
+  id String @id @default(cuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId])
 }
 
 model Job {

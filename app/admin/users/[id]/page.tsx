@@ -14,12 +14,12 @@ import {
 
 import {} from "@/components/ui/breadcrumb";
 
-import { Container } from "@/components/container";
-import { BriefcaseIcon, FileTextIcon } from "lucide-react";
-import { ActivitySummary } from "./components/activity-summary";
-import { prisma } from "@/db";
-import { notFound } from "next/navigation";
 import { BreadcrumbDynamic } from "@/components/breadcrumbs-dynamic";
+import { Container } from "@/components/container";
+import { prisma } from "@/db";
+import { BriefcaseIcon, FileTextIcon } from "lucide-react";
+import { notFound } from "next/navigation";
+import { ActivitySummary } from "./components/activity-summary";
 
 type Params = Promise<{ id: string }>;
 

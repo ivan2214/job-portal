@@ -71,14 +71,14 @@ export const Header: React.FC<HeaderProps> = ({}) => {
 								Iniciar Sesión
 							</Link>
 						</li>
-						<li>
+						{/* 	<li>
 							<Link
 								href="/auth?type=register"
 								className="rounded-md bg-primary px-3 py-2 font-medium text-sm text-white hover:bg-primary/90"
 							>
 								Registrarse
 							</Link>
-						</li>
+						</li> */}
 					</ul>
 				</nav>
 			</Container>
