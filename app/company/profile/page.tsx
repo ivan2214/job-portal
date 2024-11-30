@@ -4,9 +4,11 @@ import { notFound } from "next/navigation";
 import CompanyProfile from "./components/company-profile";
 import JobList from "./components/job-list";
 import NewJobForm from "./components/new-job-form";
+import { auth } from "@/auth";
 
 export default async function CompanyProfilePage() {
-	const companyId = "cm43ejos60009uct4ed84fa79";
+	const session = await auth();
+	const companyId = session?.user?.id;
 
 	if (!companyId) {
 		return notFound();

@@ -1,12 +1,11 @@
 "use client";
 
-import { Briefcase, FileText, User } from "lucide-react";
+import { FileText, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navItems = [
 	{ href: "/user", label: "Inicio", icon: User },
-	{ href: "/user/jobs", label: "Jobs", icon: Briefcase },
 	{ href: "/user/applications", label: "Applications", icon: FileText },
 	{ href: "/user/profile", label: "Profile", icon: User },
 ];

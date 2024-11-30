@@ -6,9 +6,11 @@ import { ApplicationManagement } from "./components/application-management";
 import { PasswordChange } from "./components/password-change";
 import { PersonalInfo } from "./components/personal-info";
 import { ResumeUpload } from "./components/resume-upload";
+import { auth } from "@/auth";
 
 export default async function ProfilePage() {
-	const userId = "cm43ejow7006muct4i0mo17f6";
+	const session = await auth();
+	const userId = session?.user?.id;
 
 	const user = await prisma.user.findUnique({
 		where: {

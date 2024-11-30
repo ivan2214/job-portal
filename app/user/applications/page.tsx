@@ -12,11 +12,14 @@ import { Badge } from "@/components/ui/badge";
 import { prisma } from "@/db";
 import Link from "next/link";
 import { FiltersApplications } from "./components/filters-applications";
+import { auth } from "@/auth";
 
 export default async function Dashboard() {
+	const session = await auth();
+	const userId = session?.user?.id;
 	const user = await prisma.user.findUnique({
 		where: {
-			id: "cm43ejow7006muct4i0mo17f6",
+			id: userId,
 		},
 		include: {
 			applications: {
@@ -44,41 +47,59 @@ export default async function Dashboard() {
 			<FiltersApplications />
 
 			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-				{applications.map((application) => (
-					<Card key={application.id}>
+				{applications.length ? (
+					applications?.map((application) => (
+						<Card key={application.id}>
+							<CardHeader>
+								<CardTitle>{application.job.title}</CardTitle>
+							</CardHeader>
+							<CardContent>
+								<p className="text-muted-foreground text-sm">
+									{application.job.company?.name}
+								</p>
+								<p className="text-muted-foreground text-sm">
+									Applied: {application.createdAt.toLocaleDateString()}
+								</p>
+							</CardContent>
+							<CardFooter className="flex justify-between">
+								<Badge
+									variant={
+										application.status === "ACCEPTED"
+											? "success"
+											: application.status === "PENDING"
+												? "pending"
+												: application.status === "REJECTED"
+													? "destructive"
+													: "default"
+									}
+								>
+									{application.status}
+								</Badge>
+								<Button asChild size="sm" variant="outline">
+									<Link href={`/user/applications/${application.id}`}>
+										View Details
+									</Link>
+								</Button>
+							</CardFooter>
+						</Card>
+					))
+				) : (
+					<Card>
 						<CardHeader>
-							<CardTitle>{application.job.title}</CardTitle>
+							<CardTitle>You have no applications</CardTitle>
 						</CardHeader>
 						<CardContent>
 							<p className="text-muted-foreground text-sm">
-								{application.job.company?.name}
-							</p>
-							<p className="text-muted-foreground text-sm">
-								Applied: {application.createdAt.toLocaleDateString()}
+								You have no applications yet.
 							</p>
 						</CardContent>
 						<CardFooter className="flex justify-between">
-							<Badge
-								variant={
-									application.status === "ACCEPTED"
-										? "success"
-										: application.status === "PENDING"
-											? "pending"
-											: application.status === "REJECTED"
-												? "destructive"
-												: "default"
-								}
-							>
-								{application.status}
-							</Badge>
 							<Button asChild size="sm" variant="outline">
-								<Link href={`/user/applications/${application.id}`}>
-									View Details
-								</Link>
+								<Link href="/empleos">Browse Jobs</Link>
 							</Button>
 						</CardFooter>
 					</Card>
-				))}
+				)}
 			</div>
 		</Container>
 	);
