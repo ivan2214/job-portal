@@ -9,7 +9,7 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_DB: autonomos-db
+          POSTGRES_DB: job-portal-db
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
         ports:
@@ -41,7 +41,7 @@ jobs:
           done
 
       - name: Set up environment variables
-        run: echo "DATABASE_URL=postgres://postgres:postgres123@localhost:5432/autonomos-db" >> $GITHUB_ENV
+        run: echo "DATABASE_URL=postgres://postgres:postgres123@localhost:5432/job-portal-db" >> $GITHUB_ENV
 
       - name: Run biome
         run: pnpm run check
