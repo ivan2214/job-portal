@@ -8,7 +8,7 @@ export default async function CompanyJobsPage() {
 	const companyId = session?.user?.id;
 	const jobs = await prisma.job.findMany({
 		where: {
-			userId: companyId,
+			companyUserId: companyId,
 		},
 		include: {
 			applications: true,
