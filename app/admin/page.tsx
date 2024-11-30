@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -18,73 +16,117 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { useState } from "react";
-import {
-	Bar,
-	BarChart,
-	CartesianGrid,
-	Legend,
-	ResponsiveContainer,
-	Tooltip,
-	XAxis,
-	YAxis,
-} from "recharts";
+import { prisma } from "@/db";
 
-const data = [
-	{ name: "Ene", usuarios: 400, empleadores: 240, empleos: 240 },
-	{ name: "Feb", usuarios: 300, empleadores: 139, empleos: 221 },
-	{ name: "Mar", usuarios: 200, empleadores: 980, empleos: 229 },
-	{ name: "Abr", usuarios: 278, empleadores: 390, empleos: 200 },
-	{ name: "May", usuarios: 189, empleadores: 480, empleos: 218 },
-];
+import { AdminChart } from "./components/admin-chart";
+import { Eye, Pencil, Trash } from "lucide-react";
+import Link from "next/link";
 
-const usuarios = [
-	{ id: 1, nombre: "Juan Pérez", email: "juan@example.com", tipo: "Candidato" },
-	{
-		id: 2,
-		nombre: "María García",
-		email: "maria@example.com",
-		tipo: "Empleador",
-	},
-	{
-		id: 3,
-		nombre: "Carlos López",
-		email: "carlos@example.com",
-		tipo: "Candidato",
-	},
-];
+interface AdminDashboardProps {
+	searchParams?: {
+		filter?: "users" | "companies" | "jobs";
+		query?: string;
+		page?: string;
+		type?: string;
+	};
+}
 
-const empleos = [
-	{
-		id: 1,
-		titulo: "Desarrollador Frontend",
-		empresa: "TechCo",
-		estado: "Activo",
-	},
-	{ id: 2, titulo: "Diseñador UX", empresa: "DesignInc", estado: "Cerrado" },
-	{
-		id: 3,
-		titulo: "Gerente de Proyecto",
-		empresa: "ProjectPro",
-		estado: "Activo",
-	},
-];
+export default async function AdminDashboard({
+	searchParams,
+}: AdminDashboardProps) {
+	const { filter, query, page, type } = (await searchParams) || {};
 
-export default function AdminDashboard() {
-	const [userFilter, setUserFilter] = useState("");
-	const [jobFilter, setJobFilter] = useState("");
+	const users = await prisma.user.findMany({
+		take: 10,
+	});
 
-	const filteredUsers = usuarios.filter(
-		(user) =>
-			user.nombre.toLowerCase().includes(userFilter.toLowerCase()) ||
-			user.email.toLowerCase().includes(userFilter.toLowerCase()),
-	);
+	const companies = await prisma.company.findMany({
+		take: 10,
+	});
 
-	const filteredJobs = empleos.filter(
-		(job) =>
-			job.titulo.toLowerCase().includes(jobFilter.toLowerCase()) ||
-			job.empresa.toLowerCase().includes(jobFilter.toLowerCase()),
-	);
+	const jobs = await prisma.job.findMany({
+		take: 10,
+		include: {
+			categoryJob: true,
+			company: true,
+			_count: true,
+		},
+	});
+
+	const usersTotal = await prisma.user.count();
+
+	const companiesTotal = await prisma.company.count();
+
+	const jobsTotal = await prisma.job.count();
+
+	const applicationsTotal = await prisma.application.count();
+
+	const currentYear = new Date().getFullYear();
+
+	function groupByMonth(data: { createdAt: Date }[]) {
+		return data.reduce((acc, item) => {
+			const month = item.createdAt.getMonth(); // 0 (enero) a 11 (diciembre)
+			if (!acc[month]) {
+				acc[month] = 0;
+			}
+			acc[month] += 1;
+			return acc;
+		}, Array(12).fill(0)); // Inicializa un array con 12 posiciones (uno por cada mes)
+	}
+
+	// Obtener los datos de usuarios, compañías, empleos y aplicaciones por año
+	const usersByYear = await prisma.user.findMany({
+		where: {
+			createdAt: {
+				gte: new Date(currentYear, 0, 1),
+				lte: new Date(currentYear, 11, 31),
+			},
+		},
+	});
+
+	const companiesByYear = await prisma.company.findMany({
+		where: {
+			createdAt: {
+				gte: new Date(currentYear, 0, 1),
+				lte: new Date(currentYear, 11, 31),
+			},
+		},
+	});
+
+	const jobsByYear = await prisma.job.findMany({
+		where: {
+			createdAt: {
+				gte: new Date(currentYear, 0, 1),
+				lte: new Date(currentYear, 11, 31),
+			},
+		},
+	});
+
+	const applicationsByYear = await prisma.application.findMany({
+		where: {
+			createdAt: {
+				gte: new Date(currentYear, 0, 1),
+				lte: new Date(currentYear, 11, 31),
+			},
+		},
+	});
+
+	// Agrupar los datos por mes
+	const usersByMonth = groupByMonth(usersByYear);
+	const companiesByMonth = groupByMonth(companiesByYear);
+	const jobsByMonth = groupByMonth(jobsByYear);
+	const applicationsByMonth = groupByMonth(applicationsByYear);
+
+	// Crear el formato de salida
+	const data = usersByMonth.map((_, index) => ({
+		name: new Date(currentYear, index, 1).toLocaleString("default", {
+			month: "long",
+		}), // Nombre del mes
+		usuarios: usersByMonth[index],
+		compañias: companiesByMonth[index],
+		empleos: jobsByMonth[index],
+		aplicaciones: applicationsByMonth[index],
+	}));
 
 	return (
 		<div className="p-8">
@@ -98,15 +140,15 @@ export default function AdminDashboard() {
 						</CardTitle>
 					</CardHeader>
 					<CardContent>
-						<div className="font-bold text-2xl">1,367</div>
+						<div className="font-bold text-2xl">{usersTotal}</div>
 					</CardContent>
 				</Card>
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-						<CardTitle className="font-medium text-sm">Empleadores</CardTitle>
+						<CardTitle className="font-medium text-sm">Empresas</CardTitle>
 					</CardHeader>
 					<CardContent>
-						<div className="font-bold text-2xl">2,229</div>
+						<div className="font-bold text-2xl">{companiesTotal}</div>
 					</CardContent>
 				</Card>
 				<Card>
@@ -116,7 +158,7 @@ export default function AdminDashboard() {
 						</CardTitle>
 					</CardHeader>
 					<CardContent>
-						<div className="font-bold text-2xl">1,108</div>
+						<div className="font-bold text-2xl">{jobsTotal}</div>
 					</CardContent>
 				</Card>
 				<Card>
@@ -124,7 +166,7 @@ export default function AdminDashboard() {
 						<CardTitle className="font-medium text-sm">Postulaciones</CardTitle>
 					</CardHeader>
 					<CardContent>
-						<div className="font-bold text-2xl">3,782</div>
+						<div className="font-bold text-2xl">{applicationsTotal}</div>
 					</CardContent>
 				</Card>
 			</div>
@@ -134,18 +176,7 @@ export default function AdminDashboard() {
 					<CardTitle>Estadísticas Mensuales</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<ResponsiveContainer width="100%" height={300}>
-						<BarChart data={data}>
-							<CartesianGrid strokeDasharray="3 3" />
-							<XAxis dataKey="name" />
-							<YAxis />
-							<Tooltip />
-							<Legend />
-							<Bar dataKey="usuarios" fill="#8884d8" />
-							<Bar dataKey="empleadores" fill="#82ca9d" />
-							<Bar dataKey="empleos" fill="#ffc658" />
-						</BarChart>
-					</ResponsiveContainer>
+					<AdminChart data={data} />
 				</CardContent>
 			</Card>
 
@@ -156,12 +187,7 @@ export default function AdminDashboard() {
 					</CardHeader>
 					<CardContent>
 						<div className="mb-4 flex justify-between">
-							<Input
-								placeholder="Buscar usuarios..."
-								value={userFilter}
-								onChange={(e) => setUserFilter(e.target.value)}
-								className="max-w-sm"
-							/>
+							<Input placeholder="Buscar usuarios..." className="max-w-sm" />
 							<Select>
 								<SelectTrigger className="w-[180px]">
 									<SelectValue placeholder="Filtrar por tipo" />
@@ -183,21 +209,103 @@ export default function AdminDashboard() {
 								</TableRow>
 							</TableHeader>
 							<TableBody>
-								{filteredUsers.map((user) => (
-									<TableRow key={user.id}>
-										<TableCell>{user.nombre}</TableCell>
-										<TableCell>{user.email}</TableCell>
-										<TableCell>{user.tipo}</TableCell>
-										<TableCell>
-											<Button variant="outline" size="sm" className="mr-2">
-												Editar
-											</Button>
-											<Button variant="destructive" size="sm">
-												Eliminar
-											</Button>
-										</TableCell>
-									</TableRow>
-								))}
+								{users.map((user) => {
+									return (
+										<TableRow key={user.id}>
+											<TableCell>{user.name}</TableCell>
+											<TableCell>{user.email}</TableCell>
+											<TableCell>{user.role}</TableCell>
+											<TableCell>
+												<Button
+													variant="outline"
+													size="sm"
+													className="mr-2"
+													asChild
+												>
+													<Link href={`/admin/users/${user.id}`}>
+														<Eye className="mr-2 h-4 w-4" size={20} />
+														Ver
+													</Link>
+												</Button>
+												<Button variant="outline" size="sm" className="">
+													<Pencil className="mr-2 h-4 w-4" size={20} />
+													Editar
+												</Button>
+												<Button variant="destructive" size="sm">
+													<Trash className="mr-2 h-4 w-4" size={20} />
+													Eliminar
+												</Button>
+											</TableCell>
+										</TableRow>
+									);
+								})}
+							</TableBody>
+						</Table>
+					</CardContent>
+				</Card>
+
+				<Card>
+					<CardHeader>
+						<CardTitle>Gestión de Empresas</CardTitle>
+					</CardHeader>
+					<CardContent>
+						<div className="mb-4 flex justify-between">
+							<Input placeholder="Buscar empleos..." className="max-w-sm" />
+							<Select>
+								<SelectTrigger className="w-[180px]">
+									<SelectValue placeholder="Filtrar por estado" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="todos">Todos</SelectItem>
+									<SelectItem value="activo">Activo</SelectItem>
+									<SelectItem value="cerrado">Cerrado</SelectItem>
+								</SelectContent>
+							</Select>
+						</div>
+						<Table>
+							<TableHeader>
+								<TableRow>
+									<TableHead>Empresa</TableHead>
+									<TableHead>Ubicación</TableHead>
+									<TableHead>Email</TableHead>
+									<TableHead>Teléfono</TableHead>
+									<TableHead>Posiciones Abiertas</TableHead>
+									<TableHead>Acciones</TableHead>
+								</TableRow>
+							</TableHeader>
+							<TableBody>
+								{companies.map((company) => {
+									return (
+										<TableRow key={company.userId}>
+											<TableCell>{company.name}</TableCell>
+											<TableCell>{company.location}</TableCell>
+											<TableCell>{company.email}</TableCell>
+											<TableCell>{company.phone}</TableCell>
+											<TableCell>{company.openPositions}</TableCell>
+											<TableCell>
+												<Button
+													variant="outline"
+													size="sm"
+													className="mr-2"
+													asChild
+												>
+													<Link href={`/admin/companies/${company.userId}`}>
+														<Eye className="mr-2 h-4 w-4" size={20} />
+														Ver
+													</Link>
+												</Button>
+												<Button variant="outline" size="sm" className="">
+													<Pencil className="mr-2 h-4 w-4" size={20} />
+													Editar
+												</Button>
+												<Button variant="destructive" size="sm">
+													<Trash className="mr-2 h-4 w-4" size={20} />
+													Eliminar
+												</Button>
+											</TableCell>
+										</TableRow>
+									);
+								})}
 							</TableBody>
 						</Table>
 					</CardContent>
@@ -209,12 +317,7 @@ export default function AdminDashboard() {
 					</CardHeader>
 					<CardContent>
 						<div className="mb-4 flex justify-between">
-							<Input
-								placeholder="Buscar empleos..."
-								value={jobFilter}
-								onChange={(e) => setJobFilter(e.target.value)}
-								className="max-w-sm"
-							/>
+							<Input placeholder="Buscar empleos..." className="max-w-sm" />
 							<Select>
 								<SelectTrigger className="w-[180px]">
 									<SelectValue placeholder="Filtrar por estado" />
@@ -236,21 +339,36 @@ export default function AdminDashboard() {
 								</TableRow>
 							</TableHeader>
 							<TableBody>
-								{filteredJobs.map((job) => (
-									<TableRow key={job.id}>
-										<TableCell>{job.titulo}</TableCell>
-										<TableCell>{job.empresa}</TableCell>
-										<TableCell>{job.estado}</TableCell>
-										<TableCell>
-											<Button variant="outline" size="sm" className="mr-2">
-												Editar
-											</Button>
-											<Button variant="destructive" size="sm">
-												Eliminar
-											</Button>
-										</TableCell>
-									</TableRow>
-								))}
+								{jobs.map((job) => {
+									return (
+										<TableRow key={job.id}>
+											<TableCell>{job.title}</TableCell>
+											<TableCell>{job.company?.name}</TableCell>
+											<TableCell>{job.applicationStatus}</TableCell>
+											<TableCell>
+												<Button
+													variant="outline"
+													size="sm"
+													className="mr-2"
+													asChild
+												>
+													<Link href={`/admin/jobs/${job.id}`}>
+														<Eye className="mr-2 h-4 w-4" size={20} />
+														Ver
+													</Link>
+												</Button>
+												<Button variant="outline" size="sm" className="">
+													<Pencil className="mr-2 h-4 w-4" size={20} />
+													Editar
+												</Button>
+												<Button variant="destructive" size="sm">
+													<Trash className="mr-2 h-4 w-4" size={20} />
+													Eliminar
+												</Button>
+											</TableCell>
+										</TableRow>
+									);
+								})}
 							</TableBody>
 						</Table>
 					</CardContent>

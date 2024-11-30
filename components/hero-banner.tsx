@@ -6,7 +6,7 @@ type HeroBannerProps = {};
 export const HeroBanner: React.FC<HeroBannerProps> = ({}) => {
 	return (
 		<section className="bg-gradient-to-r from-primary to-primary-foreground py-16 text-white">
-			<Container>
+			<Container className="text-center">
 				<h1 className="mb-4 font-bold text-4xl">
 					Encuentra tu próximo empleo en Lules, Tucumán
 				</h1>

@@ -1,3 +1,4 @@
+import { Container } from "@/components/container";
 import {
 	Card,
 	CardContent,
@@ -9,7 +10,6 @@ import { CategoriasDemandasChart } from "./components/categorias-demandadas-char
 import { EmpleosPorTipoChart } from "./components/empleos-por-tipo-chart";
 import { SalariosPromedioChart } from "./components/salarios-promedio-chart";
 import { TablaResumen } from "./components/tabla-resumen";
-import { Container } from "@/components/container";
 
 export default function MercadoLaboral() {
 	return (

@@ -1,16 +1,10 @@
-import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-
-interface Application {
-	id: number;
-	jobTitle: string;
-	status: string;
-	dateApplied: string;
-}
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import type { ApplicationWithRelations } from "@/types";
+import Link from "next/link";
 
 interface RecentActivityProps {
-	applications: Application[];
+	applications: ApplicationWithRelations[];
 }
 
 export function RecentActivity({ applications }: RecentActivityProps) {
@@ -24,19 +18,21 @@ export function RecentActivity({ applications }: RecentActivityProps) {
 					{applications.map((app) => (
 						<li key={app.id} className="flex items-center justify-between">
 							<div>
-								<p className="font-medium">{app.jobTitle}</p>
+								<p className="font-medium">{app.job?.title}</p>
 								<p className="text-gray-500 text-sm">
-									Applied on {app.dateApplied}
+									Applied on {app.dateApplied.toLocaleDateString()}
 								</p>
 							</div>
 							<div className="flex items-center space-x-2">
 								<Badge
 									variant={
-										app.status === "Accepted"
+										app.status === "ACCEPTED"
 											? "success"
-											: app.status === "Rejected"
-												? "destructive"
-												: "default"
+											: app.status === "PENDING"
+												? "pending"
+												: app.status === "REJECTED"
+													? "destructive"
+													: "default"
 									}
 								>
 									{app.status}

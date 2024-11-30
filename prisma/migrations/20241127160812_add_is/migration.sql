@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Job" ADD COLUMN     "isActive" BOOLEAN NOT NULL DEFAULT true,
+ADD COLUMN     "isArchived" BOOLEAN NOT NULL DEFAULT false,
+ADD COLUMN     "isDeleted" BOOLEAN NOT NULL DEFAULT false,
+ADD COLUMN     "isFeatured" BOOLEAN NOT NULL DEFAULT false;

@@ -26,7 +26,7 @@ export default function GeneralSettings() {
 				</div>
 				<div className="space-y-2">
 					<Label htmlFor="max-job-postings">
-						Maximum Job Postings per Employer
+						Maximum Job Postings per Company
 					</Label>
 					<div className="flex items-center space-x-4">
 						<Slider

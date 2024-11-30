@@ -1,27 +1,20 @@
-import Image from "next/image";
+import type { Company } from "@prisma/client";
+import { Briefcase, MapPin } from "lucide-react";
 import Link from "next/link";
-import { MapPin, Briefcase } from "lucide-react";
 
-interface Company {
-	id: string;
-	name: string;
-	description: string;
-	location: string;
-	openPositions: number;
-	logo?: string;
-}
-
-export default function CompanyCard({ company }: { company: Company }) {
+export default function CompanyCard({
+	company,
+}: { company: Company & { _count: { jobPostings: number } } }) {
+	const openPositions = company._count.jobPostings;
 	return (
 		<div className="rounded-lg bg-white p-6 shadow-md transition-shadow hover:shadow-lg">
 			<div className="mb-4 flex items-center">
 				<div className="relative mr-4 h-16 w-16">
 					{company.logo ? (
-						<Image
+						<img
 							src={company.logo}
 							alt={`${company.name} logo`}
-							fill
-							className="rounded-full object-cover"
+							className="mr-4 h-16 w-16 rounded-full object-cover"
 						/>
 					) : (
 						<div className="flex h-16 w-16 items-center justify-center rounded-full bg-gray-200 font-bold text-2xl text-gray-500">
@@ -31,7 +24,7 @@ export default function CompanyCard({ company }: { company: Company }) {
 				</div>
 				<div>
 					<Link
-						href={`/empresas/${company.id}`}
+						href={`/empresas/${company.userId}`}
 						className="font-semibold text-xl hover:underline"
 					>
 						{company.name}
@@ -45,8 +38,8 @@ export default function CompanyCard({ company }: { company: Company }) {
 			</div>
 			<div className="flex items-center text-gray-500 text-sm">
 				<Briefcase className="mr-1 h-4 w-4" />
-				{company.openPositions} Open Position
-				{company.openPositions !== 1 && "s"}
+				{openPositions} Open Position
+				{openPositions !== 1 && "s"}
 			</div>
 		</div>
 	);

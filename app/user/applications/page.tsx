@@ -1,6 +1,4 @@
-"use client";
-
-import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
 	Card,
 	CardContent,
@@ -8,104 +6,72 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
-import {
-	mockApplications,
-	type JobApplication,
-	type ApplicationStatus,
-} from "./data/mockApplications";
-import Link from "next/link";
+
 import { Container } from "@/components/container";
+import { Badge } from "@/components/ui/badge";
+import { prisma } from "@/db";
+import Link from "next/link";
+import { FiltersApplications } from "./components/filters-applications";
 
-export default function Dashboard() {
-	const [applications, setApplications] =
-		useState<JobApplication[]>(mockApplications);
-	const [statusFilter, setStatusFilter] = useState<ApplicationStatus | "All">(
-		"All",
-	);
-	const [titleFilter, setTitleFilter] = useState("");
+export default async function Dashboard() {
+	const user = await prisma.user.findUnique({
+		where: {
+			id: "cm43ejow7006muct4i0mo17f6",
+		},
+		include: {
+			applications: {
+				include: {
+					job: {
+						include: {
+							company: true,
+						},
+					},
+				},
+			},
+		},
+	});
 
-	const filteredApplications = applications.filter(
-		(app) =>
-			(statusFilter === "All" || app.status === statusFilter) &&
-			app.jobTitle.toLowerCase().includes(titleFilter.toLowerCase()),
-	);
+	if (!user) {
+		throw new Error("User not found");
+	}
 
-	const handleViewDetails = (id: string) => {
-		// Implement view details functionality
-		console.log(`View details for application ${id}`);
-	};
+	const { applications } = user;
 
 	return (
 		<Container>
 			<h1 className="mb-6 font-bold text-2xl">Job Application Dashboard</h1>
 
-			<div className="mb-6 grid gap-4 md:grid-cols-2">
-				<div>
-					<Label htmlFor="status-filter">Filter by Status</Label>
-					<Select
-						onValueChange={(value) =>
-							setStatusFilter(value as ApplicationStatus | "All")
-						}
-					>
-						<SelectTrigger id="status-filter">
-							<SelectValue placeholder="Select status" />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value="All">All</SelectItem>
-							<SelectItem value="Pending">Pending</SelectItem>
-							<SelectItem value="Accepted">Accepted</SelectItem>
-							<SelectItem value="Rejected">Rejected</SelectItem>
-						</SelectContent>
-					</Select>
-				</div>
-				<div>
-					<Label htmlFor="title-filter">Filter by Job Title</Label>
-					<Input
-						id="title-filter"
-						placeholder="Enter job title"
-						onChange={(e) => setTitleFilter(e.target.value)}
-					/>
-				</div>
-			</div>
+			<FiltersApplications />
 
 			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-				{filteredApplications.map((application) => (
+				{applications.map((application) => (
 					<Card key={application.id}>
 						<CardHeader>
-							<CardTitle>{application.jobTitle}</CardTitle>
+							<CardTitle>{application.job.title}</CardTitle>
+						</CardHeader>
+						<CardContent>
+							<p className="text-muted-foreground text-sm">
+								{application.job.company?.name}
+							</p>
+							<p className="text-muted-foreground text-sm">
+								Applied: {application.createdAt.toLocaleDateString()}
+							</p>
+						</CardContent>
+						<CardFooter className="flex justify-between">
 							<Badge
 								variant={
-									application.status === "Accepted"
+									application.status === "ACCEPTED"
 										? "success"
-										: application.status === "Rejected"
-											? "destructive"
-											: "default"
+										: application.status === "PENDING"
+											? "pending"
+											: application.status === "REJECTED"
+												? "destructive"
+												: "default"
 								}
 							>
 								{application.status}
 							</Badge>
-						</CardHeader>
-						<CardContent>
-							<p className="text-muted-foreground text-sm">
-								{application.company}
-							</p>
-							<p className="text-muted-foreground text-sm">
-								Applied: {application.appliedDate}
-							</p>
-						</CardContent>
-						<CardFooter>
-							<Button asChild size="sm">
+							<Button asChild size="sm" variant="outline">
 								<Link href={`/user/applications/${application.id}`}>
 									View Details
 								</Link>

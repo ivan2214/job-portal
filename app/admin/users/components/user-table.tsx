@@ -7,8 +7,8 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import type { User } from "@prisma/client";
 import Link from "next/link";
-import type { User } from "../data";
 
 interface UserTableProps {
 	users: User[];

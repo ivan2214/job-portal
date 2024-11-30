@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,
@@ -8,17 +9,12 @@ import {
 	DialogTitle,
 } from "@/components/ui/dialog";
 
-interface WithdrawConfirmationModalProps {
-	isOpen: boolean;
-	onClose: () => void;
-	onConfirm: () => void;
-}
+export function WithdrawConfirmationModal({}) {
+	const onClose = () => {};
+	const onConfirm = () => {};
 
-export function WithdrawConfirmationModal({
-	isOpen,
-	onClose,
-	onConfirm,
-}: WithdrawConfirmationModalProps) {
+	const isOpen = false;
+
 	return (
 		<Dialog open={isOpen} onOpenChange={onClose}>
 			<DialogContent className="sm:max-w-[425px]">

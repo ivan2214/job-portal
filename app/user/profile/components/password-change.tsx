@@ -3,10 +3,15 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import type { UserWithRelations } from "@/types";
 import { useState } from "react";
 import { toast } from "sonner";
 
-export function PasswordChange() {
+export function PasswordChange({
+	user,
+}: {
+	user: UserWithRelations;
+}) {
 	const [currentPassword, setCurrentPassword] = useState("");
 	const [newPassword, setNewPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");

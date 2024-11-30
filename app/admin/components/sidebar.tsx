@@ -1,9 +1,16 @@
-import { Building2, Home, Settings, Users } from "lucide-react";
+import {
+	Briefcase,
+	Building2,
+	FileUser,
+	Home,
+	Settings,
+	Users,
+} from "lucide-react";
 import Link from "next/link";
 
 export function Sidebar() {
 	return (
-		<div className="h-full w-64 bg-white shadow-md">
+		<div className="w-64 bg-white shadow-md">
 			<div className="p-4">
 				<h1 className="font-bold text-2xl text-gray-800">Admin Panel</h1>
 			</div>
@@ -16,11 +23,11 @@ export function Sidebar() {
 					Dashboard
 				</Link>
 				<Link
-					href="/admin/employers"
+					href="/admin/companies"
 					className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
 				>
 					<Building2 className="mr-2" size={20} />
-					Employers
+					Companies
 				</Link>
 				<Link
 					href="/admin/users"
@@ -28,6 +35,20 @@ export function Sidebar() {
 				>
 					<Users className="mr-2" size={20} />
 					Users
+				</Link>
+				<Link
+					href="/admin/jobs"
+					className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
+				>
+					<Briefcase className="mr-2" size={20} />
+					Jobs
+				</Link>
+				<Link
+					href="/admin/applications"
+					className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
+				>
+					<FileUser className="mr-2" size={20} />
+					Applications
 				</Link>
 				<Link
 					href="/admin/settings"

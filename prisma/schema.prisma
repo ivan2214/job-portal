@@ -19,31 +19,78 @@ model User {
   // Relaciones
   postedJobs   Job[]         @relation("EmployerJobs") // Relación: un usuario puede publicar muchos empleos
   applications Application[] // Relación: un usuario puede postularse a muchos empleos
+  company      Company?
+
+  status UserStatus @default(ACTIVE)
 }
 
 model Job {
   id                String            @id @default(cuid()) // ID único del usuario
   title             String // Título del empleo
   description       String // Descripción del empleo
-  salary            Float? // Salario (opcional)
+  salary            String? // Salario (opcional)
   location          String // Ubicación del empleo
+  requirements      Requirements[]
   applicationStatus ApplicationStatus @default(PENDING) // Enum para representar el estado de la postulación
-  dateApplied       DateTime // Fecha de postulación
-  createdAt         DateTime          @default(now()) // Fecha de creación
-  updatedAt         DateTime          @updatedAt // Fecha de última actualización
+
+  createdAt DateTime @default(now()) // Fecha de creación
+  updatedAt DateTime @updatedAt // Fecha de última actualización
+  type      TypeJob  @default(OTHER)
+
+  isFeatured Boolean @default(false)
+  isActive   Boolean @default(true)
+  isArchived Boolean @default(false)
+  isDeleted  Boolean @default(false)
 
   // Relaciones
-  userId       String // Relación con el usuario
-  user         User          @relation("EmployerJobs", fields: [userId], references: [id]) // El empleo pertenece a un usuario
-  applications Application[] // Relación: un empleo puede tener muchas postulaciones
-  company      Company?      @relation(fields: [companyId], references: [id])
-  companyId    String?
+
+  userId        String // Relación con el usuario
+  user          User          @relation("EmployerJobs", fields: [userId], references: [id]) // El empleo pertenece a un usuario
+  applications  Application[] // Relación: un empleo puede tener muchas postulaciones
+  categoryJob   CategoryJob?  @relation(fields: [categoryJobId], references: [id])
+  categoryJobId String?
+  company       Company?      @relation(fields: [companyUserId], references: [userId])
+  companyUserId String?
+  contactInfo   ContactInfo?
+}
+
+model Requirements {
+  id   String @id @default(cuid())
+  name String
+
+  job   Job?    @relation(fields: [jobId], references: [id])
+  jobId String?
+}
+
+model ContactInfo {
+  id        String @id @default(cuid())
+  email     String
+  phone     String
+  website   String
+  linkedin  String
+  facebook  String
+  instagram String
+
+  // Relaciones
+  job   Job?    @relation(fields: [jobId], references: [id])
+  jobId String?
+
+  @@unique([jobId])
+}
+
+model CategoryJob {
+  id   String @id @default(cuid())
+  name String
+
+  // Relaciones
+  jobs Job[]
 }
 
 model Application {
-  id        String   @id @default(cuid()) // ID único del usuario
-  createdAt DateTime @default(now()) // Fecha de creación
-  updatedAt DateTime @updatedAt // Fecha de última actualización
+  id          String   @id @default(cuid()) // ID único del usuario
+  createdAt   DateTime @default(now()) // Fecha de creación
+  updatedAt   DateTime @updatedAt // Fecha de última actualización
+  dateApplied DateTime // Fecha de postulación
 
   // Relaciones
   userId String // Relación con el usuario
@@ -56,7 +103,7 @@ model Application {
 }
 
 model Company {
-  id            String   @id @default(cuid()) // ID único del usuario
+  userId        String   @id @unique // Usar el ID del usuario como ID único para la compañía
   name          String // Nombre de la empresa
   description   String // Descripción de la empresa
   location      String // Ubicación de la empresa
@@ -70,6 +117,7 @@ model Company {
 
   // Relaciones
   jobPostings Job[] // Relación: una empresa puede tener muchas ofertas de empleo
+  user        User  @relation(fields: [userId], references: [id]) // Relación con el usuario
 }
 
 enum RoleUser {
@@ -83,4 +131,28 @@ enum ApplicationStatus {
   REVIEWED // Postulación revisada
   REJECTED // Postulación rechazada
   ACCEPTED // Postulación aceptada
+}
+
+enum TypeJob {
+  FULL_TIME // Empleo de tiempo completo
+  PART_TIME // Empleo de tiempo parcial
+  INTERN // Empleo de interno
+  CONTRACT // Empleo de contrato
+  TEMPORARY // Empleo temporal
+  VOLUNTARY // Empleo voluntario
+  PERMANENT // Empleo permanente
+  OTHER // Otro tipo de empleo
+}
+
+enum UserStatus {
+  ACTIVE // Usuario activo
+  INACTIVE // Usuario inactivo
+  DELETED // Usuario eliminado
+  BLOCKED // Usuario bloqueado
+  SUSPENDED // Usuario suspendido
+  BANNED // Usuario baneado
+  DEACTIVATED // Usuario desactivado
+  DEACTIVATED_PERMANENTLY // Usuario desactivado permanentemente
+  DEACTIVATED_TEMPORARILY // Usuario desactivado temporalmente
+  DEACTIVATED_BY_ADMIN // Usuario desactivado por el administrador
 }
