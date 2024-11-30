@@ -1,7 +1,7 @@
 import { Building, DollarSign, Mail, MapPin, Phone } from "lucide-react";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { JobWithRelations } from "@/types";
 
 export default function JobDetails({ job }: { job: JobWithRelations }) {

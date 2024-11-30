@@ -3,11 +3,11 @@
 import { Button } from "@/components/ui/button";
 import type { Application, Job } from "@prisma/client";
 import { PlusCircle } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 import Filter from "./filter";
 import JobTable from "./job-table";
 import Pagination from "./pagination";
-import Link from "next/link";
 
 export default function JobManagement({
 	jobs,

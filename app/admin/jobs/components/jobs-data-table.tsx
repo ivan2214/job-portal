@@ -38,8 +38,8 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import type { Application, ApplicationStatus } from "@prisma/client";
 import type { JobWithRelations } from "@/types";
+import type { Application, ApplicationStatus } from "@prisma/client";
 
 // This would typically come from your API
 

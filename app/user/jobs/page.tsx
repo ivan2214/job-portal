@@ -8,8 +8,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { JobCardApplied } from "./components/job-card-applied";
 import { prisma } from "@/db";
+import { JobCardApplied } from "./components/job-card-applied";
 
 type SearchParams = Promise<{
 	page?: string;

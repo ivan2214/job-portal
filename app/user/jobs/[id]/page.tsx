@@ -3,11 +3,11 @@ import { Button } from "@/components/ui/button";
 import {} from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 
-import { WithdrawConfirmationModal } from "./components/withdraw-confirmation-modal";
-import { JobApplicationDetails } from "./components/job-application-details";
 import { prisma } from "@/db";
-import { notFound } from "next/navigation";
 import Link from "next/link";
+import { notFound } from "next/navigation";
+import { JobApplicationDetails } from "./components/job-application-details";
+import { WithdrawConfirmationModal } from "./components/withdraw-confirmation-modal";
 type Params = Promise<{ id: string }>;
 
 export default async function JobApplicationDetailsPage({

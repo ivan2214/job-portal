@@ -1,9 +1,9 @@
 import { Container } from "@/components/container";
+import { prisma } from "@/db";
+import { notFound } from "next/navigation";
 import { CallToAction } from "./components/call-to-action";
 import { DashboardSummary } from "./components/dashboard-summary";
 import { RecentActivity } from "./components/recent-activity";
-import { prisma } from "@/db";
-import { notFound } from "next/navigation";
 
 export default async function CompanyDashboard() {
 	const companyId = "cm43ejos60009uct4ed84fa79";

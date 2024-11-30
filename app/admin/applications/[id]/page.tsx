@@ -1,12 +1,12 @@
-import { notFound } from "next/navigation";
-import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { BreadcrumbDynamic } from "@/components/breadcrumbs-dynamic";
+import { Container } from "@/components/container";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { prisma } from "@/db";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 import ApplicationActions from "./components/application-actions";
 import MessageThread from "./components/message-thread";
-import { prisma } from "@/db";
-import { Container } from "@/components/container";
-import { BreadcrumbDynamic } from "@/components/breadcrumbs-dynamic";
 
 type Params = Promise<{ id: string }>;
 

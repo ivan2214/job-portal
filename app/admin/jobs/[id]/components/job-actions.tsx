@@ -1,8 +1,5 @@
 "use client";
 
-import { useState } from "react";
-import { Pencil, Trash2, XCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -14,7 +11,10 @@ import {
 	AlertDialogTitle,
 	AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import type { JobWithRelations } from "@/types";
+import { Pencil, Trash2, XCircle } from "lucide-react";
+import { useState } from "react";
 
 interface JobActionsProps {
 	job: JobWithRelations;

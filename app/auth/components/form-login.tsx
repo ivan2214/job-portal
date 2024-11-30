@@ -1,88 +1,91 @@
 "use client";
 
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
-
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import {} from "@/components/ui/alert";
+import {} from "@/components/ui/radio-group";
+import { FormLoginSchema } from "@/schemas/auth-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import type { z } from "zod";
+
+import { Button } from "@/components/ui/button";
+import { CardFooter } from "@/components/ui/card";
+import {
+	Form,
+	FormControl,
+	FormDescription,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import Link from "next/link";
 
 type FormLoginProps = {};
 
-const formSchema = z.object({
-	email: z.string().email({ message: "Correo electrónico inválido" }),
-	password: z
-		.string()
-		.min(8, { message: "La contraseña debe tener al menos 8 caracteres" }),
-	role: z.enum(["postulante", "empleador"], {
-		required_error: "Debe seleccionar un rol",
-	}),
-});
-
 export const FormLogin: React.FC<FormLoginProps> = ({}) => {
-	const {
-		register,
-		formState: { errors },
-	} = useForm({
-		resolver: zodResolver(formSchema),
+	const form = useForm<z.infer<typeof FormLoginSchema>>({
+		resolver: zodResolver(FormLoginSchema),
+		defaultValues: {
+			email: "",
+			password: "",
+		},
 	});
 
+	// 2. Define a submit handler.
+	function onSubmit(values: z.infer<typeof FormLoginSchema>) {
+		// Do something with the form values.
+		// ✅ This will be type-safe and validated.
+		console.log(values);
+	}
 	return (
-		<form>
-			<div className="space-y-4">
-				<div className="space-y-2">
-					<Label htmlFor="login-email">Correo Electrónico</Label>
-					<Input id="login-email" type="email" {...register("email")} />
-					{errors.email && (
-						<Alert variant="destructive">
-							<AlertDescription>
-								{errors.email.message?.toString()}
-							</AlertDescription>
-						</Alert>
+		<Form {...form}>
+			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+				<FormField
+					control={form.control}
+					name="email"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Email</FormLabel>
+							<FormControl>
+								<Input type="email" placeholder="Enter your email" {...field} />
+							</FormControl>
+							<FormDescription>
+								We'll never share your email with anyone else.
+							</FormDescription>
+							<FormMessage />
+						</FormItem>
 					)}
-				</div>
-				<div className="space-y-2">
-					<Label htmlFor="login-password">Contraseña</Label>
-					<Input
-						id="login-password"
-						type="password"
-						{...register("password")}
-					/>
-					{errors.password && (
-						<Alert variant="destructive">
-							<AlertDescription>
-								{errors.password.message?.toString()}
-							</AlertDescription>
-						</Alert>
+				/>
+				<FormField
+					control={form.control}
+					name="password"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Password</FormLabel>
+							<FormControl>
+								<Input placeholder="*******" {...field} />
+							</FormControl>
+							<FormDescription>
+								We'll never share your email with anyone else.
+							</FormDescription>
+							<FormMessage />
+						</FormItem>
 					)}
-				</div>
-				<div className="space-y-2">
-					<Label>Rol</Label>
-					<RadioGroup defaultValue="postulante" {...register("role")}>
-						<div className="flex items-center space-x-2">
-							<RadioGroupItem value="postulante" id="postulante-login" />
-							<Label htmlFor="postulante-login">Postulante</Label>
-						</div>
-						<div className="flex items-center space-x-2">
-							<RadioGroupItem value="empleador" id="empleador-login" />
-							<Label htmlFor="empleador-login">Empleador</Label>
-						</div>
-					</RadioGroup>
-					{errors.role && (
-						<Alert variant="destructive">
-							<AlertDescription>
-								{errors.role.message?.toString()}
-							</AlertDescription>
-						</Alert>
-					)}
-				</div>
-			</div>
-			<Button type="submit" className="mt-4 w-full">
-				Iniciar Sesión
-			</Button>
-		</form>
+				/>
+
+				<Button type="submit" className="mt-4 w-full">
+					Iniciar Sesión
+				</Button>
+				<CardFooter className="flex justify-center">
+					<Link
+						href="/forgot-password"
+						className="text-blue-600 text-sm hover:underline"
+					>
+						¿Olvidaste tu contraseña?
+					</Link>
+				</CardFooter>
+			</form>
+		</Form>
 	);
 };

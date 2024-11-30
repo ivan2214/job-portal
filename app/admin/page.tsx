@@ -18,9 +18,9 @@ import {
 } from "@/components/ui/table";
 import { prisma } from "@/db";
 
-import { AdminChart } from "./components/admin-chart";
 import { Eye, Pencil, Trash } from "lucide-react";
 import Link from "next/link";
+import { AdminChart } from "./components/admin-chart";
 
 type SearchParams = Promise<{
 	filter?: "users" | "companies" | "jobs";

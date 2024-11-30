@@ -1,9 +1,9 @@
 import { Container } from "@/components/container";
 import { prisma } from "@/db";
+import { notFound } from "next/navigation";
 import { CallToAction } from "./components/call-to-action";
 import { RecentActivity } from "./components/recent-activity";
 import { SummaryCard } from "./components/summary-card";
-import { notFound } from "next/navigation";
 
 export default async function UserDashboard() {
 	const userId = "cm43ejow7006juct43n36yqva";

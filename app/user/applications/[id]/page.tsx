@@ -1,8 +1,8 @@
 import { Container } from "@/components/container";
 import { prisma } from "@/db";
 import type { Metadata } from "next";
-import JobApplicationDetails from "./components/job-application-details";
 import { notFound } from "next/navigation";
+import JobApplicationDetails from "./components/job-application-details";
 
 type Params = Promise<{ id: string }>;
 

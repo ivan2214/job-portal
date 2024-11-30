@@ -12,6 +12,8 @@ export function PasswordChange({
 }: {
 	user: UserWithRelations;
 }) {
+	console.log(user);
+
 	const [currentPassword, setCurrentPassword] = useState("");
 	const [newPassword, setNewPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");

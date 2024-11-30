@@ -11,8 +11,8 @@ import {
 	BreadcrumbList,
 	BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { ChevronRight } from "lucide-react";
 import { prisma } from "@/db";
+import { ChevronRight } from "lucide-react";
 
 type SearchParams = Promise<{
 	query?: string;
