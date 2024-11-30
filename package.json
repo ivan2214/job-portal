@@ -11,7 +11,8 @@
 		"prisma:reset": "pnpm dlx prisma migrate reset --force",
 		"prisma:generate": "pnpm dlx prisma generate",
 		"prisma:seed": "pnpm dlx prisma db seed",
-		"prisma:studio": "pnpm dlx prisma studio"
+		"prisma:studio": "pnpm dlx prisma studio",
+		"postinstall": "if [ \"$NODE_ENV\" = \"production\" ]; then prisma generate && prisma migrate dev && prisma db seed; fi"
 	},
 	"dependencies": {
 		"@auth/prisma-adapter": "^2.7.4",

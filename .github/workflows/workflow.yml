@@ -9,7 +9,7 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_DB: autonomos-db
+          POSTGRES_DB: job-portal-db
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
         ports:
@@ -29,10 +29,11 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
-            node-version: ${{ matrix.node-version }}
-            cache: 'pnpm'
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install      
 
       - name: Wait for PostgreSQL to be ready
         run: |
@@ -41,7 +42,7 @@ jobs:
           done
 
       - name: Set up environment variables
-        run: echo "DATABASE_URL=postgres://postgres:postgres123@localhost:5432/autonomos-db" >> $GITHUB_ENV
+        run: echo "DATABASE_URL=postgres://postgres:postgres123@localhost:5432/job-portal-db" >> $GITHUB_ENV
 
       - name: Run biome
         run: pnpm run check
