@@ -2,7 +2,6 @@ import { Container } from "@/components/container";
 import { prisma } from "@/db";
 import { notFound } from "next/navigation";
 import ActionButtons from "./components/action-button";
-import EmployerInfo from "./components/employer-info";
 import JobDetails from "./components/job-details";
 
 export default async function JobPostingPage({
@@ -10,29 +9,36 @@ export default async function JobPostingPage({
 }: { params: { id: string } }) {
 	const { id } = await params;
 
-	const jobData = await prisma.job.findUnique({
+	const job = await prisma.job.findUnique({
 		where: {
 			id: id,
 		},
 		include: {
 			company: true,
+			contactInfo: true,
+			categoryJob: true,
+			requirements: true,
 		},
 	});
 
-	if (!jobData) {
+	console.log(job);
+
+	if (!job) {
 		notFound();
 	}
 
 	return (
 		<Container>
-			<h1 className="mb-8 text-center font-bold text-4xl">{jobData.title}</h1>
+			<header className="mb-8 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+				<div>
+					<h1 className="mb-2 font-bold text-3xl">{job.title}</h1>
+					<p className="text-muted-foreground text-xl">{job.company?.name}</p>
+				</div>
+			</header>
 
-			<div className="mb-8 grid gap-8 md:grid-cols-2">
-				<JobDetails job={jobData} />
-				<EmployerInfo company={jobData.company} />
-			</div>
+			<JobDetails job={job} />
 
-			<ActionButtons jobId={jobData.id} />
+			<ActionButtons jobId={job.id} />
 		</Container>
 	);
 }

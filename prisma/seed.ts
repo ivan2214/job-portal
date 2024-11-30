@@ -1,12 +1,16 @@
 import { faker } from "@faker-js/faker";
-import { ApplicationStatus, PrismaClient, RoleUser } from "@prisma/client";
+import {
+	ApplicationStatus,
+	PrismaClient,
+	RoleUser,
+	TypeJob,
+} from "@prisma/client";
 import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
 function generateRandomDateInMonth(year: number, month: number) {
 	// Generar el inicio y fin del mes
-	const startOfMonth = new Date(year, month, 1);
 	const endOfMonth = new Date(year, month + 1, 0, 23, 59, 59, 999);
 
 	// Generar una fecha aleatoria usando faker.date.past, asegurando que esté dentro del mes
@@ -97,43 +101,61 @@ async function main() {
 		),
 	);
 
-	// Crear Empleos asociados a empleadores y categorías
+	// Crear Empleos asociados a empleadores, categorías, requisitos y contactos
 	const jobs = await Promise.all(
-		Array.from({ length: faker.number.int({ min: 5, max: 50 }) }).map(() => {
-			const employer = faker.helpers.arrayElement(employers);
-			const isActive = faker.datatype.boolean();
-			const isArchived = !isActive && faker.datatype.boolean();
-			const isFeatured = isActive && faker.datatype.boolean();
-			const isDeleted =
-				isArchived && !isFeatured && !isActive && faker.datatype.boolean();
-			const category = faker.helpers.arrayElement(categories);
+		Array.from({ length: faker.number.int({ min: 5, max: 50 }) }).map(
+			async () => {
+				const employer = faker.helpers.arrayElement(employers);
+				const category = faker.helpers.arrayElement(categories);
 
-			return prisma.job.create({
-				data: {
-					createdAt: generateRandomDateInMonth(
-						currentYear,
-						faker.number.int({ min: 0, max: 11 }),
+				const job = await prisma.job.create({
+					data: {
+						createdAt: generateRandomDateInMonth(
+							currentYear,
+							faker.number.int({ min: 0, max: 11 }),
+						),
+						title: faker.person.jobTitle(),
+						description: faker.lorem.paragraph(),
+						salary: `$${faker.number.int({ min: 50000, max: 150000 })} - $${faker.number.int({ min: 150000, max: 300000 })} al año`,
+						location: faker.location.city(),
+						userId: employer.id,
+						companyUserId: employer.id,
+						categoryJobId: category.id,
+						applicationStatus: ApplicationStatus.PENDING,
+						type: faker.helpers.arrayElement(Object.values(TypeJob)),
+						isActive: faker.datatype.boolean(),
+						isFeatured: faker.datatype.boolean(),
+					},
+				});
+
+				// Crear Requisitos para el empleo
+				await Promise.all(
+					Array.from({ length: faker.number.int({ min: 1, max: 5 }) }).map(() =>
+						prisma.requirements.create({
+							data: {
+								name: faker.lorem.words(3),
+								jobId: job.id,
+							},
+						}),
 					),
-					title: faker.person.jobTitle(),
-					description: faker.lorem.paragraph(),
-					salary: `$${faker.number.int({ min: 50000, max: 150000 })} - $${faker.number.int(
-						{
-							min: 150000,
-							max: 300000,
-						},
-					)} al año`,
-					location: faker.location.city(),
-					userId: employer.id,
-					companyUserId: employer.id, // Relación con la compañía del mismo empleador
-					categoryJobId: category.id,
-					applicationStatus: ApplicationStatus.PENDING,
-					isActive,
-					isArchived,
-					isFeatured,
-					isDeleted,
-				},
-			});
-		}),
+				);
+
+				// Crear Información de Contacto para el empleo
+				await prisma.contactInfo.create({
+					data: {
+						email: faker.internet.email(),
+						phone: faker.phone.number(),
+						website: faker.internet.url(),
+						linkedin: `https://linkedin.com/in/${faker.internet.displayName()}`,
+						facebook: `https://facebook.com/${faker.internet.displayName()}`,
+						instagram: `https://instagram.com/${faker.internet.displayName()}`,
+						jobId: job.id,
+					},
+				});
+
+				return job;
+			},
+		),
 	);
 
 	// Crear Empleados
@@ -144,7 +166,7 @@ async function main() {
 				data: {
 					createdAt: generateRandomDateInMonth(
 						currentYear,
-						faker.number.int({ min: 0, max: 11 }), // Mes aleatorio dentro del año actual
+						faker.number.int({ min: 0, max: 11 }),
 					),
 					name: faker.person.fullName(),
 					email: faker.internet.email(),

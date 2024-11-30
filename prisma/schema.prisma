@@ -30,6 +30,7 @@ model Job {
   description       String // Descripción del empleo
   salary            String? // Salario (opcional)
   location          String // Ubicación del empleo
+  requirements      Requirements[]
   applicationStatus ApplicationStatus @default(PENDING) // Enum para representar el estado de la postulación
 
   createdAt DateTime @default(now()) // Fecha de creación
@@ -50,6 +51,31 @@ model Job {
   categoryJobId String?
   company       Company?      @relation(fields: [companyUserId], references: [userId])
   companyUserId String?
+  contactInfo   ContactInfo?
+}
+
+model Requirements {
+  id   String @id @default(cuid())
+  name String
+
+  job   Job?    @relation(fields: [jobId], references: [id])
+  jobId String?
+}
+
+model ContactInfo {
+  id        String @id @default(cuid())
+  email     String
+  phone     String
+  website   String
+  linkedin  String
+  facebook  String
+  instagram String
+
+  // Relaciones
+  job   Job?    @relation(fields: [jobId], references: [id])
+  jobId String?
+
+  @@unique([jobId])
 }
 
 model CategoryJob {

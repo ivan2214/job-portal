@@ -15,27 +15,29 @@ interface SearchParamsProps {
 }
 
 export default async function JobListings({ searchParams }: SearchParamsProps) {
+	const { page, category, query, location, sort } = await searchParams;
+
 	const jobListings = await prisma.job.findMany({
 		where: {
 			title: {
-				contains: searchParams.query || "",
+				contains: query || "",
 				mode: "insensitive",
 			},
 			categoryJob: {
 				name: {
-					contains: searchParams.category || "",
+					contains: category || "",
 					mode: "insensitive",
 				},
 			},
 			location: {
-				contains: searchParams.location || "",
+				contains: location || "",
 				mode: "insensitive",
 			},
 		},
 		orderBy: {
 			createdAt: "desc",
 		},
-		skip: (Number(searchParams.page || 1) - 1) * 10,
+		skip: (Number(page || 1) - 1) * 10,
 		take: 10,
 		include: {
 			categoryJob: true,
