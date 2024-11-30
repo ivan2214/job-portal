@@ -41,22 +41,24 @@ async function main() {
 		),
 	});
 
-	// Crear Empleadores con Compañías asociadas
-	const employerPassword = await bcrypt.hash("employer123", saltRounds);
-	const employers = await Promise.all(
+	// Crear usuarios como compañias
+	const companiesPassword = await bcrypt.hash("compañia123", saltRounds);
+
+	const companies = await Promise.all(
 		Array.from({ length: faker.number.int({ min: 5, max: 50 }) }).map(
 			async () => {
 				const createdAt = generateRandomDateInMonth(
 					currentYear,
 					faker.number.int({ min: 0, max: 11 }),
 				);
-				const user = await prisma.user.create({
+				const userCompany = await prisma.user.create({
 					data: {
 						createdAt,
 						name: faker.person.fullName(),
 						email: faker.internet.email(),
-						hashedPassword: employerPassword,
-						role: RoleUser.EMPLOYER,
+						hashedPassword: companiesPassword,
+						role: RoleUser.COMPANY,
+						emailVerified: Math.random() < 0.5 ? new Date() : null,
 					},
 				});
 
@@ -64,7 +66,7 @@ async function main() {
 				await prisma.company.create({
 					data: {
 						createdAt,
-						userId: user.id, // El ID del usuario como ID de la compañía
+						userId: userCompany.id, // El ID del usuario como ID de la compañía
 						name: faker.company.name(),
 						description: faker.company.catchPhrase(),
 						location: faker.location.city(),
@@ -76,7 +78,7 @@ async function main() {
 					},
 				});
 
-				return user;
+				return userCompany;
 			},
 		),
 	);
@@ -101,11 +103,11 @@ async function main() {
 		),
 	);
 
-	// Crear Empleos asociados a empleadores, categorías, requisitos y contactos
+	// Crear Empleos asociados a companías, categorías, requisitos y contactos
 	const jobs = await Promise.all(
 		Array.from({ length: faker.number.int({ min: 5, max: 50 }) }).map(
 			async () => {
-				const employer = faker.helpers.arrayElement(employers);
+				const company = faker.helpers.arrayElement(companies);
 				const category = faker.helpers.arrayElement(categories);
 
 				const job = await prisma.job.create({
@@ -118,8 +120,7 @@ async function main() {
 						description: faker.lorem.paragraph(),
 						salary: `$${faker.number.int({ min: 50000, max: 150000 })} - $${faker.number.int({ min: 150000, max: 300000 })} al año`,
 						location: faker.location.city(),
-						userId: employer.id,
-						companyUserId: employer.id,
+						companyUserId: company.id,
 						categoryJobId: category.id,
 						applicationStatus: ApplicationStatus.PENDING,
 						type: faker.helpers.arrayElement(Object.values(TypeJob)),
@@ -158,9 +159,9 @@ async function main() {
 		),
 	);
 
-	// Crear Empleados
-	const employeePassword = await bcrypt.hash("employee123", saltRounds);
-	const employees = await Promise.all(
+	// Crear usuarios
+	const userPassword = await bcrypt.hash("user123", saltRounds);
+	const users = await Promise.all(
 		Array.from({ length: faker.number.int({ min: 5, max: 50 }) }).map(() =>
 			prisma.user.create({
 				data: {
@@ -170,23 +171,23 @@ async function main() {
 					),
 					name: faker.person.fullName(),
 					email: faker.internet.email(),
-					hashedPassword: employeePassword,
-					role: RoleUser.EMPLOYEE,
+					hashedPassword: userPassword,
+					role: RoleUser.USER,
 				},
 			}),
 		),
 	);
 
-	// Crear Postulaciones de empleados a trabajos
+	// Crear Postulaciones de usuarios a trabajos
 	await Promise.all(
 		Array.from({ length: faker.number.int({ min: 5, max: 50 }) }).map(() => {
-			const employee = faker.helpers.arrayElement(employees);
+			const user = faker.helpers.arrayElement(users);
 			const job = faker.helpers.arrayElement(jobs);
 
 			return prisma.application.create({
 				data: {
 					dateApplied: faker.date.anytime(),
-					userId: employee.id,
+					userId: user.id,
 					jobId: job.id,
 					status: faker.helpers.arrayElement([
 						ApplicationStatus.PENDING,

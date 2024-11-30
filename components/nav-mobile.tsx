@@ -19,7 +19,7 @@ export default async function MenuMobile() {
 		},
 		include: {
 			applications: true,
-			postedJobs: true,
+
 			company: true,
 		},
 	});

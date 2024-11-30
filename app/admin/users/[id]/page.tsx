@@ -35,7 +35,11 @@ export default async function UserProfile({ params }: { params: Params }) {
 					job: true,
 				},
 			},
-			postedJobs: true,
+			company: {
+				include: {
+					jobPostings: true,
+				},
+			},
 		},
 	});
 
@@ -56,7 +60,7 @@ export default async function UserProfile({ params }: { params: Params }) {
 				items={[
 					{ label: "Admin", href: "/admin" },
 					{ label: "Users", href: "/admin/users" },
-					{ label: user.name, href: `/admin/users/${user.id}` },
+					{ label: user.name || "", href: `/admin/users/${user.id}` },
 				]}
 			/>
 
@@ -98,7 +102,7 @@ export default async function UserProfile({ params }: { params: Params }) {
 					<div className="grid gap-4 md:grid-cols-2">
 						<ActivitySummary
 							title="Jobs Posted"
-							count={user.postedJobs.length}
+							count={user.company?.jobPostings.length || 0}
 							icon={<BriefcaseIcon className="h-4 w-4 text-muted-foreground" />}
 						/>
 						<ActivitySummary

@@ -9,7 +9,7 @@ export default async function UserLayout({
 	children: React.ReactNode;
 }) {
 	const session = await auth();
-	const isUser = session?.user?.role === RoleUser.EMPLOYEE;
+	const isUser = session?.user?.role === RoleUser.USER;
 
 	if (!isUser || !session) {
 		return notFound();

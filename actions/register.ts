@@ -31,7 +31,7 @@ export const register = async (values: z.infer<typeof FormRegisterSchema>) => {
 			name: fullName,
 			email,
 			hashedPassword: hashedPassword,
-			role: "EMPLOYEE",
+			role: "USER",
 		},
 	});
 

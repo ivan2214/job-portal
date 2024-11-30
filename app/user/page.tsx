@@ -13,7 +13,7 @@ export default async function UserDashboard() {
 		where: {
 			id: userId,
 			AND: {
-				role: "EMPLOYEE",
+				role: "USER",
 			},
 		},
 	});

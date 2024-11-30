@@ -26,7 +26,7 @@ export default {
 					image: profile.avatar_url,
 					email: profile.email,
 					name: profile.name,
-					role: RoleUser.EMPLOYEE,
+					role: RoleUser.USER,
 				};
 			},
 		}),

@@ -41,6 +41,10 @@ export default async function CompanyDashboard() {
 		totalApplications,
 	};
 
+	console.log({
+		company,
+	});
+
 	return (
 		<Container className="space-y-8">
 			<h1 className="font-bold text-3xl">Welcome, {company.name}!</h1>
