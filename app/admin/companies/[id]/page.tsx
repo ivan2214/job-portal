@@ -1,6 +1,6 @@
 import { Container } from "@/components/container";
-import EditEmployerButton from "@/components/edit-employer-button";
-import SuspendEmployerButton from "@/components/suspend-employer-button";
+import EditCompanyButton from "@/components/edit-company-button";
+import SuspendCompanyButton from "@/components/suspend-company-button";
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -23,22 +23,22 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { JobList } from "./components/job-list";
 
-export default async function EmployerDetailsPage({
+export default async function CompanyDetailsPage({
 	params,
 }: { params: { id: string } }) {
-	const employer = await prisma.user.findUnique({
+	const company = await prisma.company.findUnique({
 		where: {
-			id: params.id,
+			userId: params.id,
 		},
 		include: {
-			company: true,
-			postedJobs: true,
+			jobPostings: true,
+			user: true,
 		},
 	});
 
-	console.log("Employer ID:", params.id);
+	console.log("Company ID:", params.id);
 
-	if (!employer) {
+	if (!company) {
 		notFound();
 	}
 
@@ -53,13 +53,13 @@ export default async function EmployerDetailsPage({
 						<ChevronRight className="h-4 w-4" />
 					</BreadcrumbSeparator>
 					<BreadcrumbItem>
-						<BreadcrumbLink href="/admin/employers">Employers</BreadcrumbLink>
+						<BreadcrumbLink href="/admin/companies">Companys</BreadcrumbLink>
 					</BreadcrumbItem>
 					<BreadcrumbSeparator>
 						<ChevronRight className="h-4 w-4" />
 					</BreadcrumbSeparator>
 					<BreadcrumbItem>
-						<BreadcrumbPage>{employer.company?.name}</BreadcrumbPage>
+						<BreadcrumbPage>{company.name}</BreadcrumbPage>
 					</BreadcrumbItem>
 				</BreadcrumbList>
 			</Breadcrumb>
@@ -67,25 +67,25 @@ export default async function EmployerDetailsPage({
 			<div className="mt-6 grid gap-6 md:grid-cols-2">
 				<Card>
 					<CardHeader>
-						<CardTitle>Employer Details</CardTitle>
+						<CardTitle>Company Details</CardTitle>
 					</CardHeader>
 					<CardContent>
 						<dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
 							<div>
 								<dt className="font-medium text-gray-500">Company Name</dt>
-								<dd className="mt-1">{employer.company?.name}</dd>
+								<dd className="mt-1">{company.name}</dd>
 							</div>
 							<div>
 								<dt className="font-medium text-gray-500">Email</dt>
-								<dd className="mt-1">{employer.email}</dd>
+								<dd className="mt-1">{company.email}</dd>
 							</div>
 							<div>
 								<dt className="font-medium text-gray-500">Date Joined</dt>
-								<dd className="mt-1">{formatDate(employer.createdAt)}</dd>
+								<dd className="mt-1">{formatDate(company.createdAt)}</dd>
 							</div>
 							<div>
 								<dt className="font-medium text-gray-500">Total Jobs Posted</dt>
-								<dd className="mt-1">{employer.postedJobs.length}</dd>
+								<dd className="mt-1">{company.jobPostings.length}</dd>
 							</div>
 						</dl>
 					</CardContent>
@@ -94,11 +94,11 @@ export default async function EmployerDetailsPage({
 				<Card>
 					<CardHeader>
 						<CardTitle>Actions</CardTitle>
-						<CardDescription>Manage this employer's account</CardDescription>
+						<CardDescription>Manage this company's account</CardDescription>
 					</CardHeader>
 					<CardContent className="flex flex-col gap-4">
-						<SuspendEmployerButton employerId={employer.id} />
-						<EditEmployerButton employer={employer} />
+						<SuspendCompanyButton companyId={company.userId} />
+						<EditCompanyButton company={company} />
 					</CardContent>
 				</Card>
 			</div>
@@ -107,12 +107,12 @@ export default async function EmployerDetailsPage({
 				<CardHeader>
 					<CardTitle>Jobs Posted</CardTitle>
 					<CardDescription>
-						List of all jobs created by this employer
+						List of all jobs created by this company
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
 					<Suspense fallback={<div>Loading jobs...</div>}>
-						<JobList jobs={employer.postedJobs} />
+						<JobList jobs={company.jobPostings} />
 					</Suspense>
 				</CardContent>
 			</Card>

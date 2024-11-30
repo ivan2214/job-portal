@@ -1,6 +1,6 @@
 "use client";
 
-import SuspendEmployerButton from "@/components/suspend-employer-button";
+import SuspendCompanieButton from "@/components/suspend-company-button";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -12,37 +12,34 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import type { Company, Job, User } from "@prisma/client";
+import type { CompanyWithRelations } from "@/types";
 import { ArrowUpDown, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
-export function Employers({
-	employers,
+export function Companies({
+	companies,
 }: {
-	employers: (User & {
-		company: Company | null;
-		postedJobs: Job[];
-	})[];
+	companies: CompanyWithRelations[];
 }) {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [search, setSearch] = useState("");
 
 	const pageSize = 10;
 
-	const totalCount = employers.length;
+	const totalCount = companies.length;
 
 	const totalPages = Math.ceil(totalCount / pageSize);
 
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>Total Employers: {totalCount}</CardTitle>
+				<CardTitle>Total Companies: {totalCount}</CardTitle>
 			</CardHeader>
 			<CardContent>
 				<div className="mb-4">
 					<Input
-						placeholder="Search employers..."
+						placeholder="Search companies..."
 						value={search}
 						onChange={(e) => setSearch(e.target.value)}
 						className="max-w-sm"
@@ -64,18 +61,18 @@ export function Employers({
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{employers.map((employer) => (
-							<TableRow key={employer.id}>
-								<TableCell>{employer.company?.name}</TableCell>
-								<TableCell>{employer.email}</TableCell>
-								<TableCell>{employer.postedJobs.length}</TableCell>
+						{companies.map((company) => (
+							<TableRow key={company.userId}>
+								<TableCell>{company.name}</TableCell>
+								<TableCell>{company.email}</TableCell>
+								<TableCell>{company.jobPostings?.length}</TableCell>
 								<TableCell>
 									<Button variant="outline" size="sm" className="mr-2" asChild>
-										<Link href={`/admin/employers/${employer.id}`}>
+										<Link href={`/admin/companies/${company.userId}`}>
 											View Details
 										</Link>
 									</Button>
-									<SuspendEmployerButton employerId={String(employer.id)} />
+									<SuspendCompanieButton companyId={String(company.userId)} />
 								</TableCell>
 							</TableRow>
 						))}

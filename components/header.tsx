@@ -56,7 +56,7 @@ export const Header: React.FC<HeaderProps> = ({}) => {
 						</li>
 						<li>
 							<Link
-								href="/employer"
+								href="/company"
 								className="font-medium text-sm hover:text-primary"
 							>
 								Empresa

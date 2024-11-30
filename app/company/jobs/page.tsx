@@ -2,11 +2,11 @@ import { Container } from "@/components/container";
 import { prisma } from "@/db";
 import JobManagement from "./components/job-management";
 
-export default async function EmployerJobsPage() {
-	const employerId = "cm41iz9ba000afo2e29s3eg6v";
+export default async function CompanyJobsPage() {
+	const companyId = "cm43ejos60009uct4ed84fa79";
 	const jobs = await prisma.job.findMany({
 		where: {
-			userId: employerId,
+			userId: companyId,
 		},
 		include: {
 			applications: true,

@@ -38,7 +38,7 @@ export default function JobTable({ jobs, onDelete }: JobTableProps) {
 						<TableCell>
 							<div className="flex space-x-2">
 								<Button asChild variant="outline" size="sm">
-									<Link href={`/employer/jobs/${job.id}`}>
+									<Link href={`/company/jobs/${job.id}`}>
 										<Eye className="mr-2 h-4 w-4" /> View
 									</Link>
 								</Button>

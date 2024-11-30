@@ -42,7 +42,7 @@ export default function ApplicationList({
 								</TableCell>
 								<TableCell>
 									<Link
-										href={`/employer/applications/${application.id}`}
+										href={`/company/applications/${application.id}`}
 										className="text-blue-600 hover:underline"
 									>
 										View Details

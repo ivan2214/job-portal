@@ -3,7 +3,13 @@ import { prisma } from "@/db";
 import { JobApplicationsDashboard } from "./components/job-applications-dashboard";
 
 export default async function DashboardPage() {
+	const companyId = "cm43ejos60009uct4ed84fa79";
 	const applications = await prisma.application.findMany({
+		where: {
+			job: {
+				companyUserId: companyId,
+			},
+		},
 		include: {
 			user: true,
 			job: true,

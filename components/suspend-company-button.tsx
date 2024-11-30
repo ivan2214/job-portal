@@ -14,17 +14,17 @@ import {
 import { AlertCircle } from "lucide-react";
 import { useState } from "react";
 
-export default function SuspendEmployerButton({
-	employerId,
-}: { employerId: string }) {
+export default function SuspendCompanyButton({
+	companyId,
+}: { companyId: string }) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 
-	console.log("Employer ID:", employerId);
+	console.log("Company ID:", companyId);
 
 	const handleSuspend = async () => {
 		setIsLoading(true);
-		// Here you would typically call an API to suspend the employer
+		// Here you would typically call an API to suspend the company
 		await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulating API call
 		setIsLoading(false);
 		setIsOpen(false);
@@ -34,13 +34,13 @@ export default function SuspendEmployerButton({
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
 			<DialogTrigger asChild>
-				<Button variant="destructive">Suspend Employer</Button>
+				<Button variant="destructive">Suspend Company</Button>
 			</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>Suspend Employer</DialogTitle>
+					<DialogTitle>Suspend Company</DialogTitle>
 					<DialogDescription>
-						Are you sure you want to suspend this employer? This action will
+						Are you sure you want to suspend this company? This action will
 						prevent them from posting new jobs and accessing their account.
 					</DialogDescription>
 				</DialogHeader>
@@ -49,7 +49,7 @@ export default function SuspendEmployerButton({
 					<AlertTitle>Warning</AlertTitle>
 					<AlertDescription>
 						This action is reversible but may have significant consequences for
-						the employer.
+						the company.
 					</AlertDescription>
 				</Alert>
 				<DialogFooter>

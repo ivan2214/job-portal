@@ -7,6 +7,7 @@ import { useState } from "react";
 import Filter from "./filter";
 import JobTable from "./job-table";
 import Pagination from "./pagination";
+import Link from "next/link";
 
 export default function JobManagement({
 	jobs,
@@ -42,8 +43,10 @@ export default function JobManagement({
 		<div className="space-y-6">
 			<div className="flex items-center justify-between">
 				<Filter onFilter={handleFilter} />
-				<Button className="bg-green-600 hover:bg-green-700">
-					<PlusCircle className="mr-2 h-4 w-4" /> Post New Job
+				<Button size="sm" asChild className="bg-green-600 hover:bg-green-700">
+					<Link href="/company/jobs/new">
+						<PlusCircle className="mr-2 h-4 w-4" /> Post New Job
+					</Link>
 				</Button>
 			</div>
 			<JobTable jobs={currentJobs} onDelete={handleDelete} />

@@ -11,16 +11,10 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-
-interface Job {
-	id: number;
-	title: string;
-	status: "open" | "closed";
-	applications: number;
-}
+import type { JobWithRelations } from "@/types";
 
 interface RecentActivityProps {
-	jobs: Job[];
+	jobs: JobWithRelations[];
 }
 
 export function RecentActivity({ jobs }: RecentActivityProps) {
@@ -42,15 +36,23 @@ export function RecentActivity({ jobs }: RecentActivityProps) {
 							<TableCell className="font-medium">{job.title}</TableCell>
 							<TableCell>
 								<Badge
-									variant={job.status === "open" ? "default" : "secondary"}
+									variant={
+										job.applicationStatus === "ACCEPTED"
+											? "success"
+											: job.applicationStatus === "PENDING"
+												? "pending"
+												: job.applicationStatus === "REJECTED"
+													? "destructive"
+													: "default"
+									}
 								>
-									{job.status}
+									{job.applicationStatus}
 								</Badge>
 							</TableCell>
-							<TableCell>{job.applications}</TableCell>
+							<TableCell>{job.applications?.length}</TableCell>
 							<TableCell>
 								<Button variant="ghost" size="sm" asChild>
-									<Link href={`/employer/jobs/${job.id}`}>
+									<Link href={`/company/jobs/${job.id}`}>
 										<Edit className="mr-2 h-4 w-4" />
 										Edit
 									</Link>

@@ -5,10 +5,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navItems = [
-	{ href: "/employer", label: "Inicio", icon: Building2 },
-	{ href: "/employer/jobs", label: "Jobs", icon: Briefcase },
-	{ href: "/employer/applications", label: "Applications", icon: FileText },
-	{ href: "/employer/profile", label: "Profile", icon: UserPen },
+	{ href: "/company", label: "Inicio", icon: Building2 },
+	{ href: "/company/jobs", label: "Jobs", icon: Briefcase },
+	{ href: "/company/applications", label: "Applications", icon: FileText },
+	{ href: "/company/profile", label: "Profile", icon: UserPen },
 ];
 
 export function Sidebar() {

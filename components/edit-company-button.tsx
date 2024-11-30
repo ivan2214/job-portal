@@ -12,21 +12,20 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import type { Company, User } from "@prisma/client";
+import type { CompanyWithRelations } from "@/types";
+import type {} from "@prisma/client";
 import { useState } from "react";
 
-export default function EditEmployerButton({
-	employer,
+export default function EditCompanyButton({
+	company,
 }: {
-	employer: User & {
-		company: Company | null;
-	};
+	company: CompanyWithRelations;
 }) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [formData, setFormData] = useState({
-		companyName: employer.company?.name,
-		email: employer.email,
+		companyName: company.name,
+		email: company.email,
 	});
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,7 +35,7 @@ export default function EditEmployerButton({
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setIsLoading(true);
-		// Here you would typically call an API to update the employer information
+		// Here you would typically call an API to update the company information
 		await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulating API call
 		setIsLoading(false);
 		setIsOpen(false);
@@ -46,13 +45,13 @@ export default function EditEmployerButton({
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
 			<DialogTrigger asChild>
-				<Button variant="outline">Edit Employer Information</Button>
+				<Button variant="outline">Edit Company Information</Button>
 			</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>Edit Employer Information</DialogTitle>
+					<DialogTitle>Edit Company Information</DialogTitle>
 					<DialogDescription>
-						Make changes to the employer's information here. Click save when
+						Make changes to the company's information here. Click save when
 						you're done.
 					</DialogDescription>
 				</DialogHeader>
@@ -78,7 +77,7 @@ export default function EditEmployerButton({
 								id="email"
 								name="email"
 								type="email"
-								value={formData.email}
+								value={formData.email || ""}
 								onChange={handleChange}
 								className="col-span-3"
 							/>

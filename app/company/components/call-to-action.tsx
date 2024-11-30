@@ -11,7 +11,7 @@ export function CallToAction() {
 				<CardContent className="pt-6">
 					<Button asChild className="w-full">
 						<Link
-							href="/employer/jobs/new"
+							href="/company/jobs/new"
 							className="flex items-center justify-center"
 						>
 							<Plus className="mr-2 h-4 w-4" />
@@ -24,7 +24,7 @@ export function CallToAction() {
 				<CardContent className="pt-6">
 					<Button asChild variant="secondary" className="w-full">
 						<Link
-							href="/employer/applications"
+							href="/company/applications"
 							className="flex items-center justify-center"
 						>
 							<Users className="mr-2 h-4 w-4" />

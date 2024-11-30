@@ -24,7 +24,7 @@ import Link from "next/link";
 
 interface AdminDashboardProps {
 	searchParams?: {
-		filter?: "users" | "employers" | "jobs";
+		filter?: "users" | "companies" | "jobs";
 		query?: string;
 		page?: string;
 		type?: string;
@@ -289,7 +289,7 @@ export default async function AdminDashboard({
 													className="mr-2"
 													asChild
 												>
-													<Link href={`/admin/employers/${company.userId}`}>
+													<Link href={`/admin/companies/${company.userId}`}>
 														<Eye className="mr-2 h-4 w-4" size={20} />
 														Ver
 													</Link>

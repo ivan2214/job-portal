@@ -23,11 +23,11 @@ export function Sidebar() {
 					Dashboard
 				</Link>
 				<Link
-					href="/admin/employers"
+					href="/admin/companies"
 					className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
 				>
 					<Building2 className="mr-2" size={20} />
-					Employers
+					Companies
 				</Link>
 				<Link
 					href="/admin/users"

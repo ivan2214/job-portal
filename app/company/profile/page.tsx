@@ -5,8 +5,8 @@ import CompanyProfile from "./components/company-profile";
 import JobList from "./components/job-list";
 import NewJobForm from "./components/new-job-form";
 
-export default async function EmployerProfilePage() {
-	const companyId = "cm41kcjis000ay3rrl03zgejd";
+export default async function CompanyProfilePage() {
+	const companyId = "cm43ejos60009uct4ed84fa79";
 
 	if (!companyId) {
 		return notFound();

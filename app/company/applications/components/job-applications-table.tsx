@@ -61,7 +61,7 @@ export function JobApplicationsTable({
 						</TableCell>
 						<TableCell>
 							<Button asChild variant="outline" size="sm">
-								<Link href={`/employer/applications/${application.id}`}>
+								<Link href={`/company/applications/${application.id}`}>
 									<Eye className="mr-2 h-4 w-4" /> View Details
 								</Link>
 							</Button>

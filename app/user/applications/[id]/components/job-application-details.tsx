@@ -49,11 +49,11 @@ export default async function JobApplicationDetails({
 					</ul> */}
 				</div>
 
-				{/* 	{application.employerFeedback && (
+				{/* 	{application.companyFeedback && (
 					<div>
-						<h3 className="mb-2 font-semibold text-lg">Employer Feedback</h3>
+						<h3 className="mb-2 font-semibold text-lg">Company Feedback</h3>
 						<p className="rounded-md bg-muted p-4">
-							{application.employerFeedback}
+							{application.companyFeedback}
 						</p>
 					</div>
 				)} */}
