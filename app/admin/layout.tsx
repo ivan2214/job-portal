@@ -1,10 +1,18 @@
+import { auth } from "@/auth";
 import { Sidebar } from "./components/sidebar";
+import { notFound } from "next/navigation";
 
-export default function AdminLayout({
+export default async function AdminLayout({
 	children,
 }: {
 	children: React.ReactNode;
 }) {
+	const session = await auth();
+	const isAdmin = session?.user?.role === "ADMIN";
+
+	if (!isAdmin) {
+		return notFound();
+	}
 	return (
 		<div className="flex min-h-screen bg-gray-100">
 			<Sidebar />
