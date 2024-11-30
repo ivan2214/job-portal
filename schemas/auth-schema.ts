@@ -1,12 +1,10 @@
-"use client";
-
 import { z } from "zod";
 
 export const FormLoginSchema = z.object({
 	email: z.string().email({ message: "Correo electrónico inválido" }),
 	password: z
 		.string()
-		.min(8, { message: "La contraseña debe tener al menos 8 caracteres" }),
+		.min(6, { message: "La contraseña debe tener al menos 6 caracteres" }),
 	code: z.optional(z.string()),
 });
 
@@ -21,9 +19,6 @@ export const FormRegisterSchema = z
 		}),
 		fullName: z.string().min(1, {
 			message: "Name es requerido",
-		}),
-		role: z.enum(["postulante", "empleador"], {
-			required_error: "Debe seleccionar un rol",
 		}),
 	})
 	.refine(

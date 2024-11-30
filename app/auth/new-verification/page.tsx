@@ -1,15 +1,17 @@
 import NewVerificationForm from "@/app/auth/components/new-verification-form";
 
-interface NewVerificationPageProps {
-	searchParams: {
-		token: string;
-	};
-}
+type SearchParams = Promise<{
+	token?: string;
+}>;
 
-const NewVerificationPage: React.FC<NewVerificationPageProps> = ({
+const NewVerificationPage = async ({
 	searchParams,
+}: {
+	searchParams: SearchParams;
 }) => {
-	const { token } = searchParams;
+	const params = await searchParams;
+
+	const token = typeof params.token === "string" ? params.token : "";
 
 	return <NewVerificationForm token={token} />;
 };
