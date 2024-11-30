@@ -1,0 +1,50 @@
+name: CI Workflow
+
+on: [pull_request]
+
+jobs:
+  ci:
+    runs-on: upnpmtu-latest
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: autonomos-db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+            node-version: ${{ matrix.node-version }}
+            cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          while ! pg_isready -h localhost -U postgres; do
+            sleep 1
+          done
+
+      - name: Set up environment variables
+        run: echo "DATABASE_URL=postgres://postgres:postgres123@localhost:5432/autonomos-db" >> $GITHUB_ENV
+
+      - name: Run biome
+        run: pnpm run check
+
+      - name: Build Project
+        run: pnpm run build
