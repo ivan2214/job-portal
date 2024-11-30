@@ -11,9 +11,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { prisma } from "@/db";
 import { Container } from "@/components/container";
 
-export default async function JobPostingPage({
-	params,
-}: { params: { id: string } }) {
+type Params = Promise<{ id: string }>;
+
+export default async function JobPostingPage({ params }: { params: Params }) {
 	const { id } = await params;
 
 	const job = await prisma.job.findUnique({

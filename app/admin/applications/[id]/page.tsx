@@ -8,12 +8,15 @@ import { prisma } from "@/db";
 import { Container } from "@/components/container";
 import { BreadcrumbDynamic } from "@/components/breadcrumbs-dynamic";
 
+type Params = Promise<{ id: string }>;
+
 export default async function ApplicationDetailsPage({
 	params,
-}: { params: { id: string } }) {
+}: { params: Params }) {
+	const { id } = await params;
 	const application = await prisma.application.findUnique({
 		where: {
-			id: params.id,
+			id: id,
 		},
 		include: {
 			job: true,

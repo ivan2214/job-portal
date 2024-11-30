@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import JobApplicationDetails from "./components/job-application-details";
 import { notFound } from "next/navigation";
 
+type Params = Promise<{ id: string }>;
+
 export const metadata: Metadata = {
 	title: "Job Application Details",
 	description: "View details of your job application",
@@ -11,10 +13,12 @@ export const metadata: Metadata = {
 
 export default async function JobApplicationPage({
 	params,
-}: { params: { id: string } }) {
+}: { params: Params }) {
+	const { id } = await params;
+
 	const application = await prisma.application.findUnique({
 		where: {
-			id: params.id,
+			id: id,
 		},
 		include: {
 			job: {

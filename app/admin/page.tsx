@@ -22,18 +22,18 @@ import { AdminChart } from "./components/admin-chart";
 import { Eye, Pencil, Trash } from "lucide-react";
 import Link from "next/link";
 
-interface AdminDashboardProps {
-	searchParams?: {
-		filter?: "users" | "companies" | "jobs";
-		query?: string;
-		page?: string;
-		type?: string;
-	};
-}
+type SearchParams = Promise<{
+	filter?: "users" | "companies" | "jobs";
+	query?: string;
+	page?: string;
+	type?: string;
+}>;
 
 export default async function AdminDashboard({
 	searchParams,
-}: AdminDashboardProps) {
+}: {
+	searchParams: SearchParams;
+}) {
 	const { filter, query, page, type } = (await searchParams) || {};
 
 	const users = await prisma.user.findMany({

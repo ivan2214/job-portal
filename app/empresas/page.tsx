@@ -3,22 +3,26 @@ import type { Metadata } from "next";
 import CompanyList from "./components/company-list";
 import SearchBar from "./components/search-bar";
 
+type SearchParams = Promise<{
+	query?: string;
+	page?: string;
+}>;
+
 export const metadata: Metadata = {
 	title: "Explore Companies | YourPlatform",
 	description: "Browse and discover companies registered on our platform.",
 };
 
-export default function CompaniesPage({
+export default async function CompaniesPage({
 	searchParams,
 }: {
-	searchParams: { [key: string]: string | string[] | undefined };
+	searchParams: SearchParams;
 }) {
-	const query =
-		typeof searchParams.query === "string" ? searchParams.query : "";
+	const params = await searchParams;
+
+	const query = typeof params.query === "string" ? params.query : "";
 	const page =
-		typeof searchParams.page === "string"
-			? Number.parseInt(searchParams.page, 10)
-			: 1;
+		typeof params.page === "string" ? Number.parseInt(params.page, 10) : 1;
 
 	return (
 		<Container>

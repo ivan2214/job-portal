@@ -6,9 +6,11 @@ import ApplicationList from "./components/application-list";
 import JobDetails from "./components/job-details";
 import JobStatistics from "./components/job-statistics";
 
+type Params = Promise<{ id: string }>;
+
 export default async function JobManagementPage({
 	params,
-}: { params: { id: string } }) {
+}: { params: Params }) {
 	const { id } = await params;
 	const job = await prisma.job.findUnique({
 		where: {

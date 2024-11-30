@@ -21,9 +21,9 @@ import { prisma } from "@/db";
 import { notFound } from "next/navigation";
 import { BreadcrumbDynamic } from "@/components/breadcrumbs-dynamic";
 
-export default async function UserProfile({
-	params,
-}: { params: { id: string } }) {
+type Params = Promise<{ id: string }>;
+
+export default async function UserProfile({ params }: { params: Params }) {
 	const { id } = await params;
 	const user = await prisma.user.findUnique({
 		where: {

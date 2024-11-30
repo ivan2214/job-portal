@@ -4,9 +4,9 @@ import { notFound } from "next/navigation";
 import ActionButtons from "./components/action-button";
 import JobDetails from "./components/job-details";
 
-export default async function JobPostingPage({
-	params,
-}: { params: { id: string } }) {
+type Params = Promise<{ id: string }>;
+
+export default async function JobPostingPage({ params }: { params: Params }) {
 	const { id } = await params;
 
 	const job = await prisma.job.findUnique({

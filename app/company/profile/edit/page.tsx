@@ -1,5 +1,7 @@
 type CompanyEditProfileProps = {};
 
-export const CompanyEditProfile: React.FC<CompanyEditProfileProps> = ({}) => {
+const CompanyEditProfile: React.FC<CompanyEditProfileProps> = ({}) => {
 	return <div>CompanyEditProfile</div>;
 };
+
+export default CompanyEditProfile;

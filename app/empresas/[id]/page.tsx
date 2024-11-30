@@ -6,9 +6,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { JobPosting } from "./components/job-posting";
 
-export default async function CompanyProfile({
-	params,
-}: { params: { id: string } }) {
+type Params = Promise<{ id: string }>;
+
+export default async function CompanyProfile({ params }: { params: Params }) {
 	const { id } = await params;
 	const company = await prisma.company.findUnique({
 		where: {

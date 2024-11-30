@@ -14,13 +14,20 @@ import {
 import { ChevronRight } from "lucide-react";
 import { prisma } from "@/db";
 
+type SearchParams = Promise<{
+	query?: string;
+	page?: string;
+}>;
+
 export default async function UserManagement({
 	searchParams,
 }: {
-	searchParams?: { query?: string; page?: string };
+	searchParams?: SearchParams;
 }) {
-	const query = searchParams?.query || "";
-	const currentPage = Number(searchParams?.page) || 1;
+	const params = await searchParams;
+
+	const query = params?.query || "";
+	const currentPage = Number(params?.page) || 1;
 	const pageSize = 10;
 
 	const users = await prisma.user.findMany({

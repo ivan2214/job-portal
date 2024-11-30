@@ -4,18 +4,22 @@ import { Pagination } from "@/components/pagination";
 import { Sidebar } from "@/components/sidebar";
 import { prisma } from "@/db";
 
-interface SearchParamsProps {
-	searchParams: {
-		page?: string;
-		category?: string;
-		query?: string;
-		location?: string;
-		sort?: string;
-	};
-}
+type SearchParams = Promise<{
+	page?: string;
+	category?: string;
+	query?: string;
+	location?: string;
+	sort?: string;
+}>;
 
-export default async function JobListings({ searchParams }: SearchParamsProps) {
-	const { page, category, query, location, sort } = await searchParams;
+export default async function JobListings({
+	searchParams,
+}: {
+	searchParams: SearchParams;
+}) {
+	const params = await searchParams;
+
+	const { page, category, query, location, sort } = params;
 
 	const jobListings = await prisma.job.findMany({
 		where: {

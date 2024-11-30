@@ -23,20 +23,22 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { JobList } from "./components/job-list";
 
+type Params = Promise<{ id: string }>;
+
 export default async function CompanyDetailsPage({
 	params,
-}: { params: { id: string } }) {
+}: { params: Params }) {
+	const { id } = await params;
+
 	const company = await prisma.company.findUnique({
 		where: {
-			userId: params.id,
+			userId: id,
 		},
 		include: {
 			jobPostings: true,
 			user: true,
 		},
 	});
-
-	console.log("Company ID:", params.id);
 
 	if (!company) {
 		notFound();

@@ -11,12 +11,21 @@ import {
 import { JobCardApplied } from "./components/job-card-applied";
 import { prisma } from "@/db";
 
+type SearchParams = Promise<{
+	page?: string;
+	status?: string;
+	location?: string;
+	search?: string;
+}>;
+
 export default async function AppliedJobs({
 	searchParams,
 }: {
-	searchParams: { [key: string]: string | string[] | undefined };
+	searchParams: SearchParams;
 }) {
-	const { page, status, location, search } = await searchParams;
+	const params = await searchParams;
+
+	const { page, status, location, search } = params;
 
 	const jobs = await prisma.job.findMany({
 		where: {

@@ -2,8 +2,12 @@ import { Badge } from "@/components/ui/badge";
 import { notFound } from "next/navigation";
 import { articles } from "../data/blog-data";
 
-export default function ArticlePage({ params }: { params: { id: string } }) {
-	const article = articles.find((a) => a.id === params.id);
+type Params = Promise<{ id: string }>;
+
+export default async function ArticlePage({ params }: { params: Params }) {
+	const { id } = await params;
+
+	const article = articles.find((a) => a.id === id);
 
 	if (!article) {
 		notFound();

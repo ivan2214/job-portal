@@ -8,10 +8,11 @@ import { JobApplicationDetails } from "./components/job-application-details";
 import { prisma } from "@/db";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+type Params = Promise<{ id: string }>;
 
 export default async function JobApplicationDetailsPage({
 	params,
-}: { params: { id: string } }) {
+}: { params: Params }) {
 	const { id } = await params;
 
 	const job = await prisma.job.findUnique({

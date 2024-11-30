@@ -5,21 +5,21 @@ import ApplicationsPagination from "./components/applications-pagination";
 import { Skeleton } from "@/components/skeleton";
 import { prisma } from "@/db";
 
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
+
 export default async function ApplicationsPage({
 	searchParams,
 }: {
-	searchParams: { [key: string]: string | string[] | undefined };
+	searchParams: SearchParams;
 }) {
-	const search =
-		typeof searchParams.search === "string" ? searchParams.search : "";
-	const sort =
-		typeof searchParams.sort === "string" ? searchParams.sort : "createdAt";
+	const params = await searchParams;
+
+	const search = typeof params.search === "string" ? params.search : "";
+	const sort = typeof params.sort === "string" ? params.sort : "createdAt";
 	const sortType =
-		typeof searchParams.sortType === "string" ? searchParams.sortType : "desc";
+		typeof params.sortType === "string" ? params.sortType : "desc";
 	const page =
-		typeof searchParams.page === "string"
-			? Number.parseInt(searchParams.page)
-			: 1;
+		typeof params.page === "string" ? Number.parseInt(params.page) : 1;
 
 	const applications = await prisma.application.findMany({
 		include: {

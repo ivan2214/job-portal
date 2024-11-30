@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 	description: "Manage and review job applications",
 };
 
-export default async function ApplicationPage({
-	params,
-}: { params: { id: string } }) {
+type Params = Promise<{ id: string }>;
+
+export default async function ApplicationPage({ params }: { params: Params }) {
 	const { id } = await params;
 	const application = await prisma.application.findUnique({
 		where: {
