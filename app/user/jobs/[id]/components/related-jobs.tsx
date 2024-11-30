@@ -6,10 +6,10 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import type { Job } from "../types/job";
+import type { JobWithRelations } from "@/types";
 
 interface RelatedJobsProps {
-	jobs: Job[];
+	jobs: JobWithRelations[];
 }
 
 export function RelatedJobs({ jobs }: RelatedJobsProps) {
@@ -21,7 +21,7 @@ export function RelatedJobs({ jobs }: RelatedJobsProps) {
 					<CardHeader>
 						<CardTitle>{job.title}</CardTitle>
 						<CardDescription>
-							{job.company.name} - {job.location}
+							{job.company?.name} - {job.location}
 						</CardDescription>
 					</CardHeader>
 					<CardContent>

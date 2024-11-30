@@ -9,7 +9,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { useState } from "react";
+import type { UserWithRelations } from "@/types";
 
 type Application = {
 	id: number;
@@ -43,9 +43,12 @@ const initialApplications: Application[] = [
 	},
 ];
 
-export function ApplicationManagement() {
-	const [applications, setApplications] =
-		useState<Application[]>(initialApplications);
+export function ApplicationManagement({
+	user,
+}: {
+	user: UserWithRelations;
+}) {
+	const applications = user.applications || [];
 
 	return (
 		<div>
@@ -62,17 +65,19 @@ export function ApplicationManagement() {
 				<TableBody>
 					{applications.map((app) => (
 						<TableRow key={app.id}>
-							<TableCell>{app.company}</TableCell>
-							<TableCell>{app.position}</TableCell>
-							<TableCell>{app.date}</TableCell>
+							<TableCell>{app.job?.company?.name}</TableCell>
+							<TableCell>{app.job?.title}</TableCell>
+							<TableCell>{app.dateApplied.toLocaleDateString()}</TableCell>
 							<TableCell>
 								<Badge
 									variant={
-										app.status === "Aceptada"
+										app.status === "ACCEPTED"
 											? "success"
-											: app.status === "Rechazada"
-												? "destructive"
-												: "default"
+											: app.status === "PENDING"
+												? "pending"
+												: app.status === "REJECTED"
+													? "destructive"
+													: "default"
 									}
 								>
 									{app.status}

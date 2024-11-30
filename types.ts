@@ -18,5 +18,9 @@ export type JobWithRelations = Job & {
 
 export type ApplicationWithRelations = Application & {
 	job?: JobWithRelations | null;
-	user: User | null;
+	user?: User | null;
+};
+
+export type UserWithRelations = User & {
+	applications?: ApplicationWithRelations[] | null;
 };

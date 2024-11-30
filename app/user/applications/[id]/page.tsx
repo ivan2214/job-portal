@@ -2,6 +2,7 @@ import { Container } from "@/components/container";
 import { prisma } from "@/db";
 import type { Metadata } from "next";
 import JobApplicationDetails from "./components/job-application-details";
+import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {
 	title: "Job Application Details",
@@ -23,6 +24,10 @@ export default async function JobApplicationPage({
 			},
 		},
 	});
+
+	if (!application) {
+		return notFound();
+	}
 
 	return (
 		<Container>

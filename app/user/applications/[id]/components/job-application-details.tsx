@@ -23,8 +23,15 @@ export default async function JobApplicationDetails({
 				<div>
 					<h2 className="mb-2 font-semibold text-xl">Application Status</h2>
 					<Badge
-						variant={application.status === "PENDING" ? "default" : "secondary"}
-						className="text-lg"
+						variant={
+							application.status === "ACCEPTED"
+								? "success"
+								: application.status === "PENDING"
+									? "pending"
+									: application.status === "REJECTED"
+										? "destructive"
+										: "default"
+						}
 					>
 						{application.status}
 					</Badge>

@@ -4,8 +4,33 @@ import { ApplicationManagement } from "./components/application-management";
 import { PasswordChange } from "./components/password-change";
 import { PersonalInfo } from "./components/personal-info";
 import { ResumeUpload } from "./components/resume-upload";
+import { prisma } from "@/db";
+import { notFound } from "next/navigation";
 
-export default function ProfilePage() {
+export default async function ProfilePage() {
+	const userId = "cm43ejow7006muct4i0mo17f6";
+
+	const user = await prisma.user.findUnique({
+		where: {
+			id: userId,
+		},
+		include: {
+			applications: {
+				include: {
+					job: {
+						include: {
+							company: true,
+						},
+					},
+				},
+			},
+		},
+	});
+
+	if (!user) {
+		return notFound();
+	}
+
 	return (
 		<Container>
 			<h1 className="mb-6 font-bold text-3xl">Perfil de Usuario</h1>
@@ -17,16 +42,16 @@ export default function ProfilePage() {
 					<TabsTrigger value="applications">Postulaciones</TabsTrigger>
 				</TabsList>
 				<TabsContent value="personal-info">
-					<PersonalInfo />
+					<PersonalInfo user={user} />
 				</TabsContent>
 				<TabsContent value="password">
-					<PasswordChange />
+					<PasswordChange user={user} />
 				</TabsContent>
 				<TabsContent value="resume">
 					<ResumeUpload />
 				</TabsContent>
 				<TabsContent value="applications">
-					<ApplicationManagement />
+					<ApplicationManagement user={user} />
 				</TabsContent>
 			</Tabs>
 		</Container>

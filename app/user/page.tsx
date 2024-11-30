@@ -3,101 +3,117 @@ import { prisma } from "@/db";
 import { CallToAction } from "./components/call-to-action";
 import { RecentActivity } from "./components/recent-activity";
 import { SummaryCard } from "./components/summary-card";
+import { notFound } from "next/navigation";
 
-async function getUserData(id: string) {
+export default async function UserDashboard() {
+	const userId = "cm43ejow7006juct43n36yqva";
 	const user = await prisma.user.findUnique({
 		where: {
-			id,
-		},
-		include: {
-			applications: {
-				include: {
-					job: true,
-				},
+			id: userId,
+			AND: {
+				role: "EMPLOYEE",
 			},
 		},
 	});
 
 	if (!user) {
-		throw new Error("User not found");
+		return notFound();
 	}
 
-	const totalJobsApplied = user.applications.length;
+	const activeApplications = await prisma.application.count({
+		where: {
+			user: {
+				id: userId,
+			},
+			AND: {
+				status: {
+					not: "REJECTED",
+				},
+			},
+		},
+	});
 
-	const acceptedApplications = user.applications.filter(
-		(application) => application.status === "ACCEPTED",
-	).length;
+	const acceptedApplications = await prisma.application.count({
+		where: {
+			user: {
+				id: userId,
+			},
+			status: "ACCEPTED",
+		},
+	});
 
-	const activeApplications = user.applications.filter(
-		(application) => application.status === "PENDING",
-	).length;
+	const rejectedApplications = await prisma.application.count({
+		where: {
+			user: {
+				id: userId,
+			},
+			status: "REJECTED",
+		},
+	});
 
-	const pendingApplications = user.applications.filter(
-		(application) => application.status === "PENDING",
-	).length;
+	const reviewedApplications = await prisma.application.count({
+		where: {
+			user: {
+				id: userId,
+			},
+			status: "REVIEWED",
+		},
+	});
 
-	const rejectedApplications = user.applications.filter(
-		(application) => application.status === "REJECTED",
-	).length;
+	const pendingApplications = await prisma.application.count({
+		where: {
+			user: {
+				id: userId,
+			},
+			status: "PENDING",
+		},
+	});
 
-	const reviewedApplications = user.applications.filter(
-		(application) => application.status === "REVIEWED",
-	).length;
+	const recentApplications = await prisma.application.findMany({
+		where: {
+			user: {
+				id: userId,
+			},
+		},
+		orderBy: {
+			createdAt: "desc",
+		},
+		take: 5,
+		include: {
+			job: true,
+			user: true,
+		},
+	});
 
-	const recentApplications = user.applications
-		.slice(0, 5)
-		.map((application) => ({
-			id: application.id,
-			jobTitle: application.job.title,
-			status: application.status,
-			dateApplied: application.createdAt.toDateString(),
-		}));
-
-	return {
-		name: user.name,
-		totalJobsApplied,
-		activeApplications,
-		acceptedApplications,
-		recentApplications,
-		rejectedApplications,
-		reviewedApplications,
-		pendingApplications,
-	};
-}
-
-export default async function UserDashboard() {
-	const userData = await getUserData("cm403g4mo002913hkwhfdey7e");
+	const totalJobsApplied = await prisma.application.count({
+		where: {
+			user: {
+				id: userId,
+			},
+		},
+	});
 
 	return (
 		<Container className="space-y-6">
-			<h1 className="font-bold text-3xl">Welcome back, {userData.name}!</h1>
+			<h1 className="font-bold text-3xl">Welcome back, {user.name}!</h1>
 			<div className="grid gap-6 md:grid-cols-3">
-				<SummaryCard
-					title="Total Jobs Applied"
-					value={userData.totalJobsApplied}
-				/>
-				<SummaryCard
-					title="Active Applications"
-					value={userData.activeApplications}
-				/>
+				<SummaryCard title="Total Jobs Applied" value={totalJobsApplied} />
+				<SummaryCard title="Active Applications" value={activeApplications} />
 				<SummaryCard
 					title="Accepted Applications"
-					value={userData.acceptedApplications}
+					value={acceptedApplications}
 				/>
 				<SummaryCard
 					title="Rejected Applications"
-					value={userData.rejectedApplications}
+					value={rejectedApplications}
 				/>
 				<SummaryCard
 					title="Reviewed Applications"
-					value={userData.reviewedApplications}
+					value={reviewedApplications}
 				/>
-				<SummaryCard
-					title="Pending Applications"
-					value={userData.pendingApplications}
-				/>
+				<SummaryCard title="Pending Applications" value={pendingApplications} />
 			</div>
-			<RecentActivity applications={userData.recentApplications} />
+			<RecentActivity applications={recentApplications} />
 			<CallToAction />
 		</Container>
 	);

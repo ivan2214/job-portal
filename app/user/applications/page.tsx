@@ -16,7 +16,7 @@ import { FiltersApplications } from "./components/filters-applications";
 export default async function Dashboard() {
 	const user = await prisma.user.findUnique({
 		where: {
-			id: "cm403g4mo002913hkwhfdey7e",
+			id: "cm43ejow7006muct4i0mo17f6",
 		},
 		include: {
 			applications: {
@@ -62,9 +62,11 @@ export default async function Dashboard() {
 								variant={
 									application.status === "ACCEPTED"
 										? "success"
-										: application.status === "REJECTED"
-											? "destructive"
-											: "default"
+										: application.status === "PENDING"
+											? "pending"
+											: application.status === "REJECTED"
+												? "destructive"
+												: "default"
 								}
 							>
 								{application.status}

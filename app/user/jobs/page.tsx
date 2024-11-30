@@ -16,18 +16,20 @@ export default async function AppliedJobs({
 }: {
 	searchParams: { [key: string]: string | string[] | undefined };
 }) {
+	const { page, status, location, search } = await searchParams;
+
 	const jobs = await prisma.job.findMany({
 		where: {
 			OR: [
 				{
 					title: {
-						contains: searchParams.search as string,
+						contains: search as string,
 					},
 				},
 				{
 					company: {
 						name: {
-							contains: searchParams.search as string,
+							contains: search as string,
 						},
 					},
 				},
