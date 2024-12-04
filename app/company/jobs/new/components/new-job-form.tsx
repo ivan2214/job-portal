@@ -22,39 +22,67 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { NewJobSchema } from "@/schemas/job-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { CategoryJob } from "@prisma/client";
+import { TypeJob, type CategoryJob } from "@prisma/client";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import type * as z from "zod";
 import { newJob } from "../../actions/new-job";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { Container } from "@/components/container";
+import { Switch } from "@/components/ui/switch";
 
 type NewJobFormProps = {
 	categoriesJobs: CategoryJob[] | null;
 };
+
+const typesJobs: TypeJob[] = [
+	TypeJob.CONTRACT,
+	TypeJob.FULL_TIME,
+	TypeJob.INTERN,
+	TypeJob.OTHER,
+	TypeJob.PART_TIME,
+	TypeJob.PERMANENT,
+	TypeJob.TEMPORARY,
+	TypeJob.VOLUNTARY,
+];
 
 export const NewJobForm: React.FC<NewJobFormProps> = ({ categoriesJobs }) => {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [error, setError] = useState<string | undefined>("");
 	const [success, setSuccess] = useState<string | undefined>("");
 	const [isPending, startTransition] = useTransition();
+	const [addContactInfo, setAddContactInfo] = useState(false);
 
 	const form = useForm<z.infer<typeof NewJobSchema>>({
 		resolver: zodResolver(NewJobSchema),
 		defaultValues: {
-			titulo: "",
-			descripcion: "",
-			categoria: "",
-			ubicacion: "",
-			salario: "",
-			requisitos: [],
+			category: "",
+			contactInfo: {
+				email: "",
+				phone: "",
+				website: "",
+				facebook: "",
+				instagram: "",
+				linkedin: "",
+			},
+			description: "",
+			location: "",
+			requirements: [],
+			salary: "",
+			title: "",
+			type: TypeJob.OTHER,
 		},
 	});
 
 	const onSubmit = (values: z.infer<typeof NewJobSchema>) => {
 		setError("");
 		setSuccess("");
+		console.log({
+			values,
+		});
 
 		startTransition(() => {
 			newJob(values)
@@ -72,6 +100,12 @@ export const NewJobForm: React.FC<NewJobFormProps> = ({ categoriesJobs }) => {
 		});
 	};
 
+	const handleAddContactInfo = () => {
+		setAddContactInfo(!addContactInfo);
+	};
+
+	console.log(addContactInfo);
+
 	return (
 		<Form {...form}>
 			<form
@@ -80,7 +114,7 @@ export const NewJobForm: React.FC<NewJobFormProps> = ({ categoriesJobs }) => {
 			>
 				<FormField
 					control={form.control}
-					name="titulo"
+					name="title"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Título del puesto</FormLabel>
@@ -99,7 +133,7 @@ export const NewJobForm: React.FC<NewJobFormProps> = ({ categoriesJobs }) => {
 				/>
 				<FormField
 					control={form.control}
-					name="descripcion"
+					name="description"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Descripción del puesto</FormLabel>
@@ -120,7 +154,7 @@ export const NewJobForm: React.FC<NewJobFormProps> = ({ categoriesJobs }) => {
 				/>
 				<FormField
 					control={form.control}
-					name="categoria"
+					name="category"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Categoría</FormLabel>
@@ -147,7 +181,7 @@ export const NewJobForm: React.FC<NewJobFormProps> = ({ categoriesJobs }) => {
 				/>
 				<FormField
 					control={form.control}
-					name="ubicacion"
+					name="location"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Ubicación</FormLabel>
@@ -163,7 +197,7 @@ export const NewJobForm: React.FC<NewJobFormProps> = ({ categoriesJobs }) => {
 				/>
 				<FormField
 					control={form.control}
-					name="salario"
+					name="salary"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Salario anual (€)</FormLabel>
@@ -179,7 +213,7 @@ export const NewJobForm: React.FC<NewJobFormProps> = ({ categoriesJobs }) => {
 				/>
 				<FormField
 					control={form.control}
-					name="requisitos"
+					name="requirements"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Requisitos</FormLabel>
@@ -194,10 +228,176 @@ export const NewJobForm: React.FC<NewJobFormProps> = ({ categoriesJobs }) => {
 						</FormItem>
 					)}
 				/>
+				<FormField
+					control={form.control}
+					name="type"
+					render={({ field }) => (
+						<FormItem className="space-y-3">
+							<FormLabel>Tipo de trabajo</FormLabel>
+							<FormControl>
+								<RadioGroup
+									onValueChange={field.onChange}
+									defaultValue={field.value}
+									className="flex flex-col space-y-1"
+								>
+									{typesJobs.map((type) => (
+										<FormItem
+											key={type}
+											className="flex items-center space-x-3 space-y-0"
+										>
+											<FormControl>
+												<RadioGroupItem value={type} />
+											</FormControl>
+											<FormLabel className="font-normal">{type}</FormLabel>
+										</FormItem>
+									))}
+								</RadioGroup>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				<div className="flex items-center space-x-2">
+					<Switch
+						checked={addContactInfo}
+						onCheckedChange={handleAddContactInfo}
+						id="contactInfo"
+					/>
+					<Label htmlFor="contactInfo">Agregar información de contacto</Label>
+				</div>
+
+				{addContactInfo && (
+					<Container className="space-y-4 rounded border">
+						<FormField
+							control={form.control}
+							name="contactInfo.email"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Email de contacto</FormLabel>
+									<FormControl>
+										<Input
+											type="email"
+											placeholder="Ej: 6eDl2@example.com"
+											{...field}
+										/>
+									</FormControl>
+									<FormDescription>
+										Proporcione un correo electrónica de contacto.
+									</FormDescription>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="contactInfo.facebook"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Facebook</FormLabel>
+									<FormControl>
+										<Input
+											type="url"
+											placeholder="Ej: https://www.facebook.com/"
+											{...field}
+										/>
+									</FormControl>
+									<FormDescription>
+										Proporcione la URL de su perfil de Facebook.
+									</FormDescription>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="contactInfo.linkedin"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Linkedin</FormLabel>
+									<FormControl>
+										<Input
+											type="url"
+											placeholder="Ej: https://www.linkedin.com/"
+											{...field}
+										/>
+									</FormControl>
+									<FormDescription>
+										Proporcione la URL de su perfil de LinkedIn.
+									</FormDescription>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="contactInfo.instagram"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Instagram</FormLabel>
+									<FormControl>
+										<Input
+											type="url"
+											placeholder="Ej: https://www.instagram.com/"
+											{...field}
+										/>
+									</FormControl>
+									<FormDescription>
+										Proporcione la URL de su perfil de Instagram.
+									</FormDescription>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="contactInfo.phone"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Tel&eacute;fono</FormLabel>
+									<FormControl>
+										<Input
+											type="tel"
+											placeholder="Ej: +34 123 456 789"
+											{...field}
+										/>
+									</FormControl>
+									<FormDescription>
+										Proporcione un tel&eacute;fono de contacto.
+									</FormDescription>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="contactInfo.website"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Website</FormLabel>
+									<FormControl>
+										<Input
+											type="url"
+											placeholder="Ej: https://www.example.com/"
+											{...field}
+										/>
+									</FormControl>
+									<FormDescription>
+										Proporcione la URL de su sitio web.
+									</FormDescription>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+					</Container>
+				)}
+
 				<FormError message={error} />
 				<FormSuccess message={success} />
-				<Button type="submit" disabled={isSubmitting}>
-					{isSubmitting ? "Creando oferta..." : "Crear oferta de empleo"}
+				<Button type="submit" disabled={isSubmitting || isPending}>
+					{isSubmitting || isPending
+						? "Creando oferta..."
+						: "Crear oferta de empleo"}
 				</Button>
 			</form>
 		</Form>

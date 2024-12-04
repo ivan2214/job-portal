@@ -1,22 +1,44 @@
+import { TypeJob } from "@prisma/client";
 import { z } from "zod";
 
 export const NewJobSchema = z.object({
-	titulo: z.string().min(5, {
+	title: z.string().min(5, {
 		message: "El título debe tener al menos 5 caracteres.",
 	}),
-	descripcion: z.string().min(50, {
+	description: z.string().min(50, {
 		message: "La descripción debe tener al menos 50 caracteres.",
 	}),
-	categoria: z.string({
+	category: z.string({
 		required_error: "Por favor seleccione una categoría.",
 	}),
-	ubicacion: z.string().min(3, {
+	location: z.string().min(3, {
 		message: "Por favor ingrese una ubicación válida.",
 	}),
-	salario: z.string().regex(/^\d+$/, {
+	salary: z.string().regex(/^\d+$/, {
 		message: "Por favor ingrese un salario válido (solo números).",
 	}),
-	requisitos: z
+	requirements: z
 		.array(z.object({ id: z.string(), text: z.string() }))
+		.optional(),
+	type: z.enum([
+		TypeJob.CONTRACT,
+		TypeJob.FULL_TIME,
+		TypeJob.INTERN,
+		TypeJob.OTHER,
+		TypeJob.PART_TIME,
+		TypeJob.PERMANENT,
+		TypeJob.TEMPORARY,
+		TypeJob.VOLUNTARY,
+	]),
+
+	contactInfo: z
+		.object({
+			email: z.string().email().optional(),
+			phone: z.string().optional(),
+			website: z.string().url().optional(),
+			linkedin: z.string().url().optional(),
+			facebook: z.string().url().optional(),
+			instagram: z.string().url().optional(),
+		})
 		.optional(),
 });

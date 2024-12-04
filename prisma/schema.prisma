@@ -134,13 +134,13 @@ model Requirements {
 }
 
 model ContactInfo {
-  id        String @id @default(cuid())
-  email     String
-  phone     String
-  website   String
-  linkedin  String
-  facebook  String
-  instagram String
+  id        String  @id @default(cuid())
+  email     String?
+  phone     String?
+  website   String?
+  linkedin  String?
+  facebook  String?
+  instagram String?
 
   // Relaciones
   job   Job?    @relation(fields: [jobId], references: [id])

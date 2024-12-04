@@ -15,16 +15,27 @@ export const newJob = async (values: z.infer<typeof NewJobSchema>) => {
 		console.error(validateFields.error?.errors); // Muestra errores de validación
 		return { error: "Campos invalidos!" };
 	}
-	const { categoria, descripcion, requisitos, salario, titulo, ubicacion } =
-		validateFields.data;
+	const {
+		category: categoryForm,
+		description,
+		location,
+		salary,
+		title,
+		type,
+		contactInfo,
+		requirements: requerimentsForm,
+	} = validateFields.data;
+
+	const { email, phone, website, facebook, instagram, linkedin } =
+		contactInfo || {};
 
 	try {
-		if (!categoria) {
+		if (!categoryForm) {
 			return { error: "Categoría no válida." };
 		}
 		const existingCategory = await prisma.categoryJob.findUnique({
 			where: {
-				name: categoria,
+				name: categoryForm,
 			},
 		});
 
@@ -32,18 +43,18 @@ export const newJob = async (values: z.infer<typeof NewJobSchema>) => {
 			? existingCategory
 			: await prisma.categoryJob.create({
 					data: {
-						name: categoria,
+						name: categoryForm,
 					},
 				});
 
 		let requirements: Requirements[] | null = null;
 
-		if (requisitos && requisitos.length > 0) {
+		if (requerimentsForm && requerimentsForm.length > 0) {
 			requirements = await Promise.all(
-				requisitos.map(async (requisito) => {
+				requerimentsForm.map(async (requirementFormItem) => {
 					const requirement = await prisma.requirements.create({
 						data: {
-							name: requisito.text,
+							name: requirementFormItem.text,
 							jobId: category?.id, // Aquí también valida `category.id`
 						},
 					});
@@ -68,14 +79,14 @@ export const newJob = async (values: z.infer<typeof NewJobSchema>) => {
 			return { error: "La empresa no existe" };
 		}
 
-		await prisma.job.create({
+		const job = await prisma.job.create({
 			data: {
 				companyUserId: company.userId,
-				title: titulo,
-				description: descripcion,
+				title,
+				description,
 				categoryJobId: category?.id,
-				location: ubicacion,
-				salary: salario,
+				location,
+				salary,
 				requirements: requirements?.length
 					? {
 							connect: requirements.map((requirement) => ({
@@ -85,6 +96,20 @@ export const newJob = async (values: z.infer<typeof NewJobSchema>) => {
 					: undefined, // Evita pasar un valor vacío si no hay requisitos
 			},
 		});
+
+		if (contactInfo) {
+			await prisma.contactInfo.create({
+				data: {
+					email,
+					phone,
+					website,
+					facebook,
+					instagram,
+					linkedin,
+					jobId: job.id,
+				},
+			});
+		}
 
 		return {
 			success: "Trabajo creado!",
