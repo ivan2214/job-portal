@@ -54,10 +54,8 @@ export const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
 										className="flex items-center space-x-2"
 										href={link.path}
 									>
-										{link.icon && (
-											<Icon name={link.icon} className="mr-2 h-5 w-5" />
-										)}
-										<Button variant="ghost">{link.text}</Button>
+										{link.icon && <Icon name={link.icon} className="h-5 w-5" />}
+										{link.text}
 									</Link>
 								</DropdownMenuItem>
 							))
@@ -69,9 +67,9 @@ export const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
 											href={link.path}
 										>
 											{link.icon && (
-												<Icon name={link.icon} className="mr-2 h-5 w-5" />
+												<Icon name={link.icon} className="h-5 w-5" />
 											)}
-											<Button variant="ghost">{link.text}</Button>
+											{link.text}
 										</Link>
 									</DropdownMenuItem>
 								))
@@ -82,9 +80,9 @@ export const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
 											href={link.path}
 										>
 											{link.icon && (
-												<Icon name={link.icon} className="mr-2 h-5 w-5" />
+												<Icon name={link.icon} className="h-5 w-5" />
 											)}
-											<Button variant="ghost">{link.text}</Button>
+											{link.text}
 										</Link>
 									</DropdownMenuItem>
 								))}
