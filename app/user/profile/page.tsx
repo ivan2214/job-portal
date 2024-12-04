@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import { Container } from "@/components/container";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { prisma } from "@/db";
@@ -6,7 +7,6 @@ import { ApplicationManagement } from "./components/application-management";
 import { PasswordChange } from "./components/password-change";
 import { PersonalInfo } from "./components/personal-info";
 import { ResumeUpload } from "./components/resume-upload";
-import { auth } from "@/auth";
 
 export default async function ProfilePage() {
 	const session = await auth();

@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/table";
 import { prisma } from "@/db";
 
+import { Container } from "@/components/container";
 import { Eye, Pencil, Trash } from "lucide-react";
 import Link from "next/link";
 import { AdminChart } from "./components/admin-chart";
@@ -138,7 +139,7 @@ export default async function AdminDashboard({
 	}));
 
 	return (
-		<div className="p-8">
+		<Container>
 			<h1 className="mb-8 font-bold text-3xl">Panel de Administración</h1>
 
 			<div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -383,6 +384,6 @@ export default async function AdminDashboard({
 					</CardContent>
 				</Card>
 			</div>
-		</div>
+		</Container>
 	);
 }

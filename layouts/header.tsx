@@ -1,8 +1,8 @@
 import Link from "next/link";
 
+import { Container } from "@/components/container";
 import NavDesktop from "@/components/nav-desktop";
 import NavMobile from "@/components/nav-mobile";
-import { Container } from "@/components/container";
 
 export const Header = () => {
 	return (

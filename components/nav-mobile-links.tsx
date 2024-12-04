@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { LogIn, Menu, UserPlus } from "lucide-react";
+import Link from "next/link";
 
 import { LoginButton } from "@/app/auth/components/login-button";
 import { RegisterButton } from "@/app/auth/components/register-button";
@@ -36,11 +36,12 @@ const NavMobileLinks: React.FC<NavMobileLinksProps> = ({ currentUser }) => {
 					<ul className="flex w-full flex-col items-start gap-y-2">
 						{menuItems.map((item) => (
 							<Link
-								key={item.text}
+								key={item.title}
 								className="w-full justify-start text-lg"
-								href={item.path}
+								href={item.url}
 							>
-								<Button variant="ghost">{item.text}</Button>
+								{item.icon && <item.icon />}
+								<Button variant="ghost">{item.title}</Button>
 							</Link>
 						))}
 						{!currentUser && (

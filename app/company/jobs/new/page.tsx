@@ -1,8 +1,8 @@
 import { Container } from "@/components/container";
 import {} from "@/components/ui/form";
 import {} from "@/components/ui/select";
-import { NewJobForm } from "./components/new-job-form";
 import { prisma } from "@/db";
+import { NewJobForm } from "./components/new-job-form";
 
 export default async function CrearOfertaPage() {
 	const categoriesJobs = await prisma.categoryJob.findMany({});

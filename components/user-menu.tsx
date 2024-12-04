@@ -1,7 +1,9 @@
-import Link from "next/link";
 import { LogOut, UserIcon } from "lucide-react";
+import Link from "next/link";
 
+import { LogoutButton } from "@/app/auth/components/logout-button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -9,16 +11,9 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LogoutButton } from "@/app/auth/components/logout-button";
-import { Button } from "@/components/ui/button";
+import { userMenuCompanyLinks, userMenuLinks } from "@/constants";
 import type { UserWithRelations } from "@/types";
 import { RoleUser } from "@prisma/client";
-import {
-	userMenuAdminLinks,
-	userMenuCompanyLinks,
-	userMenuLinks,
-} from "@/constants";
-import Icon from "./ui/icon";
 
 interface UserMenuProps {
 	currentUser: UserWithRelations | null;
@@ -47,45 +42,24 @@ export const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
 					</span>
 				</div>
 				<div className="mb-2 flex flex-col items-start gap-y-1 border-gray-300 border-b-2">
-					{currentUser?.role === RoleUser.ADMIN
-						? userMenuAdminLinks.map((link) => (
-								<DropdownMenuItem key={link.text}>
-									<Link
-										className="flex items-center space-x-2"
-										href={link.path}
-									>
-										{link.icon && <Icon name={link.icon} className="h-5 w-5" />}
-										{link.text}
+					{currentUser?.role !== RoleUser.ADMIN &&
+					currentUser?.role === RoleUser.COMPANY
+						? userMenuCompanyLinks.map((link) => (
+								<DropdownMenuItem key={link.title}>
+									<Link className="flex items-center space-x-2" href={link.url}>
+										{link.icon && <link.icon />}
+										{link.title}
 									</Link>
 								</DropdownMenuItem>
 							))
-						: currentUser?.role === RoleUser.COMPANY
-							? userMenuCompanyLinks.map((link) => (
-									<DropdownMenuItem key={link.text}>
-										<Link
-											className="flex items-center space-x-2"
-											href={link.path}
-										>
-											{link.icon && (
-												<Icon name={link.icon} className="h-5 w-5" />
-											)}
-											{link.text}
-										</Link>
-									</DropdownMenuItem>
-								))
-							: userMenuLinks.map((link) => (
-									<DropdownMenuItem key={link.text}>
-										<Link
-											className="flex items-center space-x-2"
-											href={link.path}
-										>
-											{link.icon && (
-												<Icon name={link.icon} className="h-5 w-5" />
-											)}
-											{link.text}
-										</Link>
-									</DropdownMenuItem>
-								))}
+						: userMenuLinks.map((link) => (
+								<DropdownMenuItem key={link.title}>
+									<Link className="flex items-center space-x-2" href={link.url}>
+										{link.icon && <link.icon />}
+										{link.title}
+									</Link>
+								</DropdownMenuItem>
+							))}
 				</div>
 
 				<DropdownMenuSeparator />

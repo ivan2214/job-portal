@@ -1,10 +1,10 @@
+import { auth } from "@/auth";
 import { Container } from "@/components/container";
 import { prisma } from "@/db";
 import { notFound } from "next/navigation";
 import { CallToAction } from "./components/call-to-action";
 import { DashboardSummary } from "./components/dashboard-summary";
 import { RecentActivity } from "./components/recent-activity";
-import { auth } from "@/auth";
 
 export default async function CompanyDashboard() {
 	const session = await auth();

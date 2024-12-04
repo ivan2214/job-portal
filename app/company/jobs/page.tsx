@@ -1,7 +1,7 @@
+import { auth } from "@/auth";
 import { Container } from "@/components/container";
 import { prisma } from "@/db";
 import JobManagement from "./components/job-management";
-import { auth } from "@/auth";
 
 export default async function CompanyJobsPage() {
 	const session = await auth();

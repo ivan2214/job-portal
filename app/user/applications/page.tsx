@@ -7,12 +7,12 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 
+import { auth } from "@/auth";
 import { Container } from "@/components/container";
 import { Badge } from "@/components/ui/badge";
 import { prisma } from "@/db";
 import Link from "next/link";
 import { FiltersApplications } from "./components/filters-applications";
-import { auth } from "@/auth";
 
 export default async function Dashboard() {
 	const session = await auth();

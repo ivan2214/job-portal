@@ -7,6 +7,7 @@ import type {
 	Requirements,
 	User,
 } from "@prisma/client";
+import type { LucideIcon } from "lucide-react";
 import type dynamicIconImports from "lucide-react/dynamicIconImports";
 
 export interface Route {
@@ -14,6 +15,7 @@ export interface Route {
 	text: string;
 	path: string;
 	active?: boolean;
+	subRoutes?: Route[];
 }
 
 export type JobWithRelations = Job & {
@@ -38,3 +40,14 @@ export type CompanyWithRelations = Company & {
 	jobPostings?: JobWithRelations[] | null;
 	user?: User | null;
 };
+
+export interface ItemSideBar {
+	title: string;
+	url: string;
+	icon: LucideIcon;
+	isActive?: boolean;
+	items?: {
+		title: string;
+		url: string;
+	}[];
+}

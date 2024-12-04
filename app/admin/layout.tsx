@@ -1,22 +1,33 @@
 import { auth } from "@/auth";
-import { Sidebar } from "./components/sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { prisma } from "@/db";
 import { notFound } from "next/navigation";
 
-export default async function AdminLayout({
+export default async function Layout({
 	children,
-}: {
-	children: React.ReactNode;
-}) {
+}: { children: React.ReactNode }) {
 	const session = await auth();
-	const isAdmin = session?.user?.role === "ADMIN";
 
-	if (!isAdmin) {
+	if (!session) {
 		return notFound();
 	}
+
+	const user = await prisma.user.findUnique({
+		where: {
+			id: session.user.id,
+		},
+	});
+
+	if (!user) return notFound();
+
 	return (
-		<div className="flex min-h-screen bg-gray-100">
-			<Sidebar />
-			<div className="flex-1 overflow-auto">{children}</div>
-		</div>
+		<SidebarProvider>
+			<AppSidebar user={user} />
+			<main>
+				<SidebarTrigger />
+				{children}
+			</main>
+		</SidebarProvider>
 	);
 }

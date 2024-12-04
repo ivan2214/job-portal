@@ -1,10 +1,10 @@
+import { auth } from "@/auth";
 import { Container } from "@/components/container";
 import { prisma } from "@/db";
 import { notFound } from "next/navigation";
 import CompanyProfile from "./components/company-profile";
 import JobList from "./components/job-list";
 import NewJobForm from "./components/new-job-form";
-import { auth } from "@/auth";
 
 export default async function CompanyProfilePage() {
 	const session = await auth();

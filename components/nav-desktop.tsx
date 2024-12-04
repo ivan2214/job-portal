@@ -1,14 +1,14 @@
-import Link from "next/link";
-import {} from "lucide-react";
 import { auth } from "@/auth";
+import {} from "lucide-react";
+import Link from "next/link";
 
-import { UserMenu } from "@/components/user-menu";
 import { Button } from "@/components/ui/button";
+import { UserMenu } from "@/components/user-menu";
 
 import { LoginButton } from "@/app/auth/components/login-button";
 import { RegisterButton } from "@/app/auth/components/register-button";
-import { prisma } from "@/db";
 import { menuItems } from "@/constants";
+import { prisma } from "@/db";
 
 const NavDesktop = async () => {
 	const session = await auth();
@@ -18,24 +18,27 @@ const NavDesktop = async () => {
 			<nav>
 				<ul className="flex items-center space-x-4">
 					{menuItems.map((item) => {
-						console.log("item.path", item.path);
+						console.log("item.url", item.url);
 
 						return (
-							<li key={item.text}>
-								{item.path === "/auth/register" ? (
+							<li key={item.title}>
+								{item.url === "/auth/register" ? (
 									<RegisterButton className="font-medium text-sm">
-										{item.text}
+										{item.icon && <item.icon />}
+										{item.title}
 									</RegisterButton>
-								) : item.path === "/auth/login" ? (
+								) : item.url === "/auth/login" ? (
 									<LoginButton className="font-medium text-sm">
-										{item.text}
+										{item.icon && <item.icon />}
+										{item.title}
 									</LoginButton>
 								) : (
 									<Link
-										href={item.path}
+										href={item.url}
 										className="font-medium text-sm hover:text-primary"
 									>
-										{item.text}
+										{item.icon && <item.icon />}
+										{item.title}
 									</Link>
 								)}
 							</li>
@@ -60,14 +63,15 @@ const NavDesktop = async () => {
 		<nav className="ml-auto hidden items-center gap-x-6 md:flex">
 			<ul className="flex items-center gap-y-2">
 				{menuItems.map((item) => {
-					if (item.path !== "/auth/login" && item.path !== "/auth/register") {
+					if (item.url !== "/auth/login" && item.url !== "/auth/register") {
 						return (
-							<Link key={item.text} href={item.path}>
+							<Link key={item.title} href={item.url}>
 								<Button
 									className="transition-colors duration-300 hover:text-primary"
 									variant="ghost"
 								>
-									{item.text}
+									{item.icon && <item.icon />}
+									{item.title}
 								</Button>
 							</Link>
 						);

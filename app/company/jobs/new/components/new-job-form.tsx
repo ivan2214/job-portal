@@ -1,5 +1,8 @@
 "use client";
 
+import { Container } from "@/components/container";
+import { FormError } from "@/components/form-error";
+import { FormSuccess } from "@/components/form-success";
 import { Button } from "@/components/ui/button";
 import {
 	Form,
@@ -12,6 +15,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { InputWithTags } from "@/components/ui/inputs/input-with-tags";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
 	Select,
 	SelectContent,
@@ -19,20 +24,15 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { NewJobSchema } from "@/schemas/job-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TypeJob, type CategoryJob } from "@prisma/client";
+import { type CategoryJob, TypeJob } from "@prisma/client";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import type * as z from "zod";
 import { newJob } from "../../actions/new-job";
-import { FormError } from "@/components/form-error";
-import { FormSuccess } from "@/components/form-success";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
-import { Container } from "@/components/container";
-import { Switch } from "@/components/ui/switch";
 
 type NewJobFormProps = {
 	categoriesJobs: CategoryJob[] | null;

@@ -1,100 +1,135 @@
-import type { Route } from "@/types";
+import type { ItemSideBar } from "@/types";
+import {
+	Building,
+	ChartBar,
+	ClipboardList,
+	Info,
+	LogIn,
+	PanelBottom,
+	Search,
+	Settings,
+	User,
+	UserPlus,
+	Users,
+} from "lucide-react";
 
-export const menuItems: Route[] = [
-	{ path: "/empleos", icon: "search", text: "Buscar empleos" },
+export const menuItems: ItemSideBar[] = [
+	{ url: "/empleos", icon: Search, title: "Buscar empleos" },
 	{
-		path: "/empresas",
-		icon: "building",
-		text: "Empresas",
+		url: "/empresas",
+		icon: Building,
+		title: "Empresas",
 	},
-	{ path: "/blog", icon: "info", text: "Blog" },
+	{ url: "/blog", icon: Info, title: "Blog" },
 	{
-		path: "/mercado-laboral",
-		icon: "chart-bar",
-		text: "Estadisticas",
-	},
-	{
-		path: "/auth/login",
-		icon: "log-in",
-		text: "Iniciar Sesion",
+		url: "/mercado-laboral",
+		icon: ChartBar,
+		title: "Estadisticas",
 	},
 	{
-		path: "/auth/register",
-		icon: "user-plus",
-		text: "Registrarse",
+		url: "/auth/login",
+		icon: LogIn,
+		title: "Iniciar Sesion",
+	},
+	{
+		url: "/auth/register",
+		icon: UserPlus,
+		title: "Registrarse",
 	},
 ];
 
-export const userMenuLinks: Route[] = [
+export const userMenuLinks: ItemSideBar[] = [
 	{
-		path: "/user",
-		text: "Dashboard",
-		icon: "panel-bottom",
+		url: "/user",
+		title: "Dashboard",
+		icon: PanelBottom,
 	},
 	{
-		path: "/user/applications",
-		text: "Solicitudes",
-		icon: "clipboard-list",
+		url: "/user/applications",
+		title: "Solicitudes",
+		icon: ClipboardList,
 	},
 	{
-		path: "/user/profile",
-		text: "Perfil",
-		icon: "user",
-	},
-];
-
-export const userMenuCompanyLinks: Route[] = [
-	{
-		path: "/company",
-		text: "Dashboard",
-		icon: "panel-bottom",
-	},
-	{
-		path: "/company/jobs",
-		text: "Empleos",
-		icon: "search",
-	},
-	{
-		path: "/company/applications",
-		text: "Solicitudes",
-		icon: "clipboard-list",
-	},
-	{
-		path: "/company/profile",
-		text: "Perfil",
-		icon: "user",
+		url: "/user/profile",
+		title: "Perfil",
+		icon: User,
 	},
 ];
 
-export const userMenuAdminLinks: Route[] = [
+export const userMenuCompanyLinks: ItemSideBar[] = [
 	{
-		path: "/admin",
-		text: "Dashboard",
-		icon: "panel-bottom",
+		url: "/company",
+		title: "Dashboard",
+		icon: PanelBottom,
 	},
 	{
-		path: "/admin/companies",
-		text: "Empresas",
-		icon: "building",
+		url: "/company/jobs",
+		title: "Empleos",
+		icon: Search,
 	},
 	{
-		path: "/admin/users",
-		text: "Usuarios",
-		icon: "users",
+		url: "/company/applications",
+		title: "Solicitudes",
+		icon: ClipboardList,
 	},
 	{
-		path: "/admin/jobs",
-		text: "Empleos",
-		icon: "search",
+		url: "/company/profile",
+		title: "Perfil",
+		icon: User,
+	},
+];
+
+export const userMenuAdminLinks: ItemSideBar[] = [
+	{
+		url: "/admin",
+		title: "Dashboard",
+		icon: PanelBottom,
 	},
 	{
-		path: "/admin/applications",
-		text: "Solicitudes",
-		icon: "clipboard-list",
+		url: "/admin/users",
+		title: "Usuarios",
+		icon: Users,
 	},
 	{
-		path: "/admin/settings",
-		text: "Configuraciones",
-		icon: "settings",
+		url: "/admin/jobs",
+		title: "Empleos",
+		icon: PanelBottom,
+	},
+	{
+		url: "/admin/companies",
+		title: "Empresas",
+		icon: PanelBottom,
+	},
+	{
+		url: "/admin/applications",
+		title: "Solicitudes",
+		icon: ClipboardList,
+	},
+	{
+		url: "/admin/settings",
+		title: "Configuraciones",
+		icon: Settings,
+		items: [
+			{
+				title: "General",
+				url: "/admin/settings",
+			},
+			{
+				title: "Seguridad",
+				url: "/admin/settings/security",
+			},
+			{
+				title: "Notificaciones",
+				url: "/admin/settings/notifications",
+			},
+			{
+				title: "Logs",
+				url: "/admin/settings/logs",
+			},
+			{
+				title: "Admins",
+				url: "/admin/settings/admins",
+			},
+		],
 	},
 ];
