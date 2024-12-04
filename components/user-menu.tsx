@@ -1,12 +1,5 @@
 import Link from "next/link";
-import {
-	Calendar,
-	CircleHelp,
-	LogOut,
-	Settings,
-	Star,
-	UserIcon,
-} from "lucide-react";
+import { LogOut, UserIcon } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -19,6 +12,13 @@ import {
 import { LogoutButton } from "@/app/auth/components/logout-button";
 import { Button } from "@/components/ui/button";
 import type { UserWithRelations } from "@/types";
+import { RoleUser } from "@prisma/client";
+import {
+	userMenuAdminLinks,
+	userMenuCompanyLinks,
+	userMenuLinks,
+} from "@/constants";
+import Icon from "./ui/icon";
 
 interface UserMenuProps {
 	currentUser: UserWithRelations | null;
@@ -39,71 +39,57 @@ export const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end">
 				<div className="mb-2 flex flex-col items-start gap-y-1 border-gray-300 border-b-2">
-					<DropdownMenuItem className="font-extralight">
-						{currentUser?.name}
-					</DropdownMenuItem>
-					<DropdownMenuItem className="font-extralight">
+					<span className="px-2 py-1.5 font-extralight text-sm">
 						{currentUser?.email}
-					</DropdownMenuItem>
+					</span>
+					<span className="px-2 py-1.5 font-extralight text-sm">
+						{currentUser?.name}
+					</span>
 				</div>
 				<div className="mb-2 flex flex-col items-start gap-y-1 border-gray-300 border-b-2">
-					<DropdownMenuItem>
-						<Link className="flex items-start gap-x-2" href="/user">
-							<UserIcon className="h-4 w-4" />
-							Cuenta
-						</Link>
-					</DropdownMenuItem>
-					{currentUser?.applications &&
-					currentUser?.applications?.length > 0 ? (
-						<DropdownMenuItem>
-							<Link
-								className="flex items-start gap-x-2"
-								href="/user/citas?type=client"
-							>
-								<Calendar className="h-4 w-4" />
-								Mis aplicaciones
-							</Link>
-						</DropdownMenuItem>
-					) : null}
-					{currentUser?.company?.jobPostings &&
-					currentUser?.company?.jobPostings?.length > 0 ? (
-						<DropdownMenuItem>
-							<Link className="flex items-start gap-x-2" href="/user/jobs">
-								<Calendar className="h-4 w-4" />
-								Mis empleos
-							</Link>
-						</DropdownMenuItem>
-					) : null}
-					<DropdownMenuItem>
-						<Link className="flex items-start gap-x-2" href="/user/favoritos">
-							<Star className="h-4 w-4" />
-							Favoritos
-						</Link>
-					</DropdownMenuItem>
-					{currentUser?.company && (
-						<DropdownMenuItem>
-							<Link className="flex items-start gap-x-2" href="/company/jobs">
-								<svg className="h-4 w-4" viewBox="0 0 24 24">
-									<path d="m16.06 13.09l5.63 5.59l-3.32 3.28l-5.59-5.59v-.92l2.36-2.36zm.91-2.53L16 9.6l-4.79 4.8v1.97L5.58 22L2.3 18.68l5.59-5.59h1.97l.78-.78L6.8 8.46H5.5L2.69 5.62L5.31 3l2.8 2.8v1.31L12 10.95l2.66-2.66l-.96-1.01L15 5.97h-2.66l-.65-.65L15 2l.66.66v2.66L16.97 4l3.28 3.28c1.09 1.1 1.09 2.89 0 3.98l-1.97-2.01z" />
-								</svg>
-								Mis Trabajos
-							</Link>
-						</DropdownMenuItem>
-					)}
+					{currentUser?.role === RoleUser.ADMIN
+						? userMenuAdminLinks.map((link) => (
+								<DropdownMenuItem key={link.text}>
+									<Link
+										className="flex items-center space-x-2"
+										href={link.path}
+									>
+										{link.icon && (
+											<Icon name={link.icon} className="mr-2 h-5 w-5" />
+										)}
+										<Button variant="ghost">{link.text}</Button>
+									</Link>
+								</DropdownMenuItem>
+							))
+						: currentUser?.role === RoleUser.COMPANY
+							? userMenuCompanyLinks.map((link) => (
+									<DropdownMenuItem key={link.text}>
+										<Link
+											className="flex items-center space-x-2"
+											href={link.path}
+										>
+											{link.icon && (
+												<Icon name={link.icon} className="mr-2 h-5 w-5" />
+											)}
+											<Button variant="ghost">{link.text}</Button>
+										</Link>
+									</DropdownMenuItem>
+								))
+							: userMenuLinks.map((link) => (
+									<DropdownMenuItem key={link.text}>
+										<Link
+											className="flex items-center space-x-2"
+											href={link.path}
+										>
+											{link.icon && (
+												<Icon name={link.icon} className="mr-2 h-5 w-5" />
+											)}
+											<Button variant="ghost">{link.text}</Button>
+										</Link>
+									</DropdownMenuItem>
+								))}
 				</div>
-				<DropdownMenuSeparator />
-				<DropdownMenuItem>
-					<Link className="flex items-start gap-x-2" href="/user/profile">
-						<Settings className="h-4 w-4" />
-						Ajustes
-					</Link>
-				</DropdownMenuItem>
-				<DropdownMenuItem>
-					<Link className="flex items-start gap-x-2" href="/user/help">
-						<CircleHelp className="h-4 w-4" />
-						Ayuda
-					</Link>
-				</DropdownMenuItem>
+
 				<DropdownMenuSeparator />
 				<DropdownMenuItem>
 					<LogoutButton>

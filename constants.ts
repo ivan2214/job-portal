@@ -25,30 +25,76 @@ export const menuItems: Route[] = [
 	},
 ];
 
-export const userLinks: Route[] = [
+export const userMenuLinks: Route[] = [
 	{
-		path: "/convertirse-en-profesional",
-		text: "Convertirse en Profesional",
-		icon: "user-pen",
+		path: "/user",
+		text: "Dashboard",
+		icon: "panel-bottom",
 	},
 	{
-		path: "/usuario/servicios",
-		text: "Mis Servicios",
-		icon: "briefcase",
+		path: "/user/applications",
+		text: "Solicitudes",
+		icon: "clipboard-list",
 	},
 	{
-		path: "/usuario/favoritos",
-		text: "Mis Favoritos",
-		icon: "heart",
+		path: "/user/profile",
+		text: "Perfil",
+		icon: "user",
+	},
+];
+
+export const userMenuCompanyLinks: Route[] = [
+	{
+		path: "/company",
+		text: "Dashboard",
+		icon: "panel-bottom",
 	},
 	{
-		path: "/usuario/citas?type=client",
-		text: "Mis citas como cliente",
-		icon: "calendar",
+		path: "/company/jobs",
+		text: "Empleos",
+		icon: "search",
 	},
 	{
-		path: "/usuario/citas?type=professional",
-		text: "Mis citas como profesional",
-		icon: "calendar",
+		path: "/company/applications",
+		text: "Solicitudes",
+		icon: "clipboard-list",
+	},
+	{
+		path: "/company/profile",
+		text: "Perfil",
+		icon: "user",
+	},
+];
+
+export const userMenuAdminLinks: Route[] = [
+	{
+		path: "/admin",
+		text: "Dashboard",
+		icon: "panel-bottom",
+	},
+	{
+		path: "/admin/companies",
+		text: "Empresas",
+		icon: "building",
+	},
+	{
+		path: "/admin/users",
+		text: "Usuarios",
+		icon: "users",
+	},
+	{
+		path: "/admin/jobs",
+		text: "Empleos",
+		icon: "search",
+	},
+	{
+		path: "/admin/applications",
+		text: "Solicitudes",
+		icon: "clipboard-list",
+	},
+	{
+		path: "/admin/settings",
+		text: "Configuraciones",
+		icon: "settings",
 	},
 ];
