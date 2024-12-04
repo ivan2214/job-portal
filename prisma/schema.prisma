@@ -22,7 +22,6 @@ model User {
   twoFactorConfirmationId String?
 
   // Relaciones
-  postedJobs   Job[]         @relation("EmployerJobs") // Relación: un usuario puede publicar muchos empleos
   applications Application[] // Relación: un usuario puede postularse a muchos empleos
   company      Company?
   accounts     Account[]
@@ -118,13 +117,11 @@ model Job {
 
   // Relaciones
 
-  userId        String // Relación con el usuario
-  user          User          @relation("EmployerJobs", fields: [userId], references: [id]) // El empleo pertenece a un usuario
   applications  Application[] // Relación: un empleo puede tener muchas postulaciones
   categoryJob   CategoryJob?  @relation(fields: [categoryJobId], references: [id])
   categoryJobId String?
-  company       Company?      @relation(fields: [companyUserId], references: [userId])
-  companyUserId String?
+  company       Company       @relation(fields: [companyUserId], references: [userId])
+  companyUserId String
   contactInfo   ContactInfo?
 }
 
@@ -137,13 +134,13 @@ model Requirements {
 }
 
 model ContactInfo {
-  id        String @id @default(cuid())
-  email     String
-  phone     String
-  website   String
-  linkedin  String
-  facebook  String
-  instagram String
+  id        String  @id @default(cuid())
+  email     String?
+  phone     String?
+  website   String?
+  linkedin  String?
+  facebook  String?
+  instagram String?
 
   // Relaciones
   job   Job?    @relation(fields: [jobId], references: [id])
@@ -154,7 +151,7 @@ model ContactInfo {
 
 model CategoryJob {
   id   String @id @default(cuid())
-  name String
+  name String @unique
 
   // Relaciones
   jobs Job[]
@@ -195,8 +192,8 @@ model Company {
 }
 
 enum RoleUser {
-  EMPLOYER // Rol de usuario
-  EMPLOYEE // Rol de usuario
+  USER // Rol de usuario
+  COMPANY // Rol de empresa
   ADMIN // Rol de administrador
 }
 

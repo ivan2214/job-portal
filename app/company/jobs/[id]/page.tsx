@@ -19,9 +19,7 @@ export default async function JobManagementPage({
 		where: {
 			id,
 			AND: {
-				company: {
-					userId: companyId,
-				},
+				companyUserId: companyId,
 			},
 		},
 		include: {

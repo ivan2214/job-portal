@@ -32,7 +32,6 @@ export type ApplicationWithRelations = Application & {
 export type UserWithRelations = User & {
 	applications?: ApplicationWithRelations[] | null;
 	company?: CompanyWithRelations | null;
-	postedJobs?: JobWithRelations[] | null;
 };
 
 export type CompanyWithRelations = Company & {

@@ -52,7 +52,6 @@ const NavDesktop = async () => {
 		},
 		include: {
 			applications: true,
-			postedJobs: true,
 			company: true,
 		},
 	});
