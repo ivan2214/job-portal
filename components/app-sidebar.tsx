@@ -22,7 +22,7 @@ export function AppSidebar({
 	...props
 }: React.ComponentProps<typeof Sidebar> & { user: User }) {
 	return (
-		<Sidebar variant="inset" {...props}>
+		<Sidebar variant="floating" {...props}>
 			<SidebarHeader>
 				<SidebarMenu>
 					<SidebarMenuItem>

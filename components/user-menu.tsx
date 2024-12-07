@@ -41,26 +41,34 @@ export const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
 						{currentUser?.name}
 					</span>
 				</div>
-				<div className="mb-2 flex flex-col items-start gap-y-1 border-gray-300 border-b-2">
-					{currentUser?.role !== RoleUser.ADMIN &&
-					currentUser?.role === RoleUser.COMPANY
-						? userMenuCompanyLinks.map((link) => (
-								<DropdownMenuItem key={link.title}>
-									<Link className="flex items-center space-x-2" href={link.url}>
-										{link.icon && <link.icon />}
-										{link.title}
-									</Link>
-								</DropdownMenuItem>
-							))
-						: userMenuLinks.map((link) => (
-								<DropdownMenuItem key={link.title}>
-									<Link className="flex items-center space-x-2" href={link.url}>
-										{link.icon && <link.icon />}
-										{link.title}
-									</Link>
-								</DropdownMenuItem>
-							))}
-				</div>
+				{currentUser?.role !== RoleUser.ADMIN && (
+					<div className="mb-2 flex flex-col items-start gap-y-1 border-gray-300 border-b-2">
+						{currentUser?.role === RoleUser.COMPANY
+							? userMenuCompanyLinks.map((link) => (
+									<DropdownMenuItem key={link.title}>
+										<Link
+											className="flex items-center space-x-2"
+											href={link.url}
+										>
+											{link.icon && <link.icon />}
+											{link.title}
+										</Link>
+									</DropdownMenuItem>
+								))
+							: currentUser?.role === RoleUser.USER &&
+								userMenuLinks.map((link) => (
+									<DropdownMenuItem key={link.title}>
+										<Link
+											className="flex items-center space-x-2"
+											href={link.url}
+										>
+											{link.icon && <link.icon />}
+											{link.title}
+										</Link>
+									</DropdownMenuItem>
+								))}
+					</div>
+				)}
 
 				<DropdownMenuSeparator />
 				<DropdownMenuItem>

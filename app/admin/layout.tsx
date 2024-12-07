@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { AppSidebar } from "@/components/app-sidebar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { prisma } from "@/db";
 import { notFound } from "next/navigation";
 
@@ -24,10 +24,7 @@ export default async function Layout({
 	return (
 		<SidebarProvider>
 			<AppSidebar user={user} />
-			<main>
-				<SidebarTrigger />
-				{children}
-			</main>
+			<main className="mx-auto">{children}</main>
 		</SidebarProvider>
 	);
 }
