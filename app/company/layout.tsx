@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
-import { Sidebar } from "./components/sidebar";
 import { RoleUser } from "@prisma/client";
 import { notFound } from "next/navigation";
+import { Sidebar } from "./components/sidebar";
 
 export default async function UserLayout({
 	children,

@@ -1,54 +1,135 @@
-import type { Route } from "@/types";
+import type { ItemSideBar } from "@/types";
+import {
+	Building,
+	ChartBar,
+	ClipboardList,
+	Info,
+	LogIn,
+	PanelBottom,
+	Search,
+	Settings,
+	User,
+	UserPlus,
+	Users,
+} from "lucide-react";
 
-export const menuItems: Route[] = [
-	{ path: "/empleos", icon: "search", text: "Buscar empleos" },
+export const menuItems: ItemSideBar[] = [
+	{ url: "/empleos", icon: Search, title: "Buscar empleos" },
 	{
-		path: "/empresas",
-		icon: "building",
-		text: "Empresas",
+		url: "/empresas",
+		icon: Building,
+		title: "Empresas",
 	},
-	{ path: "/blog", icon: "info", text: "Blog" },
+	{ url: "/blog", icon: Info, title: "Blog" },
 	{
-		path: "/mercado-laboral",
-		icon: "chart-bar",
-		text: "Estadisticas",
-	},
-	{
-		path: "/auth/login",
-		icon: "log-in",
-		text: "Iniciar Sesion",
+		url: "/mercado-laboral",
+		icon: ChartBar,
+		title: "Estadisticas",
 	},
 	{
-		path: "/auth/register",
-		icon: "user-plus",
-		text: "Registrarse",
+		url: "/auth/login",
+		icon: LogIn,
+		title: "Iniciar Sesion",
+	},
+	{
+		url: "/auth/register",
+		icon: UserPlus,
+		title: "Registrarse",
 	},
 ];
 
-export const userLinks: Route[] = [
+export const userMenuLinks: ItemSideBar[] = [
 	{
-		path: "/convertirse-en-profesional",
-		text: "Convertirse en Profesional",
-		icon: "user-pen",
+		url: "/user",
+		title: "Dashboard",
+		icon: PanelBottom,
 	},
 	{
-		path: "/usuario/servicios",
-		text: "Mis Servicios",
-		icon: "briefcase",
+		url: "/user/applications",
+		title: "Solicitudes",
+		icon: ClipboardList,
 	},
 	{
-		path: "/usuario/favoritos",
-		text: "Mis Favoritos",
-		icon: "heart",
+		url: "/user/profile",
+		title: "Perfil",
+		icon: User,
+	},
+];
+
+export const userMenuCompanyLinks: ItemSideBar[] = [
+	{
+		url: "/company",
+		title: "Dashboard",
+		icon: PanelBottom,
 	},
 	{
-		path: "/usuario/citas?type=client",
-		text: "Mis citas como cliente",
-		icon: "calendar",
+		url: "/company/jobs",
+		title: "Empleos",
+		icon: Search,
 	},
 	{
-		path: "/usuario/citas?type=professional",
-		text: "Mis citas como profesional",
-		icon: "calendar",
+		url: "/company/applications",
+		title: "Solicitudes",
+		icon: ClipboardList,
+	},
+	{
+		url: "/company/profile",
+		title: "Perfil",
+		icon: User,
+	},
+];
+
+export const userMenuAdminLinks: ItemSideBar[] = [
+	{
+		url: "/admin",
+		title: "Dashboard",
+		icon: PanelBottom,
+	},
+	{
+		url: "/admin/users",
+		title: "Usuarios",
+		icon: Users,
+	},
+	{
+		url: "/admin/jobs",
+		title: "Empleos",
+		icon: PanelBottom,
+	},
+	{
+		url: "/admin/companies",
+		title: "Empresas",
+		icon: PanelBottom,
+	},
+	{
+		url: "/admin/applications",
+		title: "Solicitudes",
+		icon: ClipboardList,
+	},
+	{
+		url: "/admin/settings",
+		title: "Configuraciones",
+		icon: Settings,
+		items: [
+			{
+				title: "General",
+				url: "/admin/settings",
+			},
+			{
+				title: "Seguridad",
+				url: "/admin/settings/security",
+			},
+			{
+				title: "Notificaciones",
+				url: "/admin/settings/notifications",
+			},
+			{
+				title: "Logs",
+				url: "/admin/settings/logs",
+			},
+			{
+				title: "Admins",
+				url: "/admin/settings/admins",
+			},
+		],
 	},
 ];

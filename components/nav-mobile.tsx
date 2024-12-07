@@ -1,8 +1,8 @@
 import { auth } from "@/auth";
 import dynamic from "next/dynamic";
 
-import { UserMenu } from "./user-menu";
 import { prisma } from "@/db";
+import { UserMenu } from "./user-menu";
 
 const NavMobileLinks = dynamic(() => import("@/components/nav-mobile-links"));
 

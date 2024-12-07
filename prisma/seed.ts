@@ -33,10 +33,12 @@ async function main() {
 					currentYear,
 					faker.number.int({ min: 0, max: 11 }), // Mes aleatorio
 				),
+
 				name: faker.person.fullName(),
 				email: faker.internet.email(),
 				hashedPassword: adminPassword,
 				role: RoleUser.ADMIN,
+				emailVerified: new Date(),
 			}),
 		),
 	});

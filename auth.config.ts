@@ -7,8 +7,8 @@ import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 
 import { getUserByEmail } from "@/data/user";
-import { FormLoginSchema } from "./schemas/auth-schema";
 import { RoleUser } from "@prisma/client";
+import { FormLoginSchema } from "./schemas/auth-schema";
 
 export default {
 	providers: [
