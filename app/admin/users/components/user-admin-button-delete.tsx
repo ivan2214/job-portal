@@ -14,7 +14,7 @@ import {
 	AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useTransition } from "react";
-import { deleteUser } from "../actions/user";
+import { deleteUser } from "../../actions/user";
 import { toast } from "sonner";
 
 interface UserAdminButtonDeleteProps {

@@ -19,8 +19,8 @@ import {
 import type { User } from "@prisma/client";
 import { Eye } from "lucide-react";
 import Link from "next/link";
-import { UserAdminButtonDelete } from "./user-admin-button-delete";
-import { UserAdminButtonEdit } from "./user-admin-button-edit";
+import { UserAdminButtonDelete } from "../users/components/user-admin-button-delete";
+import { UserAdminButtonEdit } from "../users/components/user-admin-button-edit";
 
 interface UserAdminTableProps {
 	users: User[];

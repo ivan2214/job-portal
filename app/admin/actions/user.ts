@@ -1,23 +1,55 @@
 "use server";
 import { auth } from "@/auth";
 import { prisma } from "@/db";
-import { FormEditUserSchema } from "@/schemas/user";
-import type { RoleUser, UserStatus } from "@prisma/client";
+import {
+  type FormChangeUserStatusSchema,
+  FormEditUserSchema,
+} from "@/schemas/user";
+import type { RoleUser } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import type { z } from "zod";
 
-export const updateUserStatus = async (id: string, status: UserStatus) => {
-  await prisma.user.update({
-    where: {
-      id,
-    },
-    data: {
-      status,
-    },
-  });
+export const changeUserStatus = async (
+  status: z.infer<typeof FormChangeUserStatusSchema>,
+  redirectUrl?: string
+) => {
+  try {
+    const { id, status: statusUser } = status;
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!user) {
+      return {
+        error: "User not found",
+      };
+    }
+
+    await prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        status: statusUser,
+      },
+    });
+
+    return {
+      success: "User status updated successfully",
+    };
+  } catch (error) {
+    return {
+      error: "Error updating user",
+    };
+  } finally {
+    revalidatePath(redirectUrl || "/admin");
+  }
 };
 
-export const deleteUser = async (id: string) => {
+export const deleteUser = async (id: string, redirectUrl?: string) => {
   if (!id) {
     return {
       error: "ID is required",
@@ -79,7 +111,7 @@ export const deleteUser = async (id: string) => {
       error: "Error deleting user",
     };
   } finally {
-    revalidatePath("/admin");
+    revalidatePath(redirectUrl || "/admin");
   }
 };
 
@@ -94,7 +126,10 @@ export const updateUserRole = async (id: string, role: RoleUser) => {
   });
 };
 
-export const editUser = async (values: z.infer<typeof FormEditUserSchema>) => {
+export const editUser = async (
+  values: z.infer<typeof FormEditUserSchema>,
+  redirectUrl?: string
+) => {
   const validateFields = FormEditUserSchema.safeParse(values);
 
   if (!validateFields.success) {
@@ -156,6 +191,6 @@ export const editUser = async (values: z.infer<typeof FormEditUserSchema>) => {
       error: "Error updating user",
     };
   } finally {
-    revalidatePath("/admin");
+    revalidatePath(redirectUrl || "/admin");
   }
 };
