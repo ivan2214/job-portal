@@ -19,16 +19,18 @@ import { toast } from "sonner";
 
 interface UserAdminButtonDeleteProps {
 	id: string;
+	redirectUrl?: string;
 }
 
 export const UserAdminButtonDelete: React.FC<UserAdminButtonDeleteProps> = ({
 	id,
+	redirectUrl,
 }) => {
 	const [isPending, startTransition] = useTransition();
 
 	const handleDelete = async () => {
 		startTransition(() => {
-			deleteUser(id).then((data) => {
+			deleteUser(id, redirectUrl).then((data) => {
 				if (data.error) {
 					toast.error(data.error);
 				}
@@ -41,7 +43,7 @@ export const UserAdminButtonDelete: React.FC<UserAdminButtonDeleteProps> = ({
 	return (
 		<AlertDialog>
 			<AlertDialogTrigger asChild>
-				<Button variant="destructive" className="justify-start">
+				<Button size="sm" variant="destructive" className="justify-start">
 					<Trash className="mr-2 h-4 w-4" />
 					Delete User
 				</Button>

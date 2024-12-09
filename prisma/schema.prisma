@@ -118,9 +118,9 @@ model Job {
   // Relaciones
 
   applications  Application[] // Relación: un empleo puede tener muchas postulaciones
-  categoryJob   CategoryJob?  @relation(fields: [categoryJobId], references: [id])
+  categoryJob   CategoryJob?  @relation(fields: [categoryJobId], references: [id], onDelete: SetNull)
   categoryJobId String?
-  company       Company       @relation(fields: [companyUserId], references: [userId])
+  company       Company       @relation(fields: [companyUserId], references: [userId], onDelete: Cascade)
   companyUserId String
   contactInfo   ContactInfo?
 }
@@ -129,7 +129,7 @@ model Requirements {
   id   String @id @default(cuid())
   name String
 
-  job   Job?    @relation(fields: [jobId], references: [id])
+  job   Job?    @relation(fields: [jobId], references: [id], onDelete: SetNull)
   jobId String?
 }
 
@@ -143,7 +143,7 @@ model ContactInfo {
   instagram String?
 
   // Relaciones
-  job   Job?    @relation(fields: [jobId], references: [id])
+  job   Job?    @relation(fields: [jobId], references: [id], onDelete: SetNull)
   jobId String?
 
   @@unique([jobId])
@@ -188,7 +188,7 @@ model Company {
 
   // Relaciones
   jobPostings Job[] // Relación: una empresa puede tener muchas ofertas de empleo
-  user        User  @relation(fields: [userId], references: [id]) // Relación con el usuario
+  user        User  @relation(fields: [userId], references: [id], onDelete: Cascade) // Relación con el usuario
 }
 
 enum RoleUser {

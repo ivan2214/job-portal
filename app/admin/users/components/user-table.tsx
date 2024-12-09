@@ -10,6 +10,7 @@ import {
 import type { User } from "@prisma/client";
 import Link from "next/link";
 import { UserAdminButtonChangeStatus } from "./user-admin-button-change-status";
+import { UserAdminButtonDelete } from "./user-admin-button-delete";
 
 interface UserTableProps {
 	users: User[];
@@ -34,8 +35,8 @@ export function UserTable({ users }: UserTableProps) {
 						<TableCell>{user.email}</TableCell>
 						<TableCell>{user.role}</TableCell>
 						<TableCell>{user.status}</TableCell>
-						<TableCell>
-							<Button variant="outline" size="sm" asChild className="mr-2">
+						<TableCell className="flex items-center space-x-2">
+							<Button variant="outline" size="sm" asChild>
 								<Link href={`/admin/users/${user.id}`}> View Details</Link>
 							</Button>
 							<UserAdminButtonChangeStatus
@@ -43,6 +44,7 @@ export function UserTable({ users }: UserTableProps) {
 								id={user.id}
 								user={user}
 							/>
+							<UserAdminButtonDelete redirectUrl="/admin/users" id={user.id} />
 						</TableCell>
 					</TableRow>
 				))}

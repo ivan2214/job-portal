@@ -21,6 +21,7 @@ import { notFound } from "next/navigation";
 import { ActivitySummary } from "./components/activity-summary";
 import { UserAdminButtonEdit } from "../components/user-admin-button-edit";
 import { UserAdminButtonChangeStatus } from "../components/user-admin-button-change-status";
+import { UserAdminButtonDelete } from "../components/user-admin-button-delete";
 
 type Params = Promise<{ id: string }>;
 
@@ -96,15 +97,18 @@ export default async function UserProfile({ params }: { params: Params }) {
 						</div>
 						<Separator className="my-4" />
 						<div className="flex space-x-2">
+							<UserAdminButtonEdit
+								redirectUrl={`/admin/users/${user.id}`}
+								user={user}
+							/>
+
 							<UserAdminButtonChangeStatus
 								redirectUrl={`/admin/users/${user.id}`}
 								id={user.id}
 								user={user}
 							/>
-							<UserAdminButtonEdit
-								redirectUrl={`/admin/users/${user.id}`}
-								user={user}
-							/>
+
+							<UserAdminButtonDelete redirectUrl="/admin/users" id={user.id} />
 						</div>
 					</CardContent>
 				</Card>

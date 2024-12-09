@@ -65,10 +65,6 @@ export const deleteUser = async (id: string, redirectUrl?: string) => {
       },
     });
 
-    console.log({
-      user,
-    });
-
     if (!user) {
       return {
         error: "User not found",
@@ -97,14 +93,37 @@ export const deleteUser = async (id: string, redirectUrl?: string) => {
       };
     }
 
-    await prisma.user.delete({
-      where: {
-        id,
-      },
-    });
+    if (user.role === "USER") {
+      await prisma.user.delete({
+        where: {
+          id,
+        },
+      });
+
+      return {
+        success: "User deleted successfully!",
+      };
+    }
+    if (user.role === "COMPANY") {
+      await prisma.company.delete({
+        where: {
+          userId: id,
+        },
+      });
+
+      await prisma.user.delete({
+        where: {
+          id,
+        },
+      });
+
+      return {
+        success: "Company deleted successfully!",
+      };
+    }
 
     return {
-      success: "User deleted successfully!",
+      error: "User not found",
     };
   } catch (error) {
     return {
