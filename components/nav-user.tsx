@@ -1,13 +1,6 @@
 "use client";
 
-import {
-	BadgeCheck,
-	Bell,
-	ChevronsUpDown,
-	CreditCard,
-	LogOut,
-	Sparkles,
-} from "lucide-react";
+import { BadgeCheck, Bell, ChevronsUpDown, LogOut } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -26,6 +19,7 @@ import {
 	useSidebar,
 } from "@/components/ui/sidebar";
 import type { User } from "@prisma/client";
+import { LogoutButton } from "@/app/(routes)/auth/components/logout-button";
 
 export function NavUser({
 	user,
@@ -72,23 +66,14 @@ export function NavUser({
 								</div>
 							</div>
 						</DropdownMenuLabel>
-						<DropdownMenuSeparator />
-						<DropdownMenuGroup>
-							<DropdownMenuItem>
-								<Sparkles />
-								Upgrade to Pro
-							</DropdownMenuItem>
-						</DropdownMenuGroup>
+
 						<DropdownMenuSeparator />
 						<DropdownMenuGroup>
 							<DropdownMenuItem>
 								<BadgeCheck />
 								Account
 							</DropdownMenuItem>
-							<DropdownMenuItem>
-								<CreditCard />
-								Billing
-							</DropdownMenuItem>
+
 							<DropdownMenuItem>
 								<Bell />
 								Notifications
@@ -96,8 +81,10 @@ export function NavUser({
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem>
-							<LogOut />
-							Log out
+							<LogoutButton>
+								<LogOut />
+								Log out
+							</LogoutButton>
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>

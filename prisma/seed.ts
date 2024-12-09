@@ -33,7 +33,7 @@ async function main() {
 					currentYear,
 					faker.number.int({ min: 0, max: 11 }), // Mes aleatorio
 				),
-
+				image: faker.image.avatar(),
 				name: faker.person.fullName(),
 				email: faker.internet.email(),
 				hashedPassword: adminPassword,
@@ -56,6 +56,7 @@ async function main() {
 				const userCompany = await prisma.user.create({
 					data: {
 						createdAt,
+						image: faker.image.avatar(),
 						name: faker.person.fullName(),
 						email: faker.internet.email(),
 						hashedPassword: companiesPassword,
@@ -120,7 +121,10 @@ async function main() {
 						),
 						title: faker.person.jobTitle(),
 						description: faker.lorem.paragraph(),
-						salary: `$${faker.number.int({ min: 50000, max: 150000 })} - $${faker.number.int({ min: 150000, max: 300000 })} al año`,
+						salary: `$${faker.number.int({
+							min: 50000,
+							max: 150000,
+						})} - $${faker.number.int({ min: 150000, max: 300000 })} al año`,
 						location: faker.location.city(),
 						companyUserId: company.id,
 						categoryJobId: category.id,
@@ -171,6 +175,7 @@ async function main() {
 						currentYear,
 						faker.number.int({ min: 0, max: 11 }),
 					),
+					image: faker.image.avatar(),
 					name: faker.person.fullName(),
 					email: faker.internet.email(),
 					hashedPassword: userPassword,

@@ -1,6 +1,6 @@
+import { Container } from "@/components/container";
 import type { Metadata } from "next";
 import AdminSettings from "./components/admin-settings";
-import { Container } from "@/components/container";
 
 export const metadata: Metadata = {
 	title: "Admin Settings",
