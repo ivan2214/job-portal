@@ -15,7 +15,7 @@ interface PaginationProps {
 	totalPages: number;
 }
 
-export function Pagination({ totalPages }: PaginationProps) {
+export function PaginationAdminUser({ totalPages }: PaginationProps) {
 	const router = useRouter();
 	const searchParams = useSearchParams();
 	const [isPending, startTransition] = useTransition();

@@ -1,6 +1,5 @@
 import { Suspense } from "react";
-import { Pagination } from "./components/pagination";
-import { SearchBar } from "./components/search-bar";
+import { SearchBarAdminUser } from "./components/searchbar-admin-user";
 import { UserTable } from "./components/user-table";
 
 import { Container } from "@/components/container";
@@ -13,6 +12,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { prisma } from "@/db";
 import { ChevronRight } from "lucide-react";
+import { PaginationAdminUser } from "./components/pagination-admin-user";
 
 type SearchParams = Promise<{
 	query?: string;
@@ -88,14 +88,14 @@ export default async function UserManagement({
 					</BreadcrumbItem>
 				</BreadcrumbList>
 			</Breadcrumb>
-			<div className="mb-4">
-				<SearchBar />
+			<div className="my-4">
+				<SearchBarAdminUser />
 			</div>
 			<Suspense fallback={<div>Loading...</div>}>
 				<UserTable users={users} />
 			</Suspense>
 			<div className="mt-4">
-				<Pagination totalPages={totalPages} />
+				<PaginationAdminUser totalPages={totalPages} />
 			</div>
 		</Container>
 	);
