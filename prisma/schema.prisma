@@ -165,10 +165,10 @@ model Application {
 
   // Relaciones
   userId String // Relación con el usuario
-  user   User   @relation(fields: [userId], references: [id]) // Una postulación pertenece a un usuario
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade) // Una postulación pertenece a un usuario
 
   jobId String // Relación con el empleo
-  job   Job    @relation(fields: [jobId], references: [id]) // Una postulación pertenece a un empleo
+  job   Job    @relation(fields: [jobId], references: [id], onDelete: Cascade) // Una postulación pertenece a un empleo
 
   status ApplicationStatus @default(PENDING) // Enum para representar el estado de la postulación
 }

@@ -4,8 +4,8 @@ import { z } from "zod";
 export const FormEditUserSchema = z.object({
   name: z.string().optional(),
   email: z.string().email().optional(),
-  emailVerified: z.date().optional(),
-  image: z.string().optional(),
+  emailVerified: z.boolean().optional(),
+
   status: z
     .enum([
       UserStatus.ACTIVE,

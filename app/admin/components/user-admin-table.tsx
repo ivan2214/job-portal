@@ -17,8 +17,10 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import type { User } from "@prisma/client";
-import { Eye, Pencil, Trash } from "lucide-react";
+import { Eye } from "lucide-react";
 import Link from "next/link";
+import { UserAdminButtonDelete } from "./user-admin-button-delete";
+import { UserAdminButtonEdit } from "./user-admin-button-edit";
 
 interface UserAdminTableProps {
 	users: User[];
@@ -72,14 +74,8 @@ export const UserAdminTable: React.FC<UserAdminTableProps> = ({ users }) => {
 												Ver
 											</Link>
 										</Button>
-										<Button variant="outline" size="sm" className="">
-											<Pencil className="mr-2 h-4 w-4" size={20} />
-											Editar
-										</Button>
-										<Button variant="destructive" size="sm">
-											<Trash className="mr-2 h-4 w-4" size={20} />
-											Eliminar
-										</Button>
+										<UserAdminButtonEdit user={user} />
+										<UserAdminButtonDelete id={user.id} />
 									</TableCell>
 								</TableRow>
 							);
