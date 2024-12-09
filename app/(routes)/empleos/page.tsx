@@ -52,7 +52,7 @@ export default async function JobListings({
 	return (
 		<Container className="px-4 py-8 sm:px-6 lg:px-8">
 			<h1 className="mb-6 font-bold text-3xl">Ofertas de Empleo</h1>
-			<div className="flex flex-col gap-8 md:flex-row">
+			<div className="flex flex-col gap-8 lg:flex-row">
 				<Sidebar />
 				<div className="flex-1">
 					<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

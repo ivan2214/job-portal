@@ -1,4 +1,4 @@
-import NewVerificationForm from "@/app/auth/components/new-verification-form";
+import NewVerificationForm from "@/app/(routes)/auth/components/new-verification-form";
 
 type SearchParams = Promise<{
 	token?: string;

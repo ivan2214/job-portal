@@ -11,7 +11,7 @@ import { Slider } from "@/components/ui/slider";
 
 export function Sidebar() {
 	return (
-		<aside className="w-64 bg-gray-100 p-4">
+		<aside className="bg-gray-100 p-4 lg:w-64">
 			<h2 className="mb-4 font-semibold text-lg">Filtros</h2>
 			<div className="space-y-4">
 				<div>

@@ -1,4 +1,4 @@
-import { ErrorCard } from "@/app/auth/components/error-card";
+import { ErrorCard } from "@/app/(routes)/auth/components/error-card";
 
 type SearchParams = Promise<{ error?: string }>;
 

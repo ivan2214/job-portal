@@ -1,4 +1,4 @@
-import { CardWrapper } from "@/app/auth/components/card-wrapper";
+import { CardWrapper } from "@/app/(routes)/auth/components/card-wrapper";
 import { Triangle } from "lucide-react";
 
 export const ErrorCard = ({ error }: { error?: string }) => {

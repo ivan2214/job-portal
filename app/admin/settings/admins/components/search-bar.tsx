@@ -1,18 +1,14 @@
+"use client";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useState } from "react";
 
-interface SearchBarProps {
-	onSearch: (query: string) => void;
-}
-
-export function SearchBar({ onSearch }: SearchBarProps) {
+export function SearchBar() {
 	const [query, setQuery] = useState("");
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const newQuery = e.target.value;
 		setQuery(newQuery);
-		onSearch(newQuery);
 	};
 
 	return (

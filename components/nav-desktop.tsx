@@ -5,8 +5,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { UserMenu } from "@/components/user-menu";
 
-import { LoginButton } from "@/app/auth/components/login-button";
-import { RegisterButton } from "@/app/auth/components/register-button";
+import { LoginButton } from "@/app/(routes)/auth/components/login-button";
+import { RegisterButton } from "@/app/(routes)/auth/components/register-button";
 import { menuItems } from "@/constants";
 import { prisma } from "@/db";
 
@@ -16,10 +16,8 @@ const NavDesktop = async () => {
 	if (!session?.user.id) {
 		return (
 			<nav>
-				<ul className="flex items-center space-x-4">
+				<ul className="flex items-center space-x-2">
 					{menuItems.map((item) => {
-						console.log("item.url", item.url);
-
 						return (
 							<li key={item.title}>
 								{item.url === "/auth/register" ? (
@@ -33,12 +31,14 @@ const NavDesktop = async () => {
 										{item.title}
 									</LoginButton>
 								) : (
-									<Link
-										href={item.url}
-										className="font-medium text-sm hover:text-primary"
-									>
-										{item.icon && <item.icon />}
-										{item.title}
+									<Link key={item.title} href={item.url}>
+										<Button
+											className="transition-colors duration-300 hover:text-primary"
+											variant="ghost"
+										>
+											{item.icon && <item.icon />}
+											{item.title}
+										</Button>
 									</Link>
 								)}
 							</li>

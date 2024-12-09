@@ -1,8 +1,10 @@
 import Link from "next/link";
+import dynamic from "next/dynamic";
 
 import { Container } from "@/components/container";
-import NavDesktop from "@/components/nav-desktop";
-import NavMobile from "@/components/nav-mobile";
+
+const NavDesktop = dynamic(() => import("@/components/nav-desktop"));
+const NavMobile = dynamic(() => import("@/components/nav-mobile"));
 
 export const Header = () => {
 	return (

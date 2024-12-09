@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
 	Table,
@@ -12,12 +13,21 @@ import { Edit, UserMinus, UserX } from "lucide-react";
 
 interface AdminTableProps {
 	admins: User[];
-	onEdit?: (admin: User) => void;
-	onSuspend: (adminId: string) => void;
-	onRemove: (adminId: string) => void;
 }
 
-export function AdminTable({ admins, onSuspend, onRemove }: AdminTableProps) {
+export function AdminTable({ admins }: AdminTableProps) {
+	const onEdit = (admin: User) => {
+		console.log("Editing admin:", admin);
+	};
+
+	const onSuspend = (id: string) => {
+		console.log("Suspend admin:", id);
+	};
+
+	const onRemove = (id: string) => {
+		console.log("Remove admin:", id);
+	};
+
 	return (
 		<Table>
 			<TableHeader>
@@ -41,7 +51,7 @@ export function AdminTable({ admins, onSuspend, onRemove }: AdminTableProps) {
 								<Button
 									variant="outline"
 									size="sm"
-									/* onClick={() => onEdit(admin)} */
+									onClick={() => onEdit(admin)}
 								>
 									<Edit className="h-4 w-4" />
 								</Button>

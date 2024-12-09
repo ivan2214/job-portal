@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,
@@ -5,6 +6,7 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
+	DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,6 +17,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { RoleUser } from "@prisma/client";
+import { PlusCircle } from "lucide-react";
 import { useState } from "react";
 
 export type newAdmin = {
@@ -23,27 +27,28 @@ export type newAdmin = {
 	role: string;
 };
 
-interface AddAdminModalProps {
-	isOpen: boolean;
-	onClose: () => void;
-	onAdd: (newAdmin: { name: string; email: string; role: string }) => void;
-}
+const roles = [RoleUser.ADMIN, RoleUser.COMPANY, RoleUser.USER];
 
-export function AddAdminModal({ isOpen, onClose, onAdd }: AddAdminModalProps) {
+export function AddAdminModal() {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [role, setRole] = useState("");
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		onAdd({ name, email, role });
+
 		setName("");
 		setEmail("");
 		setRole("");
 	};
 
 	return (
-		<Dialog open={isOpen} onOpenChange={onClose}>
+		<Dialog>
+			<DialogTrigger asChild>
+				<Button>
+					<PlusCircle className="mr-2 h-4 w-4" /> Add New Admin
+				</Button>
+			</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>Add New Admin</DialogTitle>
@@ -84,9 +89,11 @@ export function AddAdminModal({ isOpen, onClose, onAdd }: AddAdminModalProps) {
 									<SelectValue placeholder="Select a role" />
 								</SelectTrigger>
 								<SelectContent>
-									<SelectItem value="Super Admin">Super Admin</SelectItem>
-									<SelectItem value="Admin">Admin</SelectItem>
-									<SelectItem value="Moderator">Moderator</SelectItem>
+									{roles.map((role) => (
+										<SelectItem key={role} value={role}>
+											{role}
+										</SelectItem>
+									))}
 								</SelectContent>
 							</Select>
 						</div>

@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import type { HTMLAttributes } from "react";
 
-import { RegisterForm } from "@/app/auth/components/register-form";
+import { RegisterForm } from "@/app/(routes)/auth/components/register-form";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";

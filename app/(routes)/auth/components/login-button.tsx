@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import type { HTMLAttributes } from "react";
 
-import { LoginForm } from "@/app/auth/components/login-form";
+import { LoginForm } from "@/app/(routes)/auth/components/login-form";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";

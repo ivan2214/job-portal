@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import type * as z from "zod";
 
 import { login } from "@/actions/login";
-import { CardWrapper } from "@/app/auth/components/card-wrapper";
+import { CardWrapper } from "@/app/(routes)/auth/components/card-wrapper";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { Button } from "@/components/ui/button";

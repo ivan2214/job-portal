@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState, useTransition } from "react";
 
 import { newVerification } from "@/actions/new-verification";
-import { CardWrapper } from "@/app/auth/components/card-wrapper";
+import { CardWrapper } from "@/app/(routes)/auth/components/card-wrapper";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { Circle } from "lucide-react";

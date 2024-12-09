@@ -15,21 +15,14 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { useEffect, useState } from "react";
-
-interface Admin {
-	id: number;
-	name: string;
-	email: string;
-	role: string;
-	status: string;
-}
+import type { User } from "@prisma/client";
+import { useState } from "react";
 
 interface EditAdminModalProps {
 	isOpen: boolean;
 	onClose: () => void;
-	onEdit: (updatedAdmin: Admin) => void;
-	admin: Admin | null;
+	onEdit: (updatedAdmin: User) => void;
+	admin: User;
 }
 
 export function EditAdminModal({
@@ -38,22 +31,12 @@ export function EditAdminModal({
 	onEdit,
 	admin,
 }: EditAdminModalProps) {
-	const [name, setName] = useState("");
-	const [email, setEmail] = useState("");
-	const [role, setRole] = useState("");
-
-	useEffect(() => {
-		if (admin) {
-			setName(admin.name);
-			setEmail(admin.email);
-			setRole(admin.role);
-		}
-	}, [admin]);
+	const [editAdmin, setEditAdmin] = useState<User | null>(null);
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		if (admin) {
-			onEdit({ ...admin, name, email, role });
+			onEdit({ ...admin });
 		}
 	};
 
@@ -69,13 +52,7 @@ export function EditAdminModal({
 							<Label htmlFor="edit-name" className="text-right">
 								Name
 							</Label>
-							<Input
-								id="edit-name"
-								value={name}
-								onChange={(e) => setName(e.target.value)}
-								className="col-span-3"
-								required
-							/>
+							<Input id="edit-name" className="col-span-3" required />
 						</div>
 						<div className="grid grid-cols-4 items-center gap-4">
 							<Label htmlFor="edit-email" className="text-right">
@@ -84,8 +61,6 @@ export function EditAdminModal({
 							<Input
 								id="edit-email"
 								type="email"
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
 								className="col-span-3"
 								required
 							/>
@@ -94,7 +69,7 @@ export function EditAdminModal({
 							<Label htmlFor="edit-role" className="text-right">
 								Role
 							</Label>
-							<Select onValueChange={setRole} defaultValue={role}>
+							<Select>
 								<SelectTrigger className="col-span-3">
 									<SelectValue placeholder="Select a role" />
 								</SelectTrigger>

@@ -2,7 +2,7 @@
 
 import { LogOut, User } from "lucide-react";
 
-import { LogoutButton } from "@/app/auth/components/logout-button";
+import { LogoutButton } from "@/app/(routes)/auth/components/logout-button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
 	DropdownMenu,
