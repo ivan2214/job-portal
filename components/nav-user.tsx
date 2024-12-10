@@ -2,6 +2,7 @@
 
 import { BadgeCheck, Bell, ChevronsUpDown, LogOut } from "lucide-react";
 
+import { LogoutButton } from "@/app/(routes)/auth/components/logout-button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
 	DropdownMenu,
@@ -19,7 +20,6 @@ import {
 	useSidebar,
 } from "@/components/ui/sidebar";
 import type { User } from "@prisma/client";
-import { LogoutButton } from "@/app/(routes)/auth/components/logout-button";
 
 export function NavUser({
 	user,

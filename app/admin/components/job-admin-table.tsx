@@ -17,9 +17,9 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 
+import type { JobWithRelations } from "@/types";
 import { Eye, Pencil, Trash } from "lucide-react";
 import Link from "next/link";
-import type { JobWithRelations } from "@/types";
 
 interface JobAdminTableProps {
 	jobs: JobWithRelations[];

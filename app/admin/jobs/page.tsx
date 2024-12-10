@@ -1,8 +1,8 @@
 import { Container } from "@/components/container";
 import { prisma } from "@/db";
+import { Suspense } from "react";
 import { JobsDataTable } from "./components/jobs-data-table";
 import { JobsHeader } from "./components/jobs-header";
-import { Suspense } from "react";
 
 type SearchParams = Promise<{
 	query?: string;

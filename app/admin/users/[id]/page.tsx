@@ -18,10 +18,10 @@ import { Container } from "@/components/container";
 import { prisma } from "@/db";
 import { BriefcaseIcon, FileTextIcon } from "lucide-react";
 import { notFound } from "next/navigation";
-import { ActivitySummary } from "./components/activity-summary";
-import { UserAdminButtonEdit } from "../components/user-admin-button-edit";
 import { UserAdminButtonChangeStatus } from "../components/user-admin-button-change-status";
 import { UserAdminButtonDelete } from "../components/user-admin-button-delete";
+import { UserAdminButtonEdit } from "../components/user-admin-button-edit";
+import { ActivitySummary } from "./components/activity-summary";
 
 type Params = Promise<{ id: string }>;
 

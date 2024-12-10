@@ -1,4 +1,4 @@
-import { LogOut, UserIcon } from "lucide-react";
+import { LayoutDashboard, LogOut, UserIcon } from "lucide-react";
 import Link from "next/link";
 
 import { LogoutButton } from "@/app/(routes)/auth/components/logout-button";
@@ -48,7 +48,6 @@ export const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
 									<DropdownMenuItem key={item.title}>
 										<Link
 											className="flex items-center gap-x-2 transition-colors duration-300 hover:text-primary"
-											key={item.title}
 											href={item.url}
 										>
 											{item.icon && <item.icon />}
@@ -61,7 +60,6 @@ export const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
 									<DropdownMenuItem key={item.title}>
 										<Link
 											className="flex items-center gap-x-2 transition-colors duration-300 hover:text-primary"
-											key={item.title}
 											href={item.url}
 										>
 											{item.icon && <item.icon />}
@@ -70,6 +68,18 @@ export const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
 									</DropdownMenuItem>
 								))}
 					</div>
+				)}
+
+				{currentUser?.role === RoleUser.ADMIN && (
+					<DropdownMenuItem>
+						<Link
+							className="flex items-center gap-x-2 transition-colors duration-300 hover:text-primary"
+							href="/admin"
+						>
+							<LayoutDashboard className="mr-2 h-4 w-4" size={20} />
+							Admin
+						</Link>
+					</DropdownMenuItem>
 				)}
 
 				<DropdownMenuSeparator />

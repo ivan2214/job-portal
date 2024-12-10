@@ -21,15 +21,6 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 
-import { useTransition } from "react";
-import { changeUserStatus } from "../../actions/user";
-import { toast } from "sonner";
-import { useForm } from "react-hook-form";
-import { FormChangeUserStatusSchema } from "@/schemas/user";
-import { zodResolver } from "@hookform/resolvers/zod";
-import type { z } from "zod";
-import { UserStatus, type User } from "@prisma/client";
-import { Loader2, Pencil } from "lucide-react";
 import {
 	Select,
 	SelectContent,
@@ -37,6 +28,15 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { FormChangeUserStatusSchema } from "@/schemas/user";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { type User, UserStatus } from "@prisma/client";
+import { Loader2, Pencil } from "lucide-react";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import type { z } from "zod";
+import { changeUserStatus } from "../../actions/user";
 
 interface UserAdminButtonChangeStatusProps {
 	id: string;

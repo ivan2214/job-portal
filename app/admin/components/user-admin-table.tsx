@@ -51,7 +51,8 @@ export const UserAdminTable: React.FC<UserAdminTableProps> = ({ users }) => {
 						<TableRow>
 							<TableHead>Nombre</TableHead>
 							<TableHead>Email</TableHead>
-							<TableHead>Tipo</TableHead>
+							<TableHead>Estado</TableHead>
+							<TableHead>Email Verificado</TableHead>
 							<TableHead>Acciones</TableHead>
 						</TableRow>
 					</TableHeader>
@@ -60,8 +61,9 @@ export const UserAdminTable: React.FC<UserAdminTableProps> = ({ users }) => {
 							return (
 								<TableRow key={user.id}>
 									<TableCell>{user.name}</TableCell>
-									<TableCell>{user.email}</TableCell>
-									<TableCell>{user.role}</TableCell>
+									<TableCell className="truncate">{user.email}</TableCell>
+									<TableCell>{user.status}</TableCell>
+									<TableCell>{user.emailVerified ? "Si" : "No"}</TableCell>
 									<TableCell className="flex items-center space-x-2">
 										<Button
 											variant="outline"

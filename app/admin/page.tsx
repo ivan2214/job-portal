@@ -7,9 +7,9 @@ import { Container } from "@/components/container";
 import {} from "lucide-react";
 import { AdminChart } from "./components/admin-chart";
 import { AdminSummary } from "./components/admin-summary";
-import { UserAdminTable } from "./components/user-admin-table";
 import { CompanyAdminTable } from "./components/company-admin-table";
 import { JobAdminTable } from "./components/job-admin-table";
+import { UserAdminTable } from "./components/user-admin-table";
 
 type SearchParams = Promise<{
 	filter?: "users" | "companies" | "jobs";
@@ -29,6 +29,9 @@ export default async function AdminDashboard({
 		take: 10,
 		orderBy: {
 			createdAt: "desc",
+		},
+		where: {
+			role: "USER",
 		},
 	});
 
@@ -51,7 +54,11 @@ export default async function AdminDashboard({
 		},
 	});
 
-	const usersTotal = await prisma.user.count();
+	const usersTotal = await prisma.user.count({
+		where: {
+			role: "USER",
+		},
+	});
 
 	const companiesTotal = await prisma.company.count();
 
@@ -79,6 +86,7 @@ export default async function AdminDashboard({
 				gte: new Date(currentYear, 0, 1),
 				lte: new Date(currentYear, 11, 31),
 			},
+			role: "USER",
 		},
 	});
 

@@ -17,8 +17,10 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import type { Company } from "@prisma/client";
-import { Eye, Pencil, Trash } from "lucide-react";
+import { Eye } from "lucide-react";
 import Link from "next/link";
+import { CompanyAdminButtonDelete } from "../companies/components/company-admin-button-delete";
+import { CompanyAdminButtonEdit } from "../companies/components/company-admin-button-edit";
 interface CompanyAdminTableProps {
 	companies: Company[];
 }
@@ -77,14 +79,9 @@ export const CompanyAdminTable: React.FC<CompanyAdminTableProps> = ({
 												Ver
 											</Link>
 										</Button>
-										<Button variant="outline" size="sm" className="">
-											<Pencil className="mr-2 h-4 w-4" size={20} />
-											Editar
-										</Button>
-										<Button variant="destructive" size="sm">
-											<Trash className="mr-2 h-4 w-4" size={20} />
-											Eliminar
-										</Button>
+
+										<CompanyAdminButtonEdit company={company} />
+										<CompanyAdminButtonDelete id={company.userId} />
 									</TableCell>
 								</TableRow>
 							);

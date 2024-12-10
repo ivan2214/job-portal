@@ -30,18 +30,20 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { FormEditUserSchema } from "@/schemas/user";
+import { FormEditCompanySchema } from "@/schemas/company";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type User, UserStatus } from "@prisma/client";
+import { UserStatus } from "@prisma/client";
 import { Loader2, Pencil } from "lucide-react";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
-import { editUser } from "../../actions/user";
+import { editCompany } from "@/app/admin/actions/company";
+import type { CompanyWithRelations } from "@/types";
+import { Textarea } from "@/components/ui/textarea";
 
-interface UserAdminButtonEditProps {
-	user: User;
+interface CompanyAdminButtonEditProps {
+	company: CompanyWithRelations;
 	redirectUrl?: string;
 }
 
@@ -58,26 +60,30 @@ const statuses = [
 	UserStatus.SUSPENDED,
 ];
 
-export const UserAdminButtonEdit: React.FC<UserAdminButtonEditProps> = ({
-	user,
+export const CompanyAdminButtonEdit: React.FC<CompanyAdminButtonEditProps> = ({
+	company,
 	redirectUrl,
 }) => {
 	const [isPending, startTransition] = useTransition();
 
-	const form = useForm<z.infer<typeof FormEditUserSchema>>({
-		resolver: zodResolver(FormEditUserSchema),
+	const form = useForm<z.infer<typeof FormEditCompanySchema>>({
+		resolver: zodResolver(FormEditCompanySchema),
 		defaultValues: {
-			name: user.name || "",
-			email: user.email || "",
-			emailVerified: !!user.emailVerified,
-
-			status: user.status || "",
+			bio: company.bio || "",
+			description: company.description || "",
+			location: company.location || "",
+			logo: company.logo || "",
+			phone: company.phone || "",
+			name: company.name || "",
+			email: company.email || "",
+			emailVerified: !!company.user?.emailVerified,
+			status: company.user?.status || UserStatus.ACTIVE,
 		},
 	});
 
-	const onSubmit = async (values: z.infer<typeof FormEditUserSchema>) => {
+	const onSubmit = async (values: z.infer<typeof FormEditCompanySchema>) => {
 		startTransition(() => {
-			editUser(values, redirectUrl).then((data) => {
+			editCompany(values, redirectUrl).then((data) => {
 				if (data.error) {
 					toast.error(data.error);
 				}
@@ -98,11 +104,11 @@ export const UserAdminButtonEdit: React.FC<UserAdminButtonEditProps> = ({
 			<DialogContent className="flex flex-col gap-0 overflow-y-visible p-0 sm:max-w-lg [&>button:last-child]:top-3.5">
 				<DialogHeader className="contents space-y-0 text-left">
 					<DialogTitle className="border-border border-b px-6 py-4 text-base">
-						Edit user
+						Edit company
 					</DialogTitle>
 					<DialogDescription className="sr-only">
 						Make changes to your profile here. You can change your photo and set
-						a username.
+						a companyname.
 					</DialogDescription>
 				</DialogHeader>
 
@@ -116,11 +122,11 @@ export const UserAdminButtonEdit: React.FC<UserAdminButtonEditProps> = ({
 							name="name"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Username</FormLabel>
+									<FormLabel>Companyname</FormLabel>
 									<FormControl>
 										<Input placeholder="shadcn" {...field} />
 									</FormControl>
-									<FormDescription>This is user name</FormDescription>
+									<FormDescription>This is company name</FormDescription>
 									<FormMessage />
 								</FormItem>
 							)}
@@ -135,7 +141,7 @@ export const UserAdminButtonEdit: React.FC<UserAdminButtonEditProps> = ({
 									<FormControl>
 										<Input type="email" placeholder="shadcn" {...field} />
 									</FormControl>
-									<FormDescription>This is user email</FormDescription>
+									<FormDescription>This is company email</FormDescription>
 									<FormMessage />
 								</FormItem>
 							)}
@@ -164,6 +170,48 @@ export const UserAdminButtonEdit: React.FC<UserAdminButtonEditProps> = ({
 
 						<FormField
 							control={form.control}
+							name="bio"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Bio</FormLabel>
+									<FormControl>
+										<Textarea
+											placeholder="Tell us a little bit about yourself"
+											className="resize-none"
+											{...field}
+										/>
+									</FormControl>
+									<FormDescription>
+										You can <span>@mention</span> other users and organizations.
+									</FormDescription>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
+						<FormField
+							control={form.control}
+							name="phone"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Bio</FormLabel>
+									<FormControl>
+										<Textarea
+											placeholder="Tell us a little bit about yourself"
+											className="resize-none"
+											{...field}
+										/>
+									</FormControl>
+									<FormDescription>
+										You can <span>@mention</span> other users and organizations.
+									</FormDescription>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
+						<FormField
+							control={form.control}
 							name="status"
 							render={({ field }) => (
 								<FormItem>
@@ -185,7 +233,7 @@ export const UserAdminButtonEdit: React.FC<UserAdminButtonEditProps> = ({
 											))}
 										</SelectContent>
 									</Select>
-									<FormDescription>Select user status</FormDescription>
+									<FormDescription>Select company status</FormDescription>
 									<FormMessage />
 								</FormItem>
 							)}

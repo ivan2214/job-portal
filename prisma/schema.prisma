@@ -181,7 +181,7 @@ model Company {
   openPositions Int // Número de posiciones disponibles
   logo          String?
   phone         String?
-  email         String?
+  email         String?  @unique
   bio           String? // Breve descripción de la empresa
   createdAt     DateTime @default(now()) // Fecha de creación
   updatedAt     DateTime @updatedAt // Fecha de última actualización
