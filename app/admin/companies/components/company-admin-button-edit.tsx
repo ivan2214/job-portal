@@ -41,6 +41,7 @@ import type { z } from "zod";
 import { editCompany } from "@/app/admin/actions/company";
 import type { CompanyWithRelations } from "@/types";
 import { Textarea } from "@/components/ui/textarea";
+import { InputPhoneField } from "@/components/ui/inputs/input-phone";
 
 interface CompanyAdminButtonEditProps {
 	company: CompanyWithRelations;
@@ -196,10 +197,12 @@ export const CompanyAdminButtonEdit: React.FC<CompanyAdminButtonEditProps> = ({
 								<FormItem>
 									<FormLabel>Bio</FormLabel>
 									<FormControl>
-										<Textarea
-											placeholder="Tell us a little bit about yourself"
-											className="resize-none"
-											{...field}
+										<InputPhoneField
+											id="user-phone"
+											label="User Phone Number"
+											placeholder="Type your number"
+											onChange={field.onChange}
+											value={field.value}
 										/>
 									</FormControl>
 									<FormDescription>
