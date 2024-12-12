@@ -20,11 +20,15 @@ import { deleteAdmin } from "../actions/admin";
 interface AdminButtonDeleteProps {
 	id: string;
 	redirectUrl?: string;
+	email?: string;
+	name?: string;
 }
 
 export const AdminButtonDelete: React.FC<AdminButtonDeleteProps> = ({
 	id,
 	redirectUrl,
+	email,
+	name,
 }) => {
 	const [isPending, startTransition] = useTransition();
 
@@ -52,7 +56,9 @@ export const AdminButtonDelete: React.FC<AdminButtonDeleteProps> = ({
 				<AlertDialogHeader>
 					<AlertDialogTitle>Delete </AlertDialogTitle>
 					<AlertDialogDescription>
-						Are you sure? This action cannot be undone.
+						Estas seguro que deseas eliminar el admin{" "}
+						<span className="font-semibold">{name}</span> con email :{" "}
+						<span className="font-semibold">{email}</span>
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter>

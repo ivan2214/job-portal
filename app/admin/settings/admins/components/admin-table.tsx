@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import {
 	Table,
 	TableBody,
@@ -9,11 +8,12 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import type { User } from "@prisma/client";
-import { Edit, UserX } from "lucide-react";
+import {} from "lucide-react";
 import { useTransition } from "react";
 import { deleteAdmin } from "../actions/admin";
 import { toast } from "sonner";
 import { AdminButtonDelete } from "./admin-button-delete";
+import { EditAdminModal } from "./edit-admin-modal";
 
 interface AdminTableProps {
 	admins: User[];
@@ -63,24 +63,13 @@ export function AdminTable({ admins }: AdminTableProps) {
 						<TableCell>{admin.status}</TableCell>
 						<TableCell>
 							<div className="flex space-x-2">
-								<Button
-									variant="outline"
-									size="sm"
-									onClick={() => onEdit(admin)}
-								>
-									<Edit className="h-4 w-4" />
-								</Button>
-								<Button
-									variant="outline"
-									size="sm"
-									onClick={() => onSuspend(admin.id)}
-									className={
-										admin.status === "ACTIVE" ? "bg-yellow-100" : "bg-green-100"
-									}
-								>
-									<UserX className="h-4 w-4" />
-								</Button>
-								<AdminButtonDelete id={admin.id} />
+								<EditAdminModal admin={admin} />
+
+								<AdminButtonDelete
+									name={admin.name || ""}
+									email={admin.email}
+									id={admin.id}
+								/>
 							</div>
 						</TableCell>
 					</TableRow>

@@ -1,7 +1,7 @@
 "use server";
 import { auth } from "@/auth";
 import { prisma } from "@/db";
-import { FormNewAdminSchema } from "@/schemas/admin";
+import { FormEditAdminSchema, FormNewAdminSchema } from "@/schemas/admin";
 import bcrypt from "bcryptjs";
 import { revalidatePath } from "next/cache";
 import type { z } from "zod";
@@ -81,6 +81,39 @@ export const deleteAdmin = async (id: string, redirectUrl?: string) => {
   } catch (error) {
     console.error(error);
     return { error: "Error al eliminar el admin" };
+  } finally {
+    prisma.$disconnect();
+    revalidatePath(redirectUrl ?? "/admin/settings/admins");
+  }
+};
+
+export const editAdmin = async (
+  values: z.infer<typeof FormEditAdminSchema>,
+  redirectUrl?: string
+) => {
+  const validateFields = FormEditAdminSchema.safeParse(values);
+
+  if (!validateFields.success) return { error: "Campos invalidos!" };
+
+  const { id, email, password, role, image, name } = validateFields.data;
+
+  try {
+    await prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        name,
+        email,
+        role,
+        image,
+      },
+    });
+
+    return { success: "Admin actualizado con exito!" };
+  } catch (error) {
+    console.error(error);
+    return { error: "Error al actualizar el admin" };
   } finally {
     prisma.$disconnect();
     revalidatePath(redirectUrl ?? "/admin/settings/admins");
