@@ -9,17 +9,26 @@ import {
 	DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
+import {} from "@/components/ui/select";
+import { FormNewAdminSchema } from "@/schemas/admin";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { RoleUser } from "@prisma/client";
-import { PlusCircle } from "lucide-react";
-import { useState } from "react";
+import { Eye, EyeClosed, PlusCircle } from "lucide-react";
+import { useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import type { z } from "zod";
+import { addNewAdmin } from "../actions/new-admin";
+import { toast } from "sonner";
+
+import {
+	Form,
+	FormControl,
+	FormDescription,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@/components/ui/form";
 
 export type newAdmin = {
 	name: string;
@@ -27,23 +36,45 @@ export type newAdmin = {
 	role: string;
 };
 
-const roles = [RoleUser.ADMIN, RoleUser.COMPANY, RoleUser.USER];
-
 export function AddAdminModal() {
-	const [name, setName] = useState("");
-	const [email, setEmail] = useState("");
-	const [role, setRole] = useState("");
+	const [showPassword, setShowPassword] = useState(false);
+	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+	const [viewDialog, setViewDialog] = useState(false);
+	const form = useForm<z.infer<typeof FormNewAdminSchema>>({
+		resolver: zodResolver(FormNewAdminSchema),
+		defaultValues: {
+			name: "",
+			email: "",
+			image: "",
+			password: "",
+			confirmPassword: "",
+			role: RoleUser.ADMIN,
+		},
+	});
 
-	const handleSubmit = (e: React.FormEvent) => {
-		e.preventDefault();
+	const [isPending, startTransition] = useTransition();
 
-		setName("");
-		setEmail("");
-		setRole("");
+	const onSubmit = (values: z.infer<typeof FormNewAdminSchema>) => {
+		startTransition(() => {
+			addNewAdmin(values)
+				.then((data) => {
+					if (data.error) {
+						toast.error(data.error);
+					}
+					if (data.message) {
+						toast.success(data.message);
+					}
+				})
+				.finally(() => {
+					form.reset();
+					toast.dismiss();
+					setViewDialog(false);
+				});
+		});
 	};
 
 	return (
-		<Dialog>
+		<Dialog open={viewDialog} onOpenChange={setViewDialog}>
 			<DialogTrigger asChild>
 				<Button>
 					<PlusCircle className="mr-2 h-4 w-4" /> Add New Admin
@@ -53,55 +84,105 @@ export function AddAdminModal() {
 				<DialogHeader>
 					<DialogTitle>Add New Admin</DialogTitle>
 				</DialogHeader>
-				<form onSubmit={handleSubmit}>
-					<div className="grid gap-4 py-4">
-						<div className="grid grid-cols-4 items-center gap-4">
-							<Label htmlFor="name" className="text-right">
-								Name
-							</Label>
-							<Input
-								id="name"
-								value={name}
-								onChange={(e) => setName(e.target.value)}
-								className="col-span-3"
-								required
-							/>
-						</div>
-						<div className="grid grid-cols-4 items-center gap-4">
-							<Label htmlFor="email" className="text-right">
-								Email
-							</Label>
-							<Input
-								id="email"
-								type="email"
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-								className="col-span-3"
-								required
-							/>
-						</div>
-						<div className="grid grid-cols-4 items-center gap-4">
-							<Label htmlFor="role" className="text-right">
-								Role
-							</Label>
-							<Select onValueChange={setRole} required>
-								<SelectTrigger className="col-span-3">
-									<SelectValue placeholder="Select a role" />
-								</SelectTrigger>
-								<SelectContent>
-									{roles.map((role) => (
-										<SelectItem key={role} value={role}>
-											{role}
-										</SelectItem>
-									))}
-								</SelectContent>
-							</Select>
-						</div>
-					</div>
-					<DialogFooter>
-						<Button type="submit">Add Admin</Button>
-					</DialogFooter>
-				</form>
+				<Form {...form}>
+					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+						<FormField
+							control={form.control}
+							name="name"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Name</FormLabel>
+									<FormControl>
+										<Input placeholder="Admin 1" {...field} />
+									</FormControl>
+									<FormDescription>
+										This is your public display name.
+									</FormDescription>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="email"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Email</FormLabel>
+									<FormControl>
+										<Input
+											type="email"
+											placeholder="X6k0H@example.com"
+											{...field}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
+						<FormField
+							control={form.control}
+							name="password"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Password</FormLabel>
+									<FormControl>
+										<div className="flex items-center justify-between gap-x-2">
+											<Input
+												type={showPassword ? "text" : "password"}
+												placeholder="********"
+												{...field}
+											/>
+											<Button
+												type="button"
+												onClick={() => setShowPassword(!showPassword)}
+												className=""
+												size="sm"
+											>
+												{!showPassword ? <Eye /> : <EyeClosed />}
+											</Button>
+										</div>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
+						<FormField
+							control={form.control}
+							name="confirmPassword"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Confirm Password</FormLabel>
+									<FormControl>
+										<div className="flex items-center justify-between gap-x-2">
+											<Input
+												type={showConfirmPassword ? "text" : "password"}
+												placeholder="********"
+												{...field}
+											/>
+											<Button
+												type="button"
+												onClick={() =>
+													setShowConfirmPassword(!showConfirmPassword)
+												}
+												className=""
+												size="sm"
+											>
+												{!showConfirmPassword ? <Eye /> : <EyeClosed />}
+											</Button>
+										</div>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
+						<DialogFooter>
+							<Button type="submit">Add Admin</Button>
+						</DialogFooter>
+					</form>
+				</Form>
 			</DialogContent>
 		</Dialog>
 	);
