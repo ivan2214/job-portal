@@ -9,13 +9,19 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import type { User } from "@prisma/client";
-import { Edit, UserMinus, UserX } from "lucide-react";
+import { Edit, UserX } from "lucide-react";
+import { useTransition } from "react";
+import { deleteAdmin } from "../actions/admin";
+import { toast } from "sonner";
+import { AdminButtonDelete } from "./admin-button-delete";
 
 interface AdminTableProps {
 	admins: User[];
 }
 
 export function AdminTable({ admins }: AdminTableProps) {
+	const [isPending, startTransition] = useTransition();
+
 	const onEdit = (admin: User) => {
 		console.log("Editing admin:", admin);
 	};
@@ -25,7 +31,16 @@ export function AdminTable({ admins }: AdminTableProps) {
 	};
 
 	const onRemove = (id: string) => {
-		console.log("Remove admin:", id);
+		startTransition(() => {
+			deleteAdmin(id).then((data) => {
+				if (data.error) {
+					toast.error(data.error);
+				}
+				if (data.success) {
+					toast.success(data.success);
+				}
+			});
+		});
 	};
 
 	return (
@@ -65,14 +80,7 @@ export function AdminTable({ admins }: AdminTableProps) {
 								>
 									<UserX className="h-4 w-4" />
 								</Button>
-								<Button
-									variant="outline"
-									size="sm"
-									onClick={() => onRemove(admin.id)}
-									className="bg-red-100"
-								>
-									<UserMinus className="h-4 w-4" />
-								</Button>
+								<AdminButtonDelete id={admin.id} />
 							</div>
 						</TableCell>
 					</TableRow>

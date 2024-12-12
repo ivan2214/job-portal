@@ -17,7 +17,7 @@ import { Eye, EyeClosed, PlusCircle } from "lucide-react";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import { addNewAdmin } from "../actions/new-admin";
+import { addNewAdmin } from "../actions/admin";
 import { toast } from "sonner";
 
 import {
