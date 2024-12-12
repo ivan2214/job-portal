@@ -70,14 +70,14 @@ export const CompanyAdminButtonEdit: React.FC<CompanyAdminButtonEditProps> = ({
 	const form = useForm<z.infer<typeof FormEditCompanySchema>>({
 		resolver: zodResolver(FormEditCompanySchema),
 		defaultValues: {
-			bio: company.bio || "",
-			description: company.description || "",
-			location: company.location || "",
-			logo: company.logo || "",
-			phone: company.phone || "",
 			name: company.name || "",
 			email: company.email || "",
 			emailVerified: !!company.user?.emailVerified,
+			bio: company.bio || "",
+			phone: company.phone || "",
+			description: company.description || "",
+			location: company.location || "",
+			logo: company.logo || "",
 			status: company.user?.status || UserStatus.ACTIVE,
 		},
 	});
@@ -123,7 +123,7 @@ export const CompanyAdminButtonEdit: React.FC<CompanyAdminButtonEditProps> = ({
 							name="name"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Companyname</FormLabel>
+									<FormLabel>Company name</FormLabel>
 									<FormControl>
 										<Input placeholder="shadcn" {...field} />
 									</FormControl>
@@ -195,7 +195,7 @@ export const CompanyAdminButtonEdit: React.FC<CompanyAdminButtonEditProps> = ({
 							name="phone"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Bio</FormLabel>
+									<FormLabel>Phone</FormLabel>
 									<FormControl>
 										<InputPhoneField
 											id="user-phone"
@@ -212,6 +212,46 @@ export const CompanyAdminButtonEdit: React.FC<CompanyAdminButtonEditProps> = ({
 								</FormItem>
 							)}
 						/>
+
+						<FormField
+							control={form.control}
+							name="description"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Description</FormLabel>
+									<FormControl>
+										<Textarea
+											placeholder="Tell us a little bit about yourself"
+											className="resize-none"
+											{...field}
+										/>
+									</FormControl>
+									<FormDescription>
+										You can <span>@mention</span> other users and organizations.
+									</FormDescription>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
+						<FormField
+							control={form.control}
+							name="location"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Company location</FormLabel>
+									<FormControl>
+										<Input placeholder="Argentina Tucuman" {...field} />
+									</FormControl>
+									<FormDescription>This is company location</FormDescription>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
+						{/* 
+						INPOUT LOGO
+						 */}
 
 						<FormField
 							control={form.control}

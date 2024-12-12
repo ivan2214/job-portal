@@ -1,14 +1,9 @@
 import { Container } from "@/components/container";
-import {
-	Breadcrumb,
-	BreadcrumbItem,
-	BreadcrumbLink,
-	BreadcrumbList,
-	BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+import {} from "@/components/ui/breadcrumb";
 import { prisma } from "@/db";
-import { ChevronRight } from "lucide-react";
-import { Companies } from "./components/companies";
+
+import { BreadcrumbDynamic } from "@/components/breadcrumbs-dynamic";
+import { CompanyAdminTable } from "../components/company-admin-table";
 
 export default async function CompaniesPage() {
 	const companies = await prisma.company.findMany({
@@ -20,20 +15,13 @@ export default async function CompaniesPage() {
 	return (
 		<Container>
 			<h1 className="mb-6 font-bold text-3xl text-gray-800">Companies</h1>
-			<Breadcrumb className="mb-6">
-				<BreadcrumbList>
-					<BreadcrumbItem>
-						<BreadcrumbLink href="/admin">Dashboard</BreadcrumbLink>
-					</BreadcrumbItem>
-					<BreadcrumbSeparator>
-						<ChevronRight className="h-4 w-4" />
-					</BreadcrumbSeparator>
-					<BreadcrumbItem>
-						<BreadcrumbLink href="/admin/companies">Companies</BreadcrumbLink>
-					</BreadcrumbItem>
-				</BreadcrumbList>
-			</Breadcrumb>
-			<Companies companies={companies} />
+			<BreadcrumbDynamic
+				items={[
+					{ label: "Admin", href: "/admin" },
+					{ label: "Companies", href: "/admin/companies" },
+				]}
+			/>
+			<CompanyAdminTable companies={companies} />
 		</Container>
 	);
 }

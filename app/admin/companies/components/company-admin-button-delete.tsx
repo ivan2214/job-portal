@@ -42,8 +42,8 @@ export const CompanyAdminButtonDelete: React.FC<
 	return (
 		<AlertDialog>
 			<AlertDialogTrigger asChild>
-				<Button size="sm" variant="destructive" className="justify-start">
-					<Trash className="mr-2 h-4 w-4" />
+				<Button size="sm" variant="destructive">
+					<Trash className="mr-2 h-4 w-4" size={20} />
 					Delete Company
 				</Button>
 			</AlertDialogTrigger>
@@ -62,7 +62,7 @@ export const CompanyAdminButtonDelete: React.FC<
 						disabled={isPending}
 					>
 						<Button variant="destructive" className="justify-start">
-							<Trash className="mr-2 h-4 w-4" />
+							<Trash className="mr-2 h-4 w-4" size={20} />
 							{isPending ? "Deleting..." : "Delete"}
 						</Button>
 					</AlertDialogAction>

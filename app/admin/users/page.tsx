@@ -1,6 +1,5 @@
 import { Suspense } from "react";
 import { SearchBarAdminUser } from "./components/searchbar-admin-user";
-import { UserTable } from "./components/user-table";
 
 import { Container } from "@/components/container";
 import {
@@ -13,6 +12,7 @@ import {
 import { prisma } from "@/db";
 import { ChevronRight } from "lucide-react";
 import { PaginationAdminUser } from "./components/pagination-admin-user";
+import { UserAdminTable } from "../components/user-admin-table";
 
 type SearchParams = Promise<{
 	query?: string;
@@ -92,7 +92,7 @@ export default async function UserManagement({
 				<SearchBarAdminUser />
 			</div>
 			<Suspense fallback={<div>Loading...</div>}>
-				<UserTable users={users} />
+				<UserAdminTable users={users} />
 			</Suspense>
 			<div className="mt-4">
 				<PaginationAdminUser totalPages={totalPages} />
