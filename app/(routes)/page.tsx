@@ -17,9 +17,11 @@ export default function Home() {
 			<JobSearch />
 
 			{/* Featured Jobs */}
+			{/* @ts-expect-error Async Server Component */}
 			<FeaturedJobs />
 
 			{/* Job Categories */}
+			{/* @ts-expect-error Async Server Component */}
 			<JobCategories />
 
 			{/* Why Choose Us */}

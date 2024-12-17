@@ -10,7 +10,7 @@ import {
 import type { JobWithRelations } from "@/types";
 import type {} from "@prisma/client";
 
-import { Briefcase, DollarSign, MapPin } from "lucide-react";
+import { Briefcase, MapPin } from "lucide-react";
 import Link from "next/link";
 
 export interface JobCardProps {
@@ -18,8 +18,16 @@ export interface JobCardProps {
 }
 
 export function JobCard({ job }: JobCardProps) {
-	const { title, company, location, type, salary, description, categoryJob } =
-		job;
+	const {
+		title,
+		company,
+		location,
+		type,
+		salary,
+		description,
+		categoryJob,
+		salaryText,
+	} = job;
 
 	return (
 		<Card key={title}>
@@ -43,9 +51,7 @@ export function JobCard({ job }: JobCardProps) {
 					</span>
 				</div>
 				<div className="mt-4 flex items-center space-x-4 text-muted-foreground text-sm">
-					<span className="flex items-center">
-						<DollarSign size={16} className="mr-1" /> {salary}
-					</span>
+					<span className="flex items-center">{salaryText}</span>
 				</div>
 			</CardContent>
 			<CardFooter className="flex justify-between">

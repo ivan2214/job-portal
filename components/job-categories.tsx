@@ -2,9 +2,7 @@ import { prisma } from "@/db";
 import Link from "next/link";
 import { Container } from "./container";
 
-type JobCategoriesProps = {};
-
-export const JobCategories: React.FC<JobCategoriesProps> = async ({}) => {
+export const JobCategories = async ({}) => {
 	const categoriesJobs = await prisma.categoryJob.findMany({
 		select: {
 			id: true,
@@ -25,7 +23,7 @@ export const JobCategories: React.FC<JobCategoriesProps> = async ({}) => {
 				<div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
 					{categoriesJobs.map((category) => (
 						<Link
-							href={`/empleos?category=${category.name.toLowerCase()}`}
+							href={`/empleos?category=${category.name}`}
 							key={category.id}
 							className="rounded-lg bg-white p-4 shadow-sm transition-shadow hover:shadow-md"
 						>

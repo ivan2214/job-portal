@@ -11,8 +11,8 @@ import {
 } from "@/components/ui/breadcrumb";
 import { prisma } from "@/db";
 import { ChevronRight } from "lucide-react";
-import { PaginationAdminUser } from "./components/pagination-admin-user";
 import { UserAdminTable } from "../components/user-admin-table";
+import { PaginationAdminUser } from "./components/pagination-admin-user";
 
 type SearchParams = Promise<{
 	query?: string;

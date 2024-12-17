@@ -86,7 +86,7 @@ export const newJob = async (values: z.infer<typeof NewJobSchema>) => {
 				description,
 				categoryJobId: category?.id,
 				location,
-				salary,
+				salaryText: salary,
 				requirements: requirements?.length
 					? {
 							connect: requirements.map((requirement) => ({

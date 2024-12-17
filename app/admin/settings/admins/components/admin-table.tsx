@@ -10,8 +10,8 @@ import {
 import type { User } from "@prisma/client";
 import {} from "lucide-react";
 import { useTransition } from "react";
-import { deleteAdmin } from "../actions/admin";
 import { toast } from "sonner";
+import { deleteAdmin } from "../actions/admin";
 import { AdminButtonDelete } from "./admin-button-delete";
 import { EditAdminModal } from "./edit-admin-modal";
 

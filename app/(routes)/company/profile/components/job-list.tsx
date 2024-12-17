@@ -32,7 +32,7 @@ export default function JobList({
 							<p className="mb-2 text-gray-600 text-sm">{job.description}</p>
 							<div className="flex items-center justify-between">
 								<span className="text-sm">
-									{job.salary} | {job.location}
+									{job.salaryText} | {job.location}
 								</span>
 								<div className="space-x-2">
 									<Button

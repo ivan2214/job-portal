@@ -1,13 +1,13 @@
 "use client";
 
-import type React from "react";
-import { forwardRef } from "react";
-import * as RPNInput from "react-phone-number-input";
-import flags from "react-phone-number-input/flags";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { ChevronDown, Phone } from "lucide-react";
+import type React from "react";
+import { forwardRef } from "react";
+import * as RPNInput from "react-phone-number-input";
+import flags from "react-phone-number-input/flags";
 
 type InputPhoneProps = {
 	id: string;

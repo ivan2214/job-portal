@@ -1,4 +1,7 @@
+import { BreadcrumbDynamic } from "@/components/breadcrumbs-dynamic";
 import { Container } from "@/components/container";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import {} from "@/components/ui/breadcrumb";
 import {
 	Card,
@@ -7,17 +10,14 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { prisma } from "@/db";
 import { formatDate } from "@/utils/helpers";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { JobList } from "./components/job-list";
-import { BreadcrumbDynamic } from "@/components/breadcrumbs-dynamic";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { CompanyAdminButtonEdit } from "../components/company-admin-button-edit";
 import { CompanyAdminButtonDelete } from "../components/company-admin-button-delete";
+import { CompanyAdminButtonEdit } from "../components/company-admin-button-edit";
+import { JobList } from "./components/job-list";
 
 type Params = Promise<{ id: string }>;
 

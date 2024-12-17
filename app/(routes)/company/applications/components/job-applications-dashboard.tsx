@@ -41,7 +41,7 @@ export function JobApplicationsDashboard({
 		title: string,
 	) => {
 		let filtered = applications.filter((app) =>
-			app.user?.name.toLowerCase().includes(search.toLowerCase()),
+			app?.user?.name?.toLowerCase().includes(search.toLowerCase()),
 		);
 
 		if (status !== "All") {

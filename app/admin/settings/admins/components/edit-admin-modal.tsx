@@ -22,12 +22,12 @@ import {} from "@/components/ui/select";
 import { FormEditAdminSchema } from "@/schemas/admin";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RoleUser, type User } from "@prisma/client";
+import { Pencil } from "lucide-react";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 import { editAdmin } from "../actions/admin";
-import { Pencil } from "lucide-react";
 
 interface EditAdminModalProps {
 	admin: User;

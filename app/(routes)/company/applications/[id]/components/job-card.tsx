@@ -20,7 +20,7 @@ export function JobCard({ job }: JobCardProps) {
 					</div>
 					<div className="flex items-center space-x-2">
 						<Building2 className="h-5 w-5 text-muted-foreground" />
-						<span>{job.salary}</span>
+						<span>{job.salaryText}</span>
 					</div>
 					<div className="flex items-center space-x-2">
 						<MapPin className="h-5 w-5 text-muted-foreground" />

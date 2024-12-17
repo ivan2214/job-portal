@@ -1,5 +1,6 @@
 "use client";
 
+import { deleteCompany } from "@/app/admin/actions/company";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -15,7 +16,6 @@ import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import { useTransition } from "react";
 import { toast } from "sonner";
-import { deleteCompany } from "@/app/admin/actions/company";
 
 interface CompanyAdminButtonDeleteProps {
 	id: string;

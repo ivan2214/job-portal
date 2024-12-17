@@ -15,7 +15,7 @@ export default function JobDetails({ job }: { job: Job }) {
 					</div>
 					<div>
 						<dt className="font-medium text-gray-500">Salary</dt>
-						<dd>{job.salary}</dd>
+						<dd>{job.salaryText}</dd>
 					</div>
 					<div>
 						<dt className="font-medium text-gray-500">Date Posted</dt>

@@ -101,7 +101,8 @@ model Job {
   id                String            @id @default(cuid()) // ID único del usuario
   title             String // Título del empleo
   description       String // Descripción del empleo
-  salary            String? // Salario (opcional)
+  salaryText        String?
+  salary            Float? // Salario
   location          String // Ubicación del empleo
   requirements      Requirements[]
   applicationStatus ApplicationStatus @default(PENDING) // Enum para representar el estado de la postulación

@@ -1,10 +1,8 @@
-import dynamic from "next/dynamic";
 import Link from "next/link";
 
 import { Container } from "@/components/container";
-
-const NavDesktop = dynamic(() => import("@/components/nav-desktop"));
-const NavMobile = dynamic(() => import("@/components/nav-mobile"));
+import NavMobileLinks from "@/components/nav-mobile-links";
+import NavDesktop from "@/components/nav-desktop";
 
 export const Header = () => {
 	return (
@@ -13,9 +11,10 @@ export const Header = () => {
 				<Link href="/" className="flex items-center space-x-2">
 					<span className="font-bold text-primary text-xl">Lules Jobs</span>
 				</Link>
-
+				{/* @ts-expect-error Async Server Component */}
 				<NavDesktop />
-				<NavMobile />
+				{/* @ts-expect-error Async Server Component */}
+				<NavMobileLinks />
 			</Container>
 		</header>
 	);

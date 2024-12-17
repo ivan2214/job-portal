@@ -22,6 +22,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
+import { editCompany } from "@/app/admin/actions/company";
+import { InputPhoneField } from "@/components/ui/inputs/input-phone";
 import {
 	Select,
 	SelectContent,
@@ -30,7 +32,9 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
 import { FormEditCompanySchema } from "@/schemas/company";
+import type { CompanyWithRelations } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserStatus } from "@prisma/client";
 import { Loader2, Pencil } from "lucide-react";
@@ -38,10 +42,6 @@ import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
-import { editCompany } from "@/app/admin/actions/company";
-import type { CompanyWithRelations } from "@/types";
-import { Textarea } from "@/components/ui/textarea";
-import { InputPhoneField } from "@/components/ui/inputs/input-phone";
 
 interface CompanyAdminButtonEditProps {
 	company: CompanyWithRelations;

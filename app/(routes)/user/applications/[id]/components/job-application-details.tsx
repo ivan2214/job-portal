@@ -4,7 +4,7 @@ import type { ApplicationWithRelations } from "@/types";
 import type {} from "@prisma/client";
 import WithdrawApplicationButton from "./withdraw-application-button";
 
-export default async function JobApplicationDetails({
+export default function JobApplicationDetails({
 	application,
 }: {
 	application: ApplicationWithRelations;
