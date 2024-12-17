@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+"use client";
 import {
 	Table,
 	TableBody,
@@ -8,16 +8,41 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import type { User } from "@prisma/client";
-import { Edit, UserMinus, UserX } from "lucide-react";
+import {} from "lucide-react";
+import { useTransition } from "react";
+import { toast } from "sonner";
+import { deleteAdmin } from "../actions/admin";
+import { AdminButtonDelete } from "./admin-button-delete";
+import { EditAdminModal } from "./edit-admin-modal";
 
 interface AdminTableProps {
 	admins: User[];
-	onEdit?: (admin: User) => void;
-	onSuspend: (adminId: string) => void;
-	onRemove: (adminId: string) => void;
 }
 
-export function AdminTable({ admins, onSuspend, onRemove }: AdminTableProps) {
+export function AdminTable({ admins }: AdminTableProps) {
+	const [isPending, startTransition] = useTransition();
+
+	const onEdit = (admin: User) => {
+		console.log("Editing admin:", admin);
+	};
+
+	const onSuspend = (id: string) => {
+		console.log("Suspend admin:", id);
+	};
+
+	const onRemove = (id: string) => {
+		startTransition(() => {
+			deleteAdmin(id).then((data) => {
+				if (data.error) {
+					toast.error(data.error);
+				}
+				if (data.success) {
+					toast.success(data.success);
+				}
+			});
+		});
+	};
+
 	return (
 		<Table>
 			<TableHeader>
@@ -38,31 +63,13 @@ export function AdminTable({ admins, onSuspend, onRemove }: AdminTableProps) {
 						<TableCell>{admin.status}</TableCell>
 						<TableCell>
 							<div className="flex space-x-2">
-								<Button
-									variant="outline"
-									size="sm"
-									/* onClick={() => onEdit(admin)} */
-								>
-									<Edit className="h-4 w-4" />
-								</Button>
-								<Button
-									variant="outline"
-									size="sm"
-									onClick={() => onSuspend(admin.id)}
-									className={
-										admin.status === "ACTIVE" ? "bg-yellow-100" : "bg-green-100"
-									}
-								>
-									<UserX className="h-4 w-4" />
-								</Button>
-								<Button
-									variant="outline"
-									size="sm"
-									onClick={() => onRemove(admin.id)}
-									className="bg-red-100"
-								>
-									<UserMinus className="h-4 w-4" />
-								</Button>
+								<EditAdminModal admin={admin} />
+
+								<AdminButtonDelete
+									name={admin.name || ""}
+									email={admin.email}
+									id={admin.id}
+								/>
 							</div>
 						</TableCell>
 					</TableRow>

@@ -101,7 +101,8 @@ model Job {
   id                String            @id @default(cuid()) // ID único del usuario
   title             String // Título del empleo
   description       String // Descripción del empleo
-  salary            String? // Salario (opcional)
+  salaryText        String?
+  salary            Float? // Salario
   location          String // Ubicación del empleo
   requirements      Requirements[]
   applicationStatus ApplicationStatus @default(PENDING) // Enum para representar el estado de la postulación
@@ -118,9 +119,9 @@ model Job {
   // Relaciones
 
   applications  Application[] // Relación: un empleo puede tener muchas postulaciones
-  categoryJob   CategoryJob?  @relation(fields: [categoryJobId], references: [id])
+  categoryJob   CategoryJob?  @relation(fields: [categoryJobId], references: [id], onDelete: SetNull)
   categoryJobId String?
-  company       Company       @relation(fields: [companyUserId], references: [userId])
+  company       Company       @relation(fields: [companyUserId], references: [userId], onDelete: Cascade)
   companyUserId String
   contactInfo   ContactInfo?
 }
@@ -129,7 +130,7 @@ model Requirements {
   id   String @id @default(cuid())
   name String
 
-  job   Job?    @relation(fields: [jobId], references: [id])
+  job   Job?    @relation(fields: [jobId], references: [id], onDelete: SetNull)
   jobId String?
 }
 
@@ -143,7 +144,7 @@ model ContactInfo {
   instagram String?
 
   // Relaciones
-  job   Job?    @relation(fields: [jobId], references: [id])
+  job   Job?    @relation(fields: [jobId], references: [id], onDelete: SetNull)
   jobId String?
 
   @@unique([jobId])
@@ -165,10 +166,10 @@ model Application {
 
   // Relaciones
   userId String // Relación con el usuario
-  user   User   @relation(fields: [userId], references: [id]) // Una postulación pertenece a un usuario
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade) // Una postulación pertenece a un usuario
 
   jobId String // Relación con el empleo
-  job   Job    @relation(fields: [jobId], references: [id]) // Una postulación pertenece a un empleo
+  job   Job    @relation(fields: [jobId], references: [id], onDelete: Cascade) // Una postulación pertenece a un empleo
 
   status ApplicationStatus @default(PENDING) // Enum para representar el estado de la postulación
 }
@@ -181,14 +182,14 @@ model Company {
   openPositions Int // Número de posiciones disponibles
   logo          String?
   phone         String?
-  email         String?
+  email         String?  @unique
   bio           String? // Breve descripción de la empresa
   createdAt     DateTime @default(now()) // Fecha de creación
   updatedAt     DateTime @updatedAt // Fecha de última actualización
 
   // Relaciones
   jobPostings Job[] // Relación: una empresa puede tener muchas ofertas de empleo
-  user        User  @relation(fields: [userId], references: [id]) // Relación con el usuario
+  user        User  @relation(fields: [userId], references: [id], onDelete: Cascade) // Relación con el usuario
 }
 
 enum RoleUser {

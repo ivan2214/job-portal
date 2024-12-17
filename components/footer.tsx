@@ -5,7 +5,7 @@ type FooterProps = {};
 
 export const Footer: React.FC<FooterProps> = ({}) => {
 	return (
-		<footer className=" py-8 ">
+		<footer className="mt-auto py-8">
 			<Container>
 				<div className="grid grid-cols-1 gap-8 md:grid-cols-4">
 					<div>

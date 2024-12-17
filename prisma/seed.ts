@@ -4,6 +4,7 @@ import {
 	PrismaClient,
 	RoleUser,
 	TypeJob,
+	UserStatus,
 } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
@@ -33,7 +34,7 @@ async function main() {
 					currentYear,
 					faker.number.int({ min: 0, max: 11 }), // Mes aleatorio
 				),
-
+				image: faker.image.avatar(),
 				name: faker.person.fullName(),
 				email: faker.internet.email(),
 				hashedPassword: adminPassword,
@@ -56,6 +57,7 @@ async function main() {
 				const userCompany = await prisma.user.create({
 					data: {
 						createdAt,
+						image: faker.image.avatar(),
 						name: faker.person.fullName(),
 						email: faker.internet.email(),
 						hashedPassword: companiesPassword,
@@ -111,6 +113,25 @@ async function main() {
 			async () => {
 				const company = faker.helpers.arrayElement(companies);
 				const category = faker.helpers.arrayElement(categories);
+				const salary = faker.number.int({
+					min: 50000,
+					max: 350000,
+				});
+				const salaryLocale = faker.helpers.arrayElement(["es-AR", "en-US"]);
+				const salaryCurrency = faker.helpers.arrayElement(["USD", "ARS"]);
+				const salaryPeriod = faker.helpers.arrayElement([
+					"Año",
+					"Mes",
+					"Semana",
+					"Día",
+					"Hora",
+				]);
+				const parseSalary = new Intl.NumberFormat(salaryLocale, {
+					style: "currency",
+					currency: salaryCurrency,
+				}).format(salary);
+
+				const salaryText = `${parseSalary}  por ${salaryPeriod}`;
 
 				const job = await prisma.job.create({
 					data: {
@@ -120,7 +141,8 @@ async function main() {
 						),
 						title: faker.person.jobTitle(),
 						description: faker.lorem.paragraph(),
-						salary: `$${faker.number.int({ min: 50000, max: 150000 })} - $${faker.number.int({ min: 150000, max: 300000 })} al año`,
+						salary,
+						salaryText,
 						location: faker.location.city(),
 						companyUserId: company.id,
 						categoryJobId: category.id,
@@ -171,10 +193,13 @@ async function main() {
 						currentYear,
 						faker.number.int({ min: 0, max: 11 }),
 					),
+					emailVerified: Math.random() < 0.5 ? new Date() : null,
+					image: faker.image.avatar(),
 					name: faker.person.fullName(),
 					email: faker.internet.email(),
 					hashedPassword: userPassword,
 					role: RoleUser.USER,
+					status: faker.helpers.arrayElement(Object.values(UserStatus)),
 				},
 			}),
 		),

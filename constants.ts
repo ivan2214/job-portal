@@ -111,24 +111,12 @@ export const userMenuAdminLinks: ItemSideBar[] = [
 		icon: Settings,
 		items: [
 			{
-				title: "General",
-				url: "/admin/settings",
-			},
-			{
-				title: "Seguridad",
-				url: "/admin/settings/security",
-			},
-			{
-				title: "Notificaciones",
-				url: "/admin/settings/notifications",
+				title: "Admins",
+				url: "/admin/settings/admins",
 			},
 			{
 				title: "Logs",
 				url: "/admin/settings/logs",
-			},
-			{
-				title: "Admins",
-				url: "/admin/settings/admins",
 			},
 		],
 	},

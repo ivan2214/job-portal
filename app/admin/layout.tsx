@@ -24,7 +24,7 @@ export default async function Layout({
 	return (
 		<SidebarProvider>
 			<AppSidebar user={user} />
-			<main className="mx-auto">{children}</main>
+			{children}
 		</SidebarProvider>
 	);
 }

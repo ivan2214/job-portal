@@ -34,7 +34,11 @@ export function JobList({ jobs }: JobListProps) {
 						<TableCell>
 							<Badge
 								variant={
-									job.applicationStatus === "PENDING" ? "default" : "secondary"
+									job.applicationStatus === "ACCEPTED"
+										? "success"
+										: job.applicationStatus === "PENDING"
+											? "pending"
+											: "destructive"
 								}
 							>
 								{job.applicationStatus}

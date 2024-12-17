@@ -1,7 +1,7 @@
-import { LogOut, UserIcon } from "lucide-react";
+import { LayoutDashboard, LogOut, UserIcon } from "lucide-react";
 import Link from "next/link";
 
-import { LogoutButton } from "@/app/auth/components/logout-button";
+import { LogoutButton } from "@/app/(routes)/auth/components/logout-button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -44,30 +44,42 @@ export const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
 				{currentUser?.role !== RoleUser.ADMIN && (
 					<div className="mb-2 flex flex-col items-start gap-y-1 border-gray-300 border-b-2">
 						{currentUser?.role === RoleUser.COMPANY
-							? userMenuCompanyLinks.map((link) => (
-									<DropdownMenuItem key={link.title}>
+							? userMenuCompanyLinks.map((item) => (
+									<DropdownMenuItem key={item.title}>
 										<Link
-											className="flex items-center space-x-2"
-											href={link.url}
+											className="flex items-center gap-x-2 transition-colors duration-300 hover:text-primary"
+											href={item.url}
 										>
-											{link.icon && <link.icon />}
-											{link.title}
+											{item.icon && <item.icon />}
+											{item.title}
 										</Link>
 									</DropdownMenuItem>
 								))
 							: currentUser?.role === RoleUser.USER &&
-								userMenuLinks.map((link) => (
-									<DropdownMenuItem key={link.title}>
+								userMenuLinks.map((item) => (
+									<DropdownMenuItem key={item.title}>
 										<Link
-											className="flex items-center space-x-2"
-											href={link.url}
+											className="flex items-center gap-x-2 transition-colors duration-300 hover:text-primary"
+											href={item.url}
 										>
-											{link.icon && <link.icon />}
-											{link.title}
+											{item.icon && <item.icon />}
+											{item.title}
 										</Link>
 									</DropdownMenuItem>
 								))}
 					</div>
+				)}
+
+				{currentUser?.role === RoleUser.ADMIN && (
+					<DropdownMenuItem>
+						<Link
+							className="flex items-center gap-x-2 transition-colors duration-300 hover:text-primary"
+							href="/admin"
+						>
+							<LayoutDashboard className="mr-2 h-4 w-4" size={20} />
+							Admin
+						</Link>
+					</DropdownMenuItem>
 				)}
 
 				<DropdownMenuSeparator />

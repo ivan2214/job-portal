@@ -95,14 +95,16 @@ export const login = async (
 		}
 	}
 
+	const redirect =
+		existingUser.role === "ADMIN"
+			? "/admin"
+			: callbackUrl || DEFAULT_LOGIN_REDIRECT;
+
 	try {
 		await signIn("credentials", {
 			email,
 			password,
-			redirectTo:
-				callbackUrl || existingUser.role !== "ADMIN"
-					? DEFAULT_LOGIN_REDIRECT
-					: "/admin",
+			redirectTo: redirect,
 		});
 	} catch (error) {
 		if (error instanceof AuthError) {

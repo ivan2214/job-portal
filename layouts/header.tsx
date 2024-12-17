@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 import { Container } from "@/components/container";
+import NavMobileLinks from "@/components/nav-mobile-links";
 import NavDesktop from "@/components/nav-desktop";
-import NavMobile from "@/components/nav-mobile";
 
 export const Header = () => {
 	return (
@@ -11,9 +11,10 @@ export const Header = () => {
 				<Link href="/" className="flex items-center space-x-2">
 					<span className="font-bold text-primary text-xl">Lules Jobs</span>
 				</Link>
-
+				{/* @ts-expect-error Async Server Component */}
 				<NavDesktop />
-				<NavMobile />
+				{/* @ts-expect-error Async Server Component */}
+				<NavMobileLinks />
 			</Container>
 		</header>
 	);

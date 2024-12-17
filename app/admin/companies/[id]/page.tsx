@@ -1,14 +1,8 @@
+import { BreadcrumbDynamic } from "@/components/breadcrumbs-dynamic";
 import { Container } from "@/components/container";
-import EditCompanyButton from "@/components/edit-company-button";
-import SuspendCompanyButton from "@/components/suspend-company-button";
-import {
-	Breadcrumb,
-	BreadcrumbItem,
-	BreadcrumbLink,
-	BreadcrumbList,
-	BreadcrumbPage,
-	BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import {} from "@/components/ui/breadcrumb";
 import {
 	Card,
 	CardContent,
@@ -16,11 +10,13 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { prisma } from "@/db";
 import { formatDate } from "@/utils/helpers";
-import { ChevronRight } from "lucide-react";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { CompanyAdminButtonDelete } from "../components/company-admin-button-delete";
+import { CompanyAdminButtonEdit } from "../components/company-admin-button-edit";
 import { JobList } from "./components/job-list";
 
 type Params = Promise<{ id: string }>;
@@ -46,28 +42,19 @@ export default async function CompanyDetailsPage({
 
 	return (
 		<Container>
-			<Breadcrumb>
-				<BreadcrumbList>
-					<BreadcrumbItem>
-						<BreadcrumbLink href="/admin">Dashboard</BreadcrumbLink>
-					</BreadcrumbItem>
-					<BreadcrumbSeparator>
-						<ChevronRight className="h-4 w-4" />
-					</BreadcrumbSeparator>
-					<BreadcrumbItem>
-						<BreadcrumbLink href="/admin/companies">Companys</BreadcrumbLink>
-					</BreadcrumbItem>
-					<BreadcrumbSeparator>
-						<ChevronRight className="h-4 w-4" />
-					</BreadcrumbSeparator>
-					<BreadcrumbItem>
-						<BreadcrumbPage>{company.name}</BreadcrumbPage>
-					</BreadcrumbItem>
-				</BreadcrumbList>
-			</Breadcrumb>
+			<BreadcrumbDynamic
+				items={[
+					{ label: "Admin", href: "/admin" },
+					{ label: "Companies", href: "/admin/companies" },
+					{
+						label: company.name || "",
+						href: `/admin/companies/${company.userId}`,
+					},
+				]}
+			/>
 
 			<div className="mt-6 grid gap-6 md:grid-cols-2">
-				<Card>
+				{/* <Card>
 					<CardHeader>
 						<CardTitle>Company Details</CardTitle>
 					</CardHeader>
@@ -91,6 +78,41 @@ export default async function CompanyDetailsPage({
 							</div>
 						</dl>
 					</CardContent>
+				</Card> */}
+
+				<Card>
+					<CardHeader>
+						<div className="flex items-center space-x-4">
+							<Avatar className="h-20 w-20">
+								<AvatarImage
+									src={company.logo || ""}
+									alt={company.name || ""}
+								/>
+								<AvatarFallback>{company?.name?.charAt(0)}</AvatarFallback>
+							</Avatar>
+							<div>
+								<h2 className="font-bold text-2xl">{company.name}</h2>
+								<p className="text-muted-foreground">{company.email}</p>
+							</div>
+						</div>
+					</CardHeader>
+					<CardContent>
+						<div className="grid gap-2">
+							{/* <div className="flex justify-between">
+								<span className="font-medium">Role:</span>
+								<Badge>{company.role}</Badge>
+							</div> */}
+							<div className="flex justify-between">
+								<span className="font-medium">Date Registered:</span>
+								<span>{formatDate(company.createdAt)}</span>
+							</div>
+							<div className="flex justify-between">
+								<span className="font-medium">Total Jobs:</span>
+								<Badge>{company.jobPostings.length}</Badge>
+							</div>
+						</div>
+						<Separator className="my-4" />
+					</CardContent>
 				</Card>
 
 				<Card>
@@ -99,8 +121,15 @@ export default async function CompanyDetailsPage({
 						<CardDescription>Manage this company's account</CardDescription>
 					</CardHeader>
 					<CardContent className="flex flex-col gap-4">
-						<SuspendCompanyButton companyId={company.userId} />
-						<EditCompanyButton company={company} />
+						<CompanyAdminButtonEdit
+							redirectUrl={`/admin/companies/${company.userId}`}
+							company={company}
+						/>
+
+						<CompanyAdminButtonDelete
+							redirectUrl="/admin/companies"
+							id={company.userId}
+						/>
 					</CardContent>
 				</Card>
 			</div>

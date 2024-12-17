@@ -1,21 +1,20 @@
-import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { BreadcrumbDynamic } from "@/components/breadcrumbs-dynamic";
+import { SearchBarAdminJob } from "./searchbar-admin-job";
 
 export function JobsHeader() {
 	return (
-		<div className="space-y-4">
-			<div className="flex items-center justify-between">
-				<h1 className="font-bold text-3xl tracking-tight">
-					Manage Job Postings
-				</h1>
+		<>
+			<h1 className="mb-5 font-bold text-2xl">Manage Job Postings</h1>
+			<BreadcrumbDynamic
+				items={[
+					{ label: "Admin", href: "/admin" },
+					{ label: "Jobs", href: "/admin/jobs" },
+				]}
+			/>
+
+			<div className="my-4">
+				<SearchBarAdminJob />
 			</div>
-			<div className="relative">
-				<Search className="absolute top-2.5 left-2 h-4 w-4 text-muted-foreground" />
-				<Input
-					placeholder="Search jobs by title, company, or location..."
-					className="pl-8"
-				/>
-			</div>
-		</div>
+		</>
 	);
 }

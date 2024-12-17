@@ -1,8 +1,8 @@
 import { LogIn, Menu, UserPlus } from "lucide-react";
 import Link from "next/link";
 
-import { LoginButton } from "@/app/auth/components/login-button";
-import { RegisterButton } from "@/app/auth/components/register-button";
+import { LoginButton } from "@/app/(routes)/auth/components/login-button";
+import { RegisterButton } from "@/app/(routes)/auth/components/register-button";
 import type { UserWithRelations } from "@/types";
 
 import { Button } from "@/components/ui/button";

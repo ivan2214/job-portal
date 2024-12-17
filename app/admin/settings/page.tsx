@@ -1,3 +1,4 @@
+import { Container } from "@/components/container";
 import type { Metadata } from "next";
 import AdminSettings from "./components/admin-settings";
 
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function AdminSettingsPage() {
-	return <AdminSettings />;
+	return (
+		<Container>
+			<h1 className="mb-6 font-bold text-3xl">Admin Settings</h1>
+			<AdminSettings />
+		</Container>
+	);
 }

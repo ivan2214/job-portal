@@ -1,6 +1,5 @@
-import {} from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -19,6 +18,9 @@ import { Container } from "@/components/container";
 import { prisma } from "@/db";
 import { BriefcaseIcon, FileTextIcon } from "lucide-react";
 import { notFound } from "next/navigation";
+import { UserAdminButtonChangeStatus } from "../components/user-admin-button-change-status";
+import { UserAdminButtonDelete } from "../components/user-admin-button-delete";
+import { UserAdminButtonEdit } from "../components/user-admin-button-edit";
 import { ActivitySummary } from "./components/activity-summary";
 
 type Params = Promise<{ id: string }>;
@@ -68,10 +70,10 @@ export default async function UserProfile({ params }: { params: Params }) {
 				<Card>
 					<CardHeader>
 						<div className="flex items-center space-x-4">
-							{/* <Avatar className="h-20 w-20">
-								<AvatarImage src={user.avatar} alt={user.name} />
-								<AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
-							</Avatar> */}
+							<Avatar className="h-20 w-20">
+								<AvatarImage src={user.image || ""} alt={user.name || ""} />
+								<AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
+							</Avatar>
 							<div>
 								<h2 className="font-bold text-2xl">{user.name}</h2>
 								<p className="text-muted-foreground">{user.email}</p>
@@ -88,11 +90,25 @@ export default async function UserProfile({ params }: { params: Params }) {
 								<span className="font-medium">Date Registered:</span>
 								<span>{user.createdAt.toLocaleDateString()}</span>
 							</div>
+							<div className="flex justify-between">
+								<span className="font-medium">Status:</span>
+								<Badge>{user.status}</Badge>
+							</div>
 						</div>
 						<Separator className="my-4" />
 						<div className="flex space-x-2">
-							<Button variant="destructive">Suspend User</Button>
-							<Button variant="outline">Manage Permissions</Button>
+							<UserAdminButtonEdit
+								redirectUrl={`/admin/users/${user.id}`}
+								user={user}
+							/>
+
+							<UserAdminButtonChangeStatus
+								redirectUrl={`/admin/users/${user.id}`}
+								id={user.id}
+								user={user}
+							/>
+
+							<UserAdminButtonDelete redirectUrl="/admin/users" id={user.id} />
 						</div>
 					</CardContent>
 				</Card>

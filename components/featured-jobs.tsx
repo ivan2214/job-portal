@@ -7,9 +7,7 @@ import { ArrowRight } from "lucide-react";
 import { Container } from "./container";
 import { JobCard } from "./job-card";
 
-type FeaturedJobsProps = {};
-
-export const FeaturedJobs: React.FC<FeaturedJobsProps> = async ({}) => {
+export const FeaturedJobs = async () => {
 	const jobsFeatured = await prisma.job.findMany({
 		where: {
 			isFeatured: true,
